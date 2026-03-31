@@ -1,11 +1,62 @@
-<nav>
-    <div class="container">
-        <span>Logo</span>
-        <button class="nav-toggle"><i class="fa-solid fa-bars"></i></button>
-        <ul id="navMenu">
-            <li><a href="/dashboard.html"><i class="fa-regular fa-house"></i>dashboard</a></li>
-            <li><a href="/"><i class="fa-solid fa-chart-column"></i>Home</a></li>
-            <li><a href="/dashboard.html"><i class="fa-regular fa-address-book"></i>Add project</a></li>
-        </ul>
+<aside class="sidebar">
+    <!-- Logo -->
+    <a href="/dashboard" class="sidebar-logo">
+        <div class="sidebar-logo-icon">
+            <i class="fa-solid fa-xmark"></i>
+        </div>
+        <span class="sidebar-logo-text">MacroCook</span>
+    </a>
+
+    <!-- Main Navigation -->
+    <nav class="sidebar-nav">
+        <a href="/dashboard" class="sidebar-nav-item active" data-page="dashboard">
+            <i class="fa-solid fa-table-columns"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="/recipes" class="sidebar-nav-item" data-page="recipes">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Recipes</span>
+        </a>
+        <a href="/creator" class="sidebar-nav-item" data-page="creator">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>Creator</span>
+        </a>
+        <a href="/settings" class="sidebar-nav-item" data-page="settings">
+            <i class="fa-solid fa-gear"></i>
+            <span>Settings</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-divider"></div>
+
+    <!-- Categories -->
+    <div class="sidebar-section">
+        <span class="sidebar-section-title">Categories</span>
     </div>
-</nav>
+    <nav class="sidebar-nav">
+        <a href="/recipes?category=breakfast" class="sidebar-category-item">
+            <i class="fa-solid fa-egg"></i>
+            <span>Breakfast</span>
+        </a>
+        <a href="/recipes?category=lunch" class="sidebar-category-item">
+            <i class="fa-solid fa-utensils"></i>
+            <span>Lunch</span>
+        </a>
+        <a href="/recipes?category=dinner" class="sidebar-category-item">
+            <i class="fa-solid fa-bowl-food"></i>
+            <span>Dinner</span>
+        </a>
+    </nav>
+
+    <!-- User Profile -->
+    <div class="sidebar-user">
+        <div class="sidebar-user-avatar">AJ</div>
+        <div class="sidebar-user-info">
+            <div class="sidebar-user-name">Alex Johnson</div>
+            <div class="sidebar-user-role">Pro Member</div>
+        </div>
+        <button class="sidebar-user-menu">
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+        </button>
+    </div>
+</aside>
