@@ -1,0 +1,24 @@
+/* ===== RESPONSIVE - PLACEHOLDER ===== */
+/* Media queries will be added in Commit 10 */
+
+/* Tablet breakpoint */
+@media screen and (max-width: 1024px) {
+    .page-content {
+        padding: var(--spacing-md);
+    }
+}
+
+/* Mobile breakpoint */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .topbar-menu-toggle {
+        display: flex;
+    }
+}

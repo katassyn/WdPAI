@@ -1,0 +1,92 @@
+/* ===== TOP BAR ===== */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md) var(--spacing-xl);
+    background-color: var(--color-white);
+    border-bottom: 1px solid var(--color-border-light);
+    height: var(--topbar-height);
+    gap: var(--spacing-md);
+}
+
+/* Search */
+.topbar-search {
+    flex: 1;
+    max-width: 500px;
+    position: relative;
+}
+
+.topbar-search-input {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    padding-left: 40px;
+    background-color: var(--color-bg);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    color: var(--color-text);
+    transition: box-shadow var(--transition-fast);
+}
+
+.topbar-search-input::placeholder {
+    color: var(--color-text-light);
+}
+
+.topbar-search-input:focus {
+    box-shadow: 0 0 0 2px var(--color-primary-bg);
+}
+
+.topbar-search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-light);
+    font-size: 0.875rem;
+}
+
+/* Actions */
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.topbar-notification {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    color: var(--color-text-secondary);
+    transition: background-color var(--transition-fast);
+}
+
+.topbar-notification:hover {
+    background-color: var(--color-bg);
+}
+
+.topbar-notification-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-danger);
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-white);
+}
+
+/* Mobile menu toggle */
+.topbar-menu-toggle {
+    display: none;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    font-size: 1.25rem;
+}
