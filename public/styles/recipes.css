@@ -1,0 +1,79 @@
+/* ===== RECIPE LIBRARY ===== */
+
+.recipes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-md);
+}
+
+.recipes-header h1 {
+    font-size: 1.75rem;
+    margin-bottom: 4px;
+}
+
+.recipes-header p {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}
+
+.recipes-sort {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+}
+
+.recipes-sort select {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    padding-right: 28px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    color: var(--color-text);
+    background-color: var(--color-white);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+}
+
+/* Filters */
+.recipes-filters {
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Grid - 4 columns */
+.recipes-library-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Load More */
+.load-more {
+    display: flex;
+    justify-content: center;
+    padding: var(--spacing-lg) 0;
+}
+
+.load-more-btn {
+    padding: var(--spacing-sm) var(--spacing-xl);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    background-color: var(--color-white);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.load-more-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}

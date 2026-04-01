@@ -1,6 +1,8 @@
 <?php
 require_once 'src/controllers/SecurityController.php';
 require_once 'src/controllers/DashboardController.php';
+require_once 'src/controllers/RecipeController.php';
+
 class Routing {
 
     public static $routes = [
@@ -11,6 +13,18 @@ class Routing {
         "dashboard" => [
             "controller" => "dashboardController",
             "action" => "index"
+        ],
+        "recipes" => [
+            "controller" => "RecipeController",
+            "action" => "recipes"
+        ],
+        "creator" => [
+            "controller" => "RecipeController",
+            "action" => "creator"
+        ],
+        "cooking" => [
+            "controller" => "RecipeController",
+            "action" => "cooking"
         ],
         "test" => [
             "controller" => "dashboardController",
@@ -24,24 +38,14 @@ class Routing {
 
     public static function run(string $path)
     {
-        // TODO sprawdzać za pomoca array_key_exists
-        switch ($path) {
-            case 'dashboard':
-            case 'test':
-            case '':
-            case 'login':
-                $controller = Routing::$routes[$path]["controller"];
-                $action = Routing::$routes[$path]["action"];
+        if (array_key_exists($path, self::$routes)) {
+            $controller = self::$routes[$path]["controller"];
+            $action = self::$routes[$path]["action"];
 
-                $controllerObj = new $controller;
-                $id = null;
-
-                $controllerObj->$action($id);
-                break;
-            default:
-                include 'public/404.html';
-                break;
+            $controllerObj = new $controller;
+            $controllerObj->$action();
+        } else {
+            include 'public/404.html';
         }
     }
-
 }

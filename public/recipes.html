@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <?php include 'partials/head.html' ?>
+    <link rel="stylesheet" type="text/css" href="/public/styles/recipes.css">
+    <title>Recipe Library - MacroCook</title>
+</head>
+<body>
+<div class="app-layout">
+    <?php include 'partials/nav.html' ?>
+    <div class="main-content">
+        <?php include 'partials/topbar.html' ?>
+        <div class="page-content">
+
+            <!-- Header -->
+            <div class="recipes-header">
+                <div>
+                    <h1>Recipe Library</h1>
+                    <p>Manage your collection and discover new macro-friendly meals.</p>
+                </div>
+                <div class="recipes-sort">
+                    <span>Sort by:</span>
+                    <select>
+                        <option>Popularity</option>
+                        <option>Newest</option>
+                        <option>Calories</option>
+                        <option>Prep Time</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="recipes-filters">
+                <div class="filter-pills">
+                    <button class="filter-pill active"><i class="fa-solid fa-check"></i> All</button>
+                    <button class="filter-pill"><i class="fa-solid fa-leaf"></i> Vegetarian</button>
+                    <button class="filter-pill"><i class="fa-solid fa-dumbbell"></i> High Protein</button>
+                    <button class="filter-pill"><i class="fa-regular fa-clock"></i> Under 30 mins</button>
+                    <button class="filter-pill">Low Carb</button>
+                    <button class="filter-pill btn-outline"><i class="fa-solid fa-sliders"></i> More Filters</button>
+                </div>
+            </div>
+
+            <!-- Recipe Grid -->
+            <div class="recipes-library-grid">
+                <!-- Card 1 -->
+                <div class="recipe-card">
+                    <div class="recipe-card-image">
+                        <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=300&fit=crop" alt="Grilled Salmon with Asparagus">
+                        <div class="recipe-card-time"><i class="fa-regular fa-clock"></i> 25 min</div>
+                        <div class="recipe-card-favorite"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="recipe-card-body">
+                        <div class="recipe-card-title">Grilled Salmon with Asparagus</div>
+                        <div class="recipe-card-tags">
+                            <span class="tag tag-blue">High Protein</span>
+                            <span class="tag tag-gray">GF</span>
+                        </div>
+                        <div class="recipe-card-calories">450 kcal</div>
+                        <div class="recipe-card-macros">
+                            <span>11gP</span><span>11gF</span><span>10gC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="recipe-card">
+                    <div class="recipe-card-image">
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop" alt="Quinoa Superfood Salad">
+                        <div class="recipe-card-time"><i class="fa-regular fa-clock"></i> 15 min</div>
+                        <div class="recipe-card-favorite"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="recipe-card-body">
+                        <div class="recipe-card-title">Quinoa Superfood Salad</div>
+                        <div class="recipe-card-tags">
+                            <span class="tag tag-green">Vegan</span>
+                            <span class="tag tag-orange">Low Fat</span>
+                        </div>
+                        <div class="recipe-card-calories">320 kcal</div>
+                        <div class="recipe-card-macros">
+                            <span>13gP</span><span>8gF</span><span>40gC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="recipe-card">
+                    <div class="recipe-card-image">
+                        <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400&h=300&fit=crop" alt="Avocado Toast with Egg">
+                        <div class="recipe-card-time"><i class="fa-regular fa-clock"></i> 10 min</div>
+                        <div class="recipe-card-favorite"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="recipe-card-body">
+                        <div class="recipe-card-title">Avocado Toast with Egg</div>
+                        <div class="recipe-card-tags">
+                            <span class="tag tag-orange">Breakfast</span>
+                        </div>
+                        <div class="recipe-card-calories">380 kcal</div>
+                        <div class="recipe-card-macros">
+                            <span>14gP</span><span>22F</span><span>30gC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="recipe-card">
+                    <div class="recipe-card-image">
+                        <img src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&h=300&fit=crop" alt="Spicy Chicken Stir Fry">
+                        <div class="recipe-card-time"><i class="fa-regular fa-clock"></i> 35 min</div>
+                        <div class="recipe-card-favorite"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="recipe-card-body">
+                        <div class="recipe-card-title">Spicy Chicken Stir Fry</div>
+                        <div class="recipe-card-tags">
+                            <span class="tag tag-red">Spicy</span>
+                            <span class="tag tag-blue">High Protein</span>
+                        </div>
+                        <div class="recipe-card-calories">500 kcal</div>
+                        <div class="recipe-card-macros">
+                            <span>40gP</span><span>18gF</span><span>40gC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="recipe-card">
+                    <div class="recipe-card-image">
+                        <img src="https://images.unsplash.com/photo-1502741224143-90386d7f8c82?w=400&h=300&fit=crop" alt="Berry Bliss Smoothie Bowl">
+                        <div class="recipe-card-time"><i class="fa-regular fa-clock"></i> 5 min</div>
+                        <div class="recipe-card-favorite"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="recipe-card-body">
+                        <div class="recipe-card-title">Berry Bliss Smoothie Bowl</div>
+                        <div class="recipe-card-tags">
+                            <span class="tag tag-purple">Detox</span>
+                        </div>
+                        <div class="recipe-card-calories">250 kcal</div>
+                        <div class="recipe-card-macros">
+                            <span>8gP</span><span>5gF</span><span>40gC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="recipe-card">
+                    <div class="recipe-card-image">
+                        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=300&fit=crop" alt="Beef Steak & Broccoli">
+                        <div class="recipe-card-time"><i class="fa-regular fa-clock"></i> 20 min</div>
+                        <div class="recipe-card-favorite"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="recipe-card-body">
+                        <div class="recipe-card-title">Beef Steak & Broccoli</div>
+                        <div class="recipe-card-tags">
+                            <span class="tag tag-orange">Paleo</span>
+                            <span class="tag tag-green">Keto</span>
+                        </div>
+                        <div class="recipe-card-calories">600 kcal</div>
+                        <div class="recipe-card-macros">
+                            <span>30gP</span><span>10gC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="recipe-card">
+                    <div class="recipe-card-image">
+                        <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&h=300&fit=crop" alt="Greek Yogurt Parfait">
+                        <div class="recipe-card-time"><i class="fa-regular fa-clock"></i> 5 min</div>
+                        <div class="recipe-card-favorite"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="recipe-card-body">
+                        <div class="recipe-card-title">Greek Yogurt Parfait</div>
+                        <div class="recipe-card-tags">
+                            <span class="tag tag-orange">Low Fat</span>
+                        </div>
+                        <div class="recipe-card-calories">200 kcal</div>
+                        <div class="recipe-card-macros">
+                            <span>15gP</span><span>0gF</span><span>25gC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 8 -->
+                <div class="recipe-card">
+                    <div class="recipe-card-image">
+                        <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=300&fit=crop" alt="Hearty Lentil Soup">
+                        <div class="recipe-card-time"><i class="fa-regular fa-clock"></i> 45 min</div>
+                        <div class="recipe-card-favorite"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="recipe-card-body">
+                        <div class="recipe-card-title">Hearty Lentil Soup</div>
+                        <div class="recipe-card-tags">
+                            <span class="tag tag-green">Vegan</span>
+                            <span class="tag tag-blue">Fiber Rich</span>
+                        </div>
+                        <div class="recipe-card-calories">300 kcal</div>
+                        <div class="recipe-card-macros">
+                            <span>18gP</span><span>5gF</span><span>40gC</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More -->
+            <div class="load-more">
+                <button class="load-more-btn">Load More Recipes</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
