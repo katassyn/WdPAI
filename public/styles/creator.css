@@ -1,0 +1,432 @@
+/* ===== RECIPE CREATOR ===== */
+
+.creator-header {
+    margin-bottom: var(--spacing-lg);
+}
+
+.creator-header h1 {
+    font-size: 1.75rem;
+    margin-bottom: 4px;
+}
+
+.creator-header p {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}
+
+/* Step Indicator */
+.creator-steps {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-md) 0;
+}
+
+.creator-step {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--color-text-light);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.creator-step.active {
+    color: var(--color-primary);
+}
+
+.creator-step.active .creator-step-number {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.creator-step.completed {
+    color: var(--color-primary);
+}
+
+.creator-step.completed .creator-step-number {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.creator-step-number {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-border-light);
+    color: var(--color-text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.creator-step-line {
+    flex: 1;
+    height: 2px;
+    background-color: var(--color-border-light);
+    margin: 0 var(--spacing-sm);
+    min-width: 24px;
+}
+
+.creator-step.completed + .creator-step-line {
+    background-color: var(--color-primary);
+}
+
+/* Two-column layout */
+.creator-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: var(--spacing-lg);
+    align-items: start;
+}
+
+/* Left column - form */
+.creator-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+/* Right column - sidebar */
+.creator-sidebar {
+    position: sticky;
+    top: calc(var(--topbar-height) + var(--spacing-lg));
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+/* Form sections */
+.creator-section {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: var(--spacing-lg);
+}
+
+.creator-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--color-primary);
+    display: inline-block;
+}
+
+/* Time inputs row */
+.creator-time-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+/* Servings + Category row */
+.creator-meta-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+/* Input with suffix (minutes) */
+.input-with-suffix {
+    position: relative;
+}
+
+.input-with-suffix .form-input {
+    padding-right: 36px;
+}
+
+.input-suffix {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8125rem;
+    color: var(--color-text-light);
+    font-weight: 600;
+}
+
+/* Ingredients */
+.ingredient-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.ingredient-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--color-bg);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+}
+
+.ingredient-item-icon {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary);
+    flex-shrink: 0;
+}
+
+.ingredient-item-name {
+    flex: 1;
+    color: var(--color-text);
+}
+
+.ingredient-item-amount {
+    color: var(--color-text-light);
+    font-size: 0.8125rem;
+}
+
+.ingredient-item-remove {
+    color: var(--color-text-light);
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.ingredient-item-remove:hover {
+    color: var(--color-danger);
+}
+
+.add-ingredient-btn,
+.add-equipment-btn,
+.add-step-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px dashed var(--color-primary);
+    border-radius: var(--radius-md);
+    color: var(--color-primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    background: none;
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+    transition: background-color var(--transition-fast);
+}
+
+.add-ingredient-btn:hover,
+.add-equipment-btn:hover,
+.add-step-btn:hover {
+    background-color: var(--color-primary-bg);
+}
+
+/* Equipment */
+.equipment-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.equipment-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--color-bg);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+}
+
+.equipment-item-icon {
+    width: 20px;
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+}
+
+.equipment-item-name {
+    flex: 1;
+    color: var(--color-text);
+}
+
+.equipment-item-remove {
+    color: var(--color-text-light);
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.equipment-item-remove:hover {
+    color: var(--color-danger);
+}
+
+/* Cooking Steps */
+.cooking-step-card {
+    background-color: var(--color-bg);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    border-left: 3px solid var(--color-primary);
+}
+
+.cooking-step-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.cooking-step-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 12px;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.cooking-step-remove {
+    color: var(--color-text-light);
+    font-size: 0.8125rem;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.cooking-step-remove:hover {
+    color: var(--color-danger);
+}
+
+.cooking-step-meta {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: var(--spacing-md);
+}
+
+.cooking-step-card .form-input,
+.cooking-step-card .form-textarea,
+.cooking-step-card .form-select {
+    background-color: var(--color-white);
+}
+
+/* Navigation buttons */
+.creator-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-md) 0;
+}
+
+/* Right column - Nutrition panel */
+.nutrition-panel {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: var(--spacing-lg);
+}
+
+.nutrition-panel-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+}
+
+.nutrition-calories {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.nutrition-calories-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1;
+}
+
+.nutrition-calories-label {
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+    margin-top: 4px;
+}
+
+/* Macro bars */
+.nutrition-macros {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.nutrition-macro-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.nutrition-macro-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8125rem;
+}
+
+.nutrition-macro-name {
+    color: var(--color-text-secondary);
+}
+
+.nutrition-macro-value {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.nutrition-macro-bar {
+    height: 8px;
+    background-color: var(--color-bg);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.nutrition-macro-bar-fill {
+    height: 100%;
+    border-radius: var(--radius-full);
+    transition: width 0.3s ease;
+}
+
+.nutrition-macro-bar-fill.protein {
+    background-color: #FF9800;
+}
+
+.nutrition-macro-bar-fill.carbs {
+    background-color: var(--color-primary);
+}
+
+.nutrition-macro-bar-fill.fats {
+    background-color: #F44336;
+}
+
+/* Micro nutrients */
+.nutrition-micros {
+    display: flex;
+    justify-content: space-between;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-border-light);
+}
+
+.nutrition-micro {
+    text-align: center;
+}
+
+.nutrition-micro-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.nutrition-micro-label {
+    font-size: 0.6875rem;
+    color: var(--color-text-light);
+}

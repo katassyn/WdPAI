@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <?php include 'partials/head.html' ?>
+    <link rel="stylesheet" type="text/css" href="/public/styles/creator.css">
+    <title>Create New Recipe - MacroCook</title>
+</head>
+<body>
+<div class="app-layout">
+    <?php include 'partials/nav.html' ?>
+    <div class="main-content">
+        <?php include 'partials/topbar.html' ?>
+        <div class="page-content">
+
+            <!-- Header -->
+            <div class="creator-header">
+                <h1>Create New Recipe</h1>
+                <p>Design your meal, calculate macros, and share with the community.</p>
+            </div>
+
+            <!-- Step indicator -->
+            <div class="creator-steps">
+                <div class="creator-step active" data-step="1">
+                    <div class="creator-step-number">1</div>
+                    <span>Basic Info</span>
+                </div>
+                <div class="creator-step-line"></div>
+                <div class="creator-step" data-step="2">
+                    <div class="creator-step-number">2</div>
+                    <span>Ingredients</span>
+                </div>
+                <div class="creator-step-line"></div>
+                <div class="creator-step" data-step="3">
+                    <div class="creator-step-number">3</div>
+                    <span>Equipment</span>
+                </div>
+                <div class="creator-step-line"></div>
+                <div class="creator-step" data-step="4">
+                    <div class="creator-step-number">4</div>
+                    <span>Steps</span>
+                </div>
+            </div>
+
+            <!-- Two-column layout -->
+            <div class="creator-layout">
+
+                <!-- Left: Form -->
+                <div class="creator-form">
+
+                    <!-- Step 1: Basic Info -->
+                    <div class="creator-section creator-step-panel" data-creator-step="1" id="step-basic-info">
+                        <div class="creator-section-title">Basic Info</div>
+
+                        <div class="form-group">
+                            <label class="form-label">Recipe Title</label>
+                            <input type="text" class="form-input" placeholder="e.g. Spicy Chicken Quinoa Bowl">
+                        </div>
+
+                        <div class="creator-time-row">
+                            <div class="form-group">
+                                <label class="form-label">Prep Time (min)</label>
+                                <div class="input-with-suffix">
+                                    <input type="number" class="form-input" placeholder="15">
+                                    <span class="input-suffix">m</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Cook Time (min)</label>
+                                <div class="input-with-suffix">
+                                    <input type="number" class="form-input" placeholder="25">
+                                    <span class="input-suffix">m</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="creator-meta-row">
+                            <div class="form-group">
+                                <label class="form-label">Servings</label>
+                                <input type="number" class="form-input" placeholder="4">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Category</label>
+                                <select class="form-select">
+                                    <option value="">Select...</option>
+                                    <option value="breakfast">Breakfast</option>
+                                    <option value="lunch">Lunch</option>
+                                    <option value="dinner">Dinner</option>
+                                    <option value="snack">Snack</option>
+                                    <option value="dessert">Dessert</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-textarea" placeholder="Briefly describe your recipe..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Ingredients -->
+                    <div class="creator-section creator-step-panel" data-creator-step="2" id="step-ingredients" style="display:none">
+                        <div class="creator-section-title">Ingredients</div>
+
+                        <div class="ingredient-list">
+                            <div class="ingredient-item">
+                                <div class="ingredient-item-icon"></div>
+                                <span class="ingredient-item-name">Chicken Breast, Boneless</span>
+                                <span class="ingredient-item-amount">300g</span>
+                                <button class="ingredient-item-remove"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <div class="ingredient-item">
+                                <div class="ingredient-item-icon"></div>
+                                <span class="ingredient-item-name">Quinoa, Cooked</span>
+                                <span class="ingredient-item-amount">150g</span>
+                                <button class="ingredient-item-remove"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <div class="ingredient-item">
+                                <div class="ingredient-item-icon"></div>
+                                <span class="ingredient-item-name">Sea Salt</span>
+                                <span class="ingredient-item-amount">1 tsp</span>
+                                <button class="ingredient-item-remove"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <div class="ingredient-item">
+                                <div class="ingredient-item-icon"></div>
+                                <span class="ingredient-item-name">Black Pepper</span>
+                                <span class="ingredient-item-amount">1/2 tsp</span>
+                                <button class="ingredient-item-remove"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                        </div>
+
+                        <button class="add-ingredient-btn">
+                            <i class="fa-solid fa-plus"></i> Add Ingredient
+                        </button>
+                    </div>
+
+                    <!-- Step 3: Equipment -->
+                    <div class="creator-section creator-step-panel" data-creator-step="3" id="step-equipment" style="display:none">
+                        <div class="creator-section-title">Equipment Needed</div>
+
+                        <div class="equipment-list">
+                            <div class="equipment-item">
+                                <i class="fa-solid fa-fire-burner equipment-item-icon"></i>
+                                <span class="equipment-item-name">Non-stick Pan</span>
+                                <button class="equipment-item-remove"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <div class="equipment-item">
+                                <i class="fa-solid fa-scale-balanced equipment-item-icon"></i>
+                                <span class="equipment-item-name">Kitchen Scale</span>
+                                <button class="equipment-item-remove"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <div class="equipment-item">
+                                <i class="fa-solid fa-scroll equipment-item-icon"></i>
+                                <span class="equipment-item-name">Paper Towels</span>
+                                <button class="equipment-item-remove"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                        </div>
+
+                        <button class="add-equipment-btn">
+                            <i class="fa-solid fa-plus"></i> Add Equipment
+                        </button>
+                    </div>
+
+                    <!-- Step 4: Cooking Steps -->
+                    <div class="creator-section creator-step-panel" data-creator-step="4" id="step-cooking-steps" style="display:none">
+                        <div class="creator-section-title">Cooking Steps</div>
+
+                        <!-- Step 1 -->
+                        <div class="cooking-step-card">
+                            <div class="cooking-step-header">
+                                <div class="cooking-step-badge">Step 1</div>
+                                <button class="cooking-step-remove"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Step Title</label>
+                                <input type="text" class="form-input" placeholder="e.g. Prepare the Salmon Fillets" value="Prepare the Salmon Fillets">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Instructions</label>
+                                <textarea class="form-textarea" placeholder="Describe what to do in this step...">Pat the salmon fillets dry with paper towels. This ensures a crispy skin when searing. Season generously with salt, black pepper, and a squeeze of fresh lemon juice on both sides.</textarea>
+                            </div>
+                            <div class="cooking-step-meta">
+                                <div class="form-group">
+                                    <label class="form-label">Duration (min)</label>
+                                    <div class="input-with-suffix">
+                                        <input type="number" class="form-input" placeholder="5" value="5">
+                                        <span class="input-suffix">m</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Ingredients used</label>
+                                    <select class="form-select" multiple>
+                                        <option selected>Chicken Breast</option>
+                                        <option selected>Sea Salt</option>
+                                        <option selected>Black Pepper</option>
+                                        <option>Quinoa, Cooked</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="cooking-step-card">
+                            <div class="cooking-step-header">
+                                <div class="cooking-step-badge">Step 2</div>
+                                <button class="cooking-step-remove"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Step Title</label>
+                                <input type="text" class="form-input" placeholder="e.g. Cook the Quinoa">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Instructions</label>
+                                <textarea class="form-textarea" placeholder="Describe what to do in this step..."></textarea>
+                            </div>
+                            <div class="cooking-step-meta">
+                                <div class="form-group">
+                                    <label class="form-label">Duration (min)</label>
+                                    <div class="input-with-suffix">
+                                        <input type="number" class="form-input" placeholder="10">
+                                        <span class="input-suffix">m</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Ingredients used</label>
+                                    <select class="form-select" multiple>
+                                        <option>Chicken Breast</option>
+                                        <option>Sea Salt</option>
+                                        <option>Black Pepper</option>
+                                        <option>Quinoa, Cooked</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="add-step-btn">
+                            <i class="fa-solid fa-plus"></i> Add Step
+                        </button>
+                    </div>
+
+                    <!-- Navigation buttons -->
+                    <div class="creator-nav">
+                        <button class="btn btn-outline btn-lg" id="creator-prev" style="display:none">
+                            <i class="fa-solid fa-chevron-left"></i> Previous
+                        </button>
+                        <button class="btn btn-primary btn-lg" id="creator-next">
+                            Next <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Right: Nutrition panel -->
+                <div class="creator-sidebar">
+                    <div class="nutrition-panel">
+                        <div class="nutrition-panel-title">Nutrition Facts</div>
+
+                        <div class="nutrition-calories">
+                            <div class="nutrition-calories-number">550</div>
+                            <div class="nutrition-calories-label">calories per serving</div>
+                        </div>
+
+                        <div class="nutrition-macros">
+                            <div class="nutrition-macro-item">
+                                <div class="nutrition-macro-header">
+                                    <span class="nutrition-macro-name">Protein</span>
+                                    <span class="nutrition-macro-value">45g</span>
+                                </div>
+                                <div class="nutrition-macro-bar">
+                                    <div class="nutrition-macro-bar-fill protein" style="width: 75%"></div>
+                                </div>
+                            </div>
+                            <div class="nutrition-macro-item">
+                                <div class="nutrition-macro-header">
+                                    <span class="nutrition-macro-name">Carbs</span>
+                                    <span class="nutrition-macro-value">62g</span>
+                                </div>
+                                <div class="nutrition-macro-bar">
+                                    <div class="nutrition-macro-bar-fill carbs" style="width: 55%"></div>
+                                </div>
+                            </div>
+                            <div class="nutrition-macro-item">
+                                <div class="nutrition-macro-header">
+                                    <span class="nutrition-macro-name">Fats</span>
+                                    <span class="nutrition-macro-value">14g</span>
+                                </div>
+                                <div class="nutrition-macro-bar">
+                                    <div class="nutrition-macro-bar-fill fats" style="width: 25%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="nutrition-micros">
+                            <div class="nutrition-micro">
+                                <div class="nutrition-micro-value">8g</div>
+                                <div class="nutrition-micro-label">Fiber</div>
+                            </div>
+                            <div class="nutrition-micro">
+                                <div class="nutrition-micro-value">4g</div>
+                                <div class="nutrition-micro-label">Sugar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
