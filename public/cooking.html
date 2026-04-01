@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <?php include 'partials/head.html' ?>
+    <link rel="stylesheet" type="text/css" href="/public/styles/cooking.css">
+    <title>Cooking Mode - MacroCook</title>
+</head>
+<body>
+<div class="app-layout">
+    <?php include 'partials/nav.html' ?>
+    <div class="main-content">
+        <?php include 'partials/topbar.html' ?>
+        <div class="page-content">
+
+            <!-- Header -->
+            <div class="cooking-header">
+                <div class="cooking-recipe-name">Grilled Salmon with Asparagus</div>
+                <div>
+                    <span class="cooking-step-counter">STEP <span id="cooking-current">1</span> of <span id="cooking-total">5</span></span>
+                    <span class="cooking-complete"><span id="cooking-percent">20</span>% COMPLETE</span>
+                </div>
+            </div>
+
+            <!-- Progress bar -->
+            <div class="cooking-progress-bar">
+                <div class="cooking-progress-fill" id="cooking-progress" style="width: 20%"></div>
+            </div>
+
+            <!-- Layout -->
+            <div class="cooking-layout">
+
+                <!-- Left: Main content -->
+                <div class="cooking-main">
+
+                    <!-- Step 1 -->
+                    <div class="cooking-step-panel" data-cooking-step="1">
+                        <div class="cooking-media">
+                            <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&h=500&fit=crop" alt="Grilled Salmon">
+                            <div class="cooking-media-tab">
+                                <button class="cooking-media-tab-btn active">
+                                    <i class="fa-solid fa-play"></i> Video Instruction
+                                </button>
+                            </div>
+                            <div class="cooking-timer">
+                                <i class="fa-solid fa-stopwatch cooking-timer-icon"></i>
+                                <span class="cooking-timer-value">06:30</span>
+                            </div>
+                        </div>
+                        <div class="cooking-instruction">
+                            <h2 class="cooking-instruction-title">Season the Salmon</h2>
+                            <p class="cooking-instruction-text">
+                                Rinse the salmon fillets under cold water and pat them completely dry with paper towels.
+                                Season both sides generously with sea salt and freshly ground black pepper.
+                                Drizzle a small amount of olive oil over each fillet.
+                            </p>
+                            <div class="cooking-tip">
+                                <i class="fa-solid fa-lightbulb cooking-tip-icon"></i>
+                                <div>
+                                    <span class="cooking-tip-label">Chef's Tip:</span>
+                                    <span class="cooking-tip-text">Let the salmon sit at room temperature for 15 minutes before cooking for even results.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="cooking-step-panel" data-cooking-step="2" style="display:none">
+                        <div class="cooking-media">
+                            <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=800&h=500&fit=crop" alt="Preparing fillets">
+                            <div class="cooking-media-tab">
+                                <button class="cooking-media-tab-btn active">
+                                    <i class="fa-solid fa-play"></i> Video Instruction
+                                </button>
+                            </div>
+                            <div class="cooking-timer">
+                                <i class="fa-solid fa-stopwatch cooking-timer-icon"></i>
+                                <span class="cooking-timer-value">04:30</span>
+                            </div>
+                        </div>
+                        <div class="cooking-instruction">
+                            <h2 class="cooking-instruction-title">Prepare the Salmon Fillets</h2>
+                            <p class="cooking-instruction-text">
+                                Pat the salmon fillets dry with paper towels.
+                                This ensures a crispy skin when searing.
+                                Season generously with salt, black pepper,
+                                and a squeeze of fresh lemon juice on both sides.
+                            </p>
+                            <div class="cooking-tip">
+                                <i class="fa-solid fa-lightbulb cooking-tip-icon"></i>
+                                <div>
+                                    <span class="cooking-tip-label">Chef's Tip:</span>
+                                    <span class="cooking-tip-text">Use room temperature salmon for even cooking.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="cooking-step-panel" data-cooking-step="3" style="display:none">
+                        <div class="cooking-media">
+                            <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=800&h=500&fit=crop" alt="Searing salmon">
+                            <div class="cooking-media-tab">
+                                <button class="cooking-media-tab-btn active">
+                                    <i class="fa-solid fa-play"></i> Video Instruction
+                                </button>
+                            </div>
+                            <div class="cooking-timer">
+                                <i class="fa-solid fa-stopwatch cooking-timer-icon"></i>
+                                <span class="cooking-timer-value">07:00</span>
+                            </div>
+                        </div>
+                        <div class="cooking-instruction">
+                            <h2 class="cooking-instruction-title">Sear the Salmon</h2>
+                            <p class="cooking-instruction-text">
+                                Heat the non-stick pan over medium-high heat. Place the salmon fillets skin-side down.
+                                Cook for 4 minutes without moving. Flip gently and cook for another 3 minutes.
+                            </p>
+                            <div class="cooking-tip">
+                                <i class="fa-solid fa-lightbulb cooking-tip-icon"></i>
+                                <div>
+                                    <span class="cooking-tip-label">Chef's Tip:</span>
+                                    <span class="cooking-tip-text">Don't move the fish while searing — let the crust form naturally.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="cooking-step-panel" data-cooking-step="4" style="display:none">
+                        <div class="cooking-media">
+                            <img src="https://images.unsplash.com/photo-1515516969-d4008cc6241a?w=800&h=500&fit=crop" alt="Asparagus preparation">
+                            <div class="cooking-media-tab">
+                                <button class="cooking-media-tab-btn active">
+                                    <i class="fa-solid fa-play"></i> Video Instruction
+                                </button>
+                            </div>
+                            <div class="cooking-timer">
+                                <i class="fa-solid fa-stopwatch cooking-timer-icon"></i>
+                                <span class="cooking-timer-value">05:00</span>
+                            </div>
+                        </div>
+                        <div class="cooking-instruction">
+                            <h2 class="cooking-instruction-title">Prepare the Asparagus</h2>
+                            <p class="cooking-instruction-text">
+                                Trim the woody ends of the asparagus. Toss with olive oil, salt, and pepper.
+                                Grill or roast alongside the salmon for about 5 minutes until tender-crisp.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="cooking-step-panel" data-cooking-step="5" style="display:none">
+                        <div class="cooking-media">
+                            <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=800&h=500&fit=crop" alt="Plated salmon">
+                            <div class="cooking-media-tab">
+                                <button class="cooking-media-tab-btn active">
+                                    <i class="fa-solid fa-play"></i> Video Instruction
+                                </button>
+                            </div>
+                        </div>
+                        <div class="cooking-instruction">
+                            <h2 class="cooking-instruction-title">Plate and Serve</h2>
+                            <p class="cooking-instruction-text">
+                                Arrange the asparagus on a plate. Place the salmon fillet on top.
+                                Squeeze fresh lemon juice over everything and garnish with fresh dill if desired.
+                                Serve immediately.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step dots -->
+                    <div class="cooking-step-dots" id="cooking-dots">
+                        <div class="cooking-step-dot active" data-dot="1"></div>
+                        <div class="cooking-step-dot" data-dot="2"></div>
+                        <div class="cooking-step-dot" data-dot="3"></div>
+                        <div class="cooking-step-dot" data-dot="4"></div>
+                        <div class="cooking-step-dot" data-dot="5"></div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="cooking-nav">
+                        <button class="cooking-nav-prev" id="cooking-prev" style="visibility:hidden">
+                            <i class="fa-solid fa-chevron-left"></i> Previous Step
+                        </button>
+                        <button class="cooking-nav-next" id="cooking-next">
+                            Next Step <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Right: Sidebar -->
+                <div class="cooking-sidebar">
+
+                    <!-- Tools Needed -->
+                    <div class="cooking-tools">
+                        <div class="cooking-panel-title">Tools Needed</div>
+                        <div class="cooking-tools-list">
+                            <div class="cooking-tool-item">
+                                <div class="cooking-tool-icon">
+                                    <i class="fa-solid fa-fire-burner"></i>
+                                </div>
+                                <span>Non-stick Pan</span>
+                            </div>
+                            <div class="cooking-tool-item">
+                                <div class="cooking-tool-icon">
+                                    <i class="fa-solid fa-scale-balanced"></i>
+                                </div>
+                                <span>Kitchen Scale</span>
+                            </div>
+                            <div class="cooking-tool-item">
+                                <div class="cooking-tool-icon">
+                                    <i class="fa-solid fa-scroll"></i>
+                                </div>
+                                <span>Paper Towels</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ingredients for this step -->
+                    <div class="cooking-ingredients">
+                        <div class="cooking-panel-title">Ingredients for Step <span id="cooking-ingredients-step">1</span></div>
+                        <div class="cooking-ingredients-list">
+                            <div class="cooking-ingredient-item">
+                                <div class="cooking-ingredient-icon">
+                                    <i class="fa-solid fa-fish"></i>
+                                </div>
+                                <span class="cooking-ingredient-name">Salmon Fillet</span>
+                                <span class="cooking-ingredient-amount">200g</span>
+                            </div>
+                            <div class="cooking-ingredient-item">
+                                <div class="cooking-ingredient-icon">
+                                    <i class="fa-solid fa-cubes-stacked"></i>
+                                </div>
+                                <span class="cooking-ingredient-name">Sea Salt</span>
+                                <span class="cooking-ingredient-amount">1 tsp</span>
+                            </div>
+                            <div class="cooking-ingredient-item">
+                                <div class="cooking-ingredient-icon">
+                                    <i class="fa-solid fa-pepper-hot"></i>
+                                </div>
+                                <span class="cooking-ingredient-name">Black Pepper</span>
+                                <span class="cooking-ingredient-amount">1/2 tsp</span>
+                            </div>
+                            <div class="cooking-ingredient-item">
+                                <div class="cooking-ingredient-icon">
+                                    <i class="fa-solid fa-lemon"></i>
+                                </div>
+                                <span class="cooking-ingredient-name">Lemon Juice</span>
+                                <span class="cooking-ingredient-amount">1 tbsp</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

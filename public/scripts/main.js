@@ -81,3 +81,85 @@ navItems.forEach(function (item) {
         });
     });
 })();
+
+// ===== Cooking mode step navigation =====
+(function () {
+    var prevBtn = document.getElementById('cooking-prev');
+    var nextBtn = document.getElementById('cooking-next');
+    if (!prevBtn || !nextBtn) return;
+
+    var panels = document.querySelectorAll('.cooking-step-panel');
+    var dots = document.querySelectorAll('.cooking-step-dot[data-dot]');
+    var currentEl = document.getElementById('cooking-current');
+    var percentEl = document.getElementById('cooking-percent');
+    var progressEl = document.getElementById('cooking-progress');
+    var ingredientsStepEl = document.getElementById('cooking-ingredients-step');
+    var currentStep = 1;
+    var totalSteps = panels.length;
+
+    function showStep(step) {
+        panels.forEach(function (panel) {
+            panel.style.display = 'none';
+        });
+
+        var activePanel = document.querySelector('.cooking-step-panel[data-cooking-step="' + step + '"]');
+        if (activePanel) {
+            activePanel.style.display = 'block';
+        }
+
+        // Update dots
+        dots.forEach(function (dot) {
+            var dotStep = parseInt(dot.getAttribute('data-dot'));
+            dot.classList.remove('active', 'completed');
+            if (dotStep === step) {
+                dot.classList.add('active');
+            } else if (dotStep < step) {
+                dot.classList.add('completed');
+            }
+        });
+
+        // Update counter
+        var percent = Math.round((step / totalSteps) * 100);
+        currentEl.textContent = step;
+        percentEl.textContent = percent;
+        progressEl.style.width = percent + '%';
+        ingredientsStepEl.textContent = step;
+
+        // Update buttons
+        if (step === 1) {
+            prevBtn.style.visibility = 'hidden';
+        } else {
+            prevBtn.style.visibility = 'visible';
+        }
+
+        if (step === totalSteps) {
+            nextBtn.innerHTML = '<i class="fa-solid fa-check"></i> Finish';
+        } else {
+            nextBtn.innerHTML = 'Next Step <i class="fa-solid fa-chevron-right"></i>';
+        }
+
+        currentStep = step;
+    }
+
+    nextBtn.addEventListener('click', function () {
+        if (currentStep < totalSteps) {
+            showStep(currentStep + 1);
+        } else {
+            window.location.href = '/dashboard';
+        }
+    });
+
+    prevBtn.addEventListener('click', function () {
+        if (currentStep > 1) {
+            showStep(currentStep - 1);
+        }
+    });
+
+    dots.forEach(function (dot) {
+        dot.style.cursor = 'pointer';
+        dot.addEventListener('click', function () {
+            var step = parseInt(dot.getAttribute('data-dot'));
+            showStep(step);
+        });
+    });
+})();

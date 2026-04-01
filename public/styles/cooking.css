@@ -1,0 +1,346 @@
+/* ===== COOKING MODE ===== */
+
+/* Top header: recipe name + step counter + progress */
+.cooking-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-lg);
+}
+
+.cooking-recipe-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.cooking-step-counter {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cooking-progress-bar {
+    width: 100%;
+    height: 4px;
+    background-color: var(--color-border-light);
+    border-radius: var(--radius-full);
+    margin-bottom: var(--spacing-xl);
+    overflow: hidden;
+}
+
+.cooking-progress-fill {
+    height: 100%;
+    background-color: var(--color-primary);
+    border-radius: var(--radius-full);
+    transition: width 0.3s ease;
+}
+
+/* Main layout: 2 columns */
+.cooking-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: var(--spacing-xl);
+    align-items: start;
+}
+
+/* Left column */
+.cooking-main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+/* Video/Image section */
+.cooking-media {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: var(--color-text);
+}
+
+.cooking-media img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    display: block;
+}
+
+.cooking-media-tab {
+    position: absolute;
+    top: var(--spacing-md);
+    left: var(--spacing-md);
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.cooking-media-tab-btn {
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.cooking-media-tab-btn.active {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.cooking-media-tab-btn:not(.active) {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: var(--color-text);
+}
+
+/* Timer overlay */
+.cooking-timer {
+    position: absolute;
+    bottom: var(--spacing-md);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: var(--color-white);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-full);
+}
+
+.cooking-timer-icon {
+    color: var(--color-primary);
+}
+
+.cooking-timer-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Step progress dots */
+.cooking-step-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) 0;
+}
+
+.cooking-step-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-border-light);
+    transition: all var(--transition-fast);
+}
+
+.cooking-step-dot.completed {
+    background-color: var(--color-primary);
+}
+
+.cooking-step-dot.active {
+    background-color: var(--color-primary);
+    width: 24px;
+    border-radius: var(--radius-full);
+}
+
+/* Instruction section */
+.cooking-instruction {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: var(--spacing-lg);
+}
+
+.cooking-instruction-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+}
+
+.cooking-instruction-text {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-md);
+}
+
+/* Chef's Tip box */
+.cooking-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background-color: var(--color-primary-bg);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--color-primary);
+}
+
+.cooking-tip-icon {
+    color: var(--color-primary);
+    font-size: 0.875rem;
+    margin-top: 2px;
+}
+
+.cooking-tip-text {
+    font-size: 0.8125rem;
+    color: var(--color-text);
+    line-height: 1.5;
+}
+
+.cooking-tip-label {
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+/* Right sidebar */
+.cooking-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    position: sticky;
+    top: calc(var(--topbar-height) + var(--spacing-lg));
+}
+
+/* Tools Needed panel */
+.cooking-tools {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: var(--spacing-lg);
+}
+
+.cooking-panel-title {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-md);
+}
+
+.cooking-tools-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.cooking-tool-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    color: var(--color-text);
+}
+
+.cooking-tool-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    flex-shrink: 0;
+}
+
+/* Ingredients for step panel */
+.cooking-ingredients {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: var(--spacing-lg);
+}
+
+.cooking-ingredients-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.cooking-ingredient-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-md);
+}
+
+.cooking-ingredient-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+}
+
+.cooking-ingredient-name {
+    flex: 1;
+    font-size: 0.875rem;
+    color: var(--color-text);
+}
+
+.cooking-ingredient-amount {
+    font-size: 0.8125rem;
+    color: var(--color-text-light);
+    font-weight: 500;
+}
+
+/* Bottom navigation */
+.cooking-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-lg) 0;
+    margin-top: var(--spacing-md);
+}
+
+.cooking-nav-prev,
+.cooking-nav-next {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.cooking-nav-prev {
+    color: var(--color-text-secondary);
+}
+
+.cooking-nav-prev:hover {
+    background-color: var(--color-bg);
+}
+
+.cooking-nav-next {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.cooking-nav-next:hover {
+    background-color: var(--color-primary-dark);
+}
+
+/* Complete badge */
+.cooking-complete {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
