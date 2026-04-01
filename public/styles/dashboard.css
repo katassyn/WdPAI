@@ -1,0 +1,218 @@
+/* ===== DASHBOARD ===== */
+
+/* Greeting */
+.dashboard-greeting {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-lg);
+}
+
+.dashboard-greeting h1 {
+    font-size: 1.75rem;
+    margin-bottom: 4px;
+}
+
+.dashboard-greeting p {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}
+
+.dashboard-date {
+    text-align: right;
+}
+
+.dashboard-date-day {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.dashboard-date-week {
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+}
+
+/* Macro Cards Row */
+.macro-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.macro-card {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: var(--spacing-lg) var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.macro-card-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-sm);
+}
+
+.macro-card-ring {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.macro-card-ring svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.macro-card-ring-track {
+    fill: none;
+    stroke: var(--color-border-light);
+    stroke-width: 6;
+}
+
+.macro-card-ring-fill {
+    fill: none;
+    stroke-width: 6;
+    stroke-linecap: round;
+}
+
+.macro-card-ring-fill.calories {
+    stroke: var(--color-primary);
+}
+
+.macro-card-ring-fill.protein {
+    stroke: #FF9800;
+}
+
+.macro-card-ring-fill.carbs {
+    stroke: var(--color-primary);
+}
+
+.macro-card-ring-fill.fats {
+    stroke: #FF9800;
+}
+
+.macro-card-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.macro-card-value-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.2;
+}
+
+.macro-card-value-goal {
+    font-size: 0.625rem;
+    color: var(--color-text-light);
+}
+
+.macro-card-remaining {
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+}
+
+/* Favorite Recipes Section */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.section-header h2 {
+    font-size: 1.375rem;
+    font-weight: 600;
+}
+
+.section-header-arrows {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.section-header-arrow {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.section-header-arrow:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+/* Recipe Cards Grid */
+.recipes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Recent Activity */
+.recent-activity {
+    margin-top: var(--spacing-lg);
+}
+
+.recent-activity h2 {
+    font-size: 1.375rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    font-size: 0.875rem;
+}
+
+.activity-info {
+    flex: 1;
+}
+
+.activity-text {
+    font-size: 0.875rem;
+    color: var(--color-text);
+}
+
+.activity-time {
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+}

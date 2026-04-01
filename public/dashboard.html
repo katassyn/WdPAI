@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <?php include 'partials/head.html' ?>
+    <link rel="stylesheet" type="text/css" href="/public/styles/dashboard.css">
     <title><?=$title?></title>
 </head>
 <body>
@@ -10,8 +11,220 @@
     <div class="main-content">
         <?php include 'partials/topbar.html' ?>
         <div class="page-content">
-            <h1>Dashboard</h1>
-            <p><?=$title?></p>
+
+            <!-- Greeting -->
+            <div class="dashboard-greeting">
+                <div>
+                    <h1>Hello, Alex! 👋</h1>
+                    <p>Here's your daily nutrition breakdown for today</p>
+                </div>
+                <div class="dashboard-date">
+                    <div class="dashboard-date-day">Wednesday, Oct 24</div>
+                    <div class="dashboard-date-week">Week 43</div>
+                </div>
+            </div>
+
+            <!-- Macro Cards -->
+            <div class="macro-cards">
+                <!-- Calories -->
+                <div class="macro-card">
+                    <span class="macro-card-label">Calories</span>
+                    <div class="macro-card-ring">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="macro-card-ring-track" cx="50" cy="50" r="42"></circle>
+                            <circle class="macro-card-ring-fill calories" cx="50" cy="50" r="42"
+                                    stroke-dasharray="263.9"
+                                    stroke-dashoffset="66"></circle>
+                        </svg>
+                        <div class="macro-card-value">
+                            <div class="macro-card-value-number">1,850</div>
+                            <div class="macro-card-value-goal">/ 2,400</div>
+                        </div>
+                    </div>
+                    <span class="macro-card-remaining">550 kcal remaining</span>
+                </div>
+
+                <!-- Protein -->
+                <div class="macro-card">
+                    <span class="macro-card-label">Protein</span>
+                    <div class="macro-card-ring">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="macro-card-ring-track" cx="50" cy="50" r="42"></circle>
+                            <circle class="macro-card-ring-fill protein" cx="50" cy="50" r="42"
+                                    stroke-dasharray="263.9"
+                                    stroke-dashoffset="53"></circle>
+                        </svg>
+                        <div class="macro-card-value">
+                            <div class="macro-card-value-number">142g</div>
+                            <div class="macro-card-value-goal">/ 160g</div>
+                        </div>
+                    </div>
+                    <span class="macro-card-remaining">18g left</span>
+                </div>
+
+                <!-- Carbs -->
+                <div class="macro-card">
+                    <span class="macro-card-label">Carbs</span>
+                    <div class="macro-card-ring">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="macro-card-ring-track" cx="50" cy="50" r="42"></circle>
+                            <circle class="macro-card-ring-fill carbs" cx="50" cy="50" r="42"
+                                    stroke-dasharray="263.9"
+                                    stroke-dashoffset="132"></circle>
+                        </svg>
+                        <div class="macro-card-value">
+                            <div class="macro-card-value-number">120g</div>
+                            <div class="macro-card-value-goal">/ 250g</div>
+                        </div>
+                    </div>
+                    <span class="macro-card-remaining">130g left</span>
+                </div>
+
+                <!-- Fats -->
+                <div class="macro-card">
+                    <span class="macro-card-label">Fats</span>
+                    <div class="macro-card-ring">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="macro-card-ring-track" cx="50" cy="50" r="42"></circle>
+                            <circle class="macro-card-ring-fill fats" cx="50" cy="50" r="42"
+                                    stroke-dasharray="263.9"
+                                    stroke-dashoffset="97"></circle>
+                        </svg>
+                        <div class="macro-card-value">
+                            <div class="macro-card-value-number">45g</div>
+                            <div class="macro-card-value-goal">/ 70g</div>
+                        </div>
+                    </div>
+                    <span class="macro-card-remaining">25g left</span>
+                </div>
+            </div>
+
+            <!-- Favorite Recipes -->
+            <div class="section-header">
+                <h2>Favorite Recipes</h2>
+                <div class="section-header-arrows">
+                    <button class="section-header-arrow"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="section-header-arrow"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <div class="recipes-grid">
+                <!-- Card 1: Quinoa Superfood Salad -->
+                <div class="recipe-card">
+                    <div class="recipe-card-image">
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop" alt="Quinoa Superfood Salad">
+                        <div class="recipe-card-time">
+                            <i class="fa-regular fa-clock"></i> 15 min
+                        </div>
+                        <div class="recipe-card-favorite">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                    </div>
+                    <div class="recipe-card-body">
+                        <div class="recipe-card-title">Quinoa Superfood Salad</div>
+                        <div class="recipe-card-tags">
+                            <span class="tag tag-green">Vegan</span>
+                            <span class="tag tag-orange">Low Fat</span>
+                        </div>
+                        <div class="recipe-card-calories">320 kcal</div>
+                        <div class="recipe-card-macros">
+                            <span>13P</span>
+                            <span>8F</span>
+                            <span>40C</span>
+                        </div>
+                        <div class="recipe-card-rating">
+                            <i class="fa-solid fa-star"></i> 4.8
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Grilled Salmon -->
+                <div class="recipe-card">
+                    <div class="recipe-card-image">
+                        <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=300&fit=crop" alt="Grilled Salmon">
+                        <div class="recipe-card-time">
+                            <i class="fa-regular fa-clock"></i> 25 min
+                        </div>
+                        <div class="recipe-card-favorite">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                    </div>
+                    <div class="recipe-card-body">
+                        <div class="recipe-card-title">Grilled Salmon</div>
+                        <div class="recipe-card-tags">
+                            <span class="tag tag-blue">High Protein</span>
+                            <span class="tag tag-gray">GF</span>
+                        </div>
+                        <div class="recipe-card-calories">450 kcal</div>
+                        <div class="recipe-card-macros">
+                            <span>53P</span>
+                            <span>18F</span>
+                            <span>10C</span>
+                        </div>
+                        <div class="recipe-card-rating">
+                            <i class="fa-solid fa-star"></i> 4.9
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Avocado Toast -->
+                <div class="recipe-card">
+                    <div class="recipe-card-image">
+                        <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400&h=300&fit=crop" alt="Avocado Toast">
+                        <div class="recipe-card-time">
+                            <i class="fa-regular fa-clock"></i> 10 min
+                        </div>
+                        <div class="recipe-card-favorite">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                    </div>
+                    <div class="recipe-card-body">
+                        <div class="recipe-card-title">Avocado Toast</div>
+                        <div class="recipe-card-tags">
+                            <span class="tag tag-orange">Breakfast</span>
+                        </div>
+                        <div class="recipe-card-calories">380 kcal</div>
+                        <div class="recipe-card-macros">
+                            <span>14P</span>
+                            <span>23F</span>
+                            <span>30C</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="recent-activity">
+                <h2>Recent Activity</h2>
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <div class="activity-info">
+                        <div class="activity-text">You cooked Grilled Salmon with Asparagus</div>
+                        <div class="activity-time">2 hours ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <div class="activity-info">
+                        <div class="activity-text">You saved Berry Bliss Smoothie Bowl to favorites</div>
+                        <div class="activity-time">5 hours ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                    <div class="activity-info">
+                        <div class="activity-text">You created a new recipe: Quinoa Power Bowl</div>
+                        <div class="activity-time">Yesterday</div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
