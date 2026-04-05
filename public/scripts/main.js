@@ -82,6 +82,48 @@ navItems.forEach(function (item) {
     });
 })();
 
+// ===== Admin tabs switching =====
+(function () {
+    var tabs = document.querySelectorAll('.admin-tab[data-tab]');
+    if (!tabs.length) return;
+
+    var contents = document.querySelectorAll('[data-tab-content]');
+    var infoEl = document.querySelector('.admin-pagination-info');
+
+    var counts = {
+        active: { shown: '1-6', total: 124 },
+        pending: { shown: '1-3', total: 8 },
+        suspended: { shown: '1-3', total: 3 }
+    };
+
+    var labels = {
+        active: 'users',
+        pending: 'invites',
+        suspended: 'users'
+    };
+
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            var target = tab.getAttribute('data-tab');
+
+            tabs.forEach(function (t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+
+            contents.forEach(function (c) {
+                if (c.getAttribute('data-tab-content') === target) {
+                    c.style.display = '';
+                } else {
+                    c.style.display = 'none';
+                }
+            });
+
+            if (infoEl && counts[target]) {
+                infoEl.textContent = 'Showing ' + counts[target].shown + ' of ' + counts[target].total + ' ' + labels[target];
+            }
+        });
+    });
+})();
+
 // ===== Cooking mode step navigation =====
 (function () {
     var prevBtn = document.getElementById('cooking-prev');
