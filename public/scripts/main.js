@@ -124,6 +124,31 @@ navItems.forEach(function (item) {
     });
 })();
 
+// ===== Moderation tabs switching =====
+(function () {
+    var tabs = document.querySelectorAll('.admin-tab[data-mod-tab]');
+    if (!tabs.length) return;
+
+    var contents = document.querySelectorAll('[data-mod-content]');
+
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            var target = tab.getAttribute('data-mod-tab');
+
+            tabs.forEach(function (t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+
+            contents.forEach(function (c) {
+                if (c.getAttribute('data-mod-content') === target) {
+                    c.style.display = '';
+                } else {
+                    c.style.display = 'none';
+                }
+            });
+        });
+    });
+})();
+
 // ===== Cooking mode step navigation =====
 (function () {
     var prevBtn = document.getElementById('cooking-prev');

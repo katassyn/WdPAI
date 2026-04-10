@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <?php include __DIR__ . '/../partials/head.html' ?>
+    <title>Database Moderation - MacroCook Admin</title>
+</head>
+<body>
+<div class="app-layout">
+    <?php include __DIR__ . '/../partials/nav.html' ?>
+    <div class="main-content">
+        <?php include __DIR__ . '/../partials/topbar.html' ?>
+        <div class="page-content">
+
+            <!-- Header -->
+            <div class="admin-header">
+                <div>
+                    <h1>Database Moderation</h1>
+                    <p>Review and moderate user-submitted recipes before publication.</p>
+                </div>
+                <div class="admin-header-actions">
+                    <div class="admin-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search recipes by name or author...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats cards -->
+            <div class="moderation-stats">
+                <div class="moderation-stat-card">
+                    <div class="moderation-stat-icon pending">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div>
+                        <div class="moderation-stat-value">24</div>
+                        <div class="moderation-stat-label">Pending Review</div>
+                    </div>
+                </div>
+                <div class="moderation-stat-card">
+                    <div class="moderation-stat-icon approved">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div>
+                        <div class="moderation-stat-value">1,842</div>
+                        <div class="moderation-stat-label">Approved</div>
+                    </div>
+                </div>
+                <div class="moderation-stat-card">
+                    <div class="moderation-stat-icon rejected">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                    <div>
+                        <div class="moderation-stat-value">47</div>
+                        <div class="moderation-stat-label">Rejected</div>
+                    </div>
+                </div>
+                <div class="moderation-stat-card">
+                    <div class="moderation-stat-icon flagged">
+                        <i class="fa-solid fa-flag"></i>
+                    </div>
+                    <div>
+                        <div class="moderation-stat-value">6</div>
+                        <div class="moderation-stat-label">Flagged</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-mod-tab="pending">
+                    Pending Review <span class="admin-tab-count">24</span>
+                </button>
+                <button class="admin-tab" data-mod-tab="approved">
+                    Approved <span class="admin-tab-count">1842</span>
+                </button>
+                <button class="admin-tab" data-mod-tab="rejected">
+                    Rejected <span class="admin-tab-count">47</span>
+                </button>
+                <button class="admin-tab" data-mod-tab="flagged">
+                    Flagged <span class="admin-tab-count">6</span>
+                </button>
+            </div>
+
+            <!-- Pending Review list -->
+            <div class="moderation-list" data-mod-content="pending">
+                <div class="moderation-item">
+                    <div class="moderation-item-image" style="background-image:url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=200&h=200&fit=crop');"></div>
+                    <div class="moderation-item-info">
+                        <h3>Classic Margherita Pizza</h3>
+                        <div class="moderation-item-meta">
+                            <span><i class="fa-solid fa-user"></i> Michael Chen</span>
+                            <span><i class="fa-solid fa-clock"></i> Submitted 3 hours ago</span>
+                            <span><i class="fa-solid fa-tag"></i> Italian</span>
+                        </div>
+                        <p class="moderation-item-desc">Traditional Italian pizza with fresh tomatoes, mozzarella and basil on a thin crispy crust.</p>
+                    </div>
+                    <div class="moderation-item-actions">
+                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Preview</button>
+                        <button class="btn btn-primary btn-sm"><i class="fa-solid fa-check"></i> Approve</button>
+                        <button class="btn btn-danger btn-sm"><i class="fa-solid fa-xmark"></i> Reject</button>
+                    </div>
+                </div>
+
+                <div class="moderation-item">
+                    <div class="moderation-item-image" style="background-image:url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200&h=200&fit=crop');"></div>
+                    <div class="moderation-item-info">
+                        <h3>Mediterranean Quinoa Bowl</h3>
+                        <div class="moderation-item-meta">
+                            <span><i class="fa-solid fa-user"></i> Emma Rodriguez</span>
+                            <span><i class="fa-solid fa-clock"></i> Submitted 6 hours ago</span>
+                            <span><i class="fa-solid fa-tag"></i> Healthy</span>
+                        </div>
+                        <p class="moderation-item-desc">Protein-packed quinoa bowl with chickpeas, cucumber, olives and tahini dressing.</p>
+                    </div>
+                    <div class="moderation-item-actions">
+                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Preview</button>
+                        <button class="btn btn-primary btn-sm"><i class="fa-solid fa-check"></i> Approve</button>
+                        <button class="btn btn-danger btn-sm"><i class="fa-solid fa-xmark"></i> Reject</button>
+                    </div>
+                </div>
+
+                <div class="moderation-item">
+                    <div class="moderation-item-image" style="background-image:url('https://images.unsplash.com/photo-1559847844-5315695dadae?w=200&h=200&fit=crop');"></div>
+                    <div class="moderation-item-info">
+                        <h3>Spicy Thai Green Curry</h3>
+                        <div class="moderation-item-meta">
+                            <span><i class="fa-solid fa-user"></i> Lisa Wang</span>
+                            <span><i class="fa-solid fa-clock"></i> Submitted yesterday</span>
+                            <span><i class="fa-solid fa-tag"></i> Asian</span>
+                        </div>
+                        <p class="moderation-item-desc">Authentic Thai green curry with chicken, bamboo shoots and fresh basil leaves.</p>
+                    </div>
+                    <div class="moderation-item-actions">
+                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Preview</button>
+                        <button class="btn btn-primary btn-sm"><i class="fa-solid fa-check"></i> Approve</button>
+                        <button class="btn btn-danger btn-sm"><i class="fa-solid fa-xmark"></i> Reject</button>
+                    </div>
+                </div>
+
+                <div class="moderation-item">
+                    <div class="moderation-item-image" style="background-image:url('https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=200&h=200&fit=crop');"></div>
+                    <div class="moderation-item-info">
+                        <h3>Chocolate Lava Cake</h3>
+                        <div class="moderation-item-meta">
+                            <span><i class="fa-solid fa-user"></i> Sarah Johnson</span>
+                            <span><i class="fa-solid fa-clock"></i> Submitted 2 days ago</span>
+                            <span><i class="fa-solid fa-tag"></i> Dessert</span>
+                        </div>
+                        <p class="moderation-item-desc">Decadent chocolate cake with a molten center, served warm with vanilla ice cream.</p>
+                    </div>
+                    <div class="moderation-item-actions">
+                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Preview</button>
+                        <button class="btn btn-primary btn-sm"><i class="fa-solid fa-check"></i> Approve</button>
+                        <button class="btn btn-danger btn-sm"><i class="fa-solid fa-xmark"></i> Reject</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Approved list -->
+            <div class="moderation-list" data-mod-content="approved" style="display:none">
+                <div class="moderation-item">
+                    <div class="moderation-item-image" style="background-image:url('https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=200&h=200&fit=crop');"></div>
+                    <div class="moderation-item-info">
+                        <h3>Fluffy Buttermilk Pancakes</h3>
+                        <div class="moderation-item-meta">
+                            <span><i class="fa-solid fa-user"></i> David Kim</span>
+                            <span><i class="fa-solid fa-circle-check"></i> Approved 1 hour ago</span>
+                            <span><i class="fa-solid fa-tag"></i> Breakfast</span>
+                        </div>
+                        <p class="moderation-item-desc">Light, fluffy pancakes served with maple syrup and fresh berries.</p>
+                    </div>
+                    <div class="moderation-item-actions">
+                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Preview</button>
+                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-rotate-left"></i> Revoke</button>
+                    </div>
+                </div>
+
+                <div class="moderation-item">
+                    <div class="moderation-item-image" style="background-image:url('https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=200&h=200&fit=crop');"></div>
+                    <div class="moderation-item-info">
+                        <h3>Garden Fresh Salad</h3>
+                        <div class="moderation-item-meta">
+                            <span><i class="fa-solid fa-user"></i> Olivia Parker</span>
+                            <span><i class="fa-solid fa-circle-check"></i> Approved 5 hours ago</span>
+                            <span><i class="fa-solid fa-tag"></i> Salad</span>
+                        </div>
+                        <p class="moderation-item-desc">Crisp mixed greens with cherry tomatoes, cucumber and homemade vinaigrette.</p>
+                    </div>
+                    <div class="moderation-item-actions">
+                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Preview</button>
+                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-rotate-left"></i> Revoke</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rejected list -->
+            <div class="moderation-list" data-mod-content="rejected" style="display:none">
+                <div class="moderation-item">
+                    <div class="moderation-item-image" style="background-image:url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=200&h=200&fit=crop');"></div>
+                    <div class="moderation-item-info">
+                        <h3>Mystery Meat Burger</h3>
+                        <div class="moderation-item-meta">
+                            <span><i class="fa-solid fa-user"></i> Nathan Brooks</span>
+                            <span><i class="fa-solid fa-circle-xmark"></i> Rejected 2 days ago</span>
+                            <span><i class="fa-solid fa-tag"></i> Fast Food</span>
+                        </div>
+                        <p class="moderation-item-desc">Rejected: incomplete ingredients list and missing cooking instructions.</p>
+                    </div>
+                    <div class="moderation-item-actions">
+                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Preview</button>
+                        <button class="btn btn-primary btn-sm"><i class="fa-solid fa-rotate-left"></i> Restore</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flagged list -->
+            <div class="moderation-list" data-mod-content="flagged" style="display:none">
+                <div class="moderation-item">
+                    <div class="moderation-item-image" style="background-image:url('https://images.unsplash.com/photo-1551024601-bec78aea704b?w=200&h=200&fit=crop');"></div>
+                    <div class="moderation-item-info">
+                        <h3>Suspicious Diet Smoothie</h3>
+                        <div class="moderation-item-meta">
+                            <span><i class="fa-solid fa-user"></i> Tom Harris</span>
+                            <span><i class="fa-solid fa-flag"></i> Flagged 3 times</span>
+                            <span><i class="fa-solid fa-tag"></i> Drinks</span>
+                        </div>
+                        <p class="moderation-item-desc">Flagged by users for misleading nutritional claims and unsafe ingredient combinations.</p>
+                    </div>
+                    <div class="moderation-item-actions">
+                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Preview</button>
+                        <button class="btn btn-primary btn-sm"><i class="fa-solid fa-check"></i> Clear Flag</button>
+                        <button class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i> Remove</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
