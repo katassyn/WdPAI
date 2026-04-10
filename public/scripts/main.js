@@ -119,6 +119,59 @@ navItems.forEach(function (item) {
     });
 })();
 
+// ===== Login tabs (signin / signup) =====
+(function () {
+    var tabs = document.querySelectorAll('.login-tab[data-login-tab]');
+    if (!tabs.length) return;
+
+    var forms = document.querySelectorAll('[data-login-form]');
+    var switchLinks = document.querySelectorAll('[data-switch-to]');
+
+    function show(target) {
+        tabs.forEach(function (t) {
+            t.classList.toggle('active', t.getAttribute('data-login-tab') === target);
+        });
+        forms.forEach(function (f) {
+            f.style.display = f.getAttribute('data-login-form') === target ? '' : 'none';
+        });
+    }
+
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            show(tab.getAttribute('data-login-tab'));
+        });
+    });
+
+    switchLinks.forEach(function (link) {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            show(link.getAttribute('data-switch-to'));
+        });
+    });
+})();
+
+// ===== Password visibility toggle =====
+(function () {
+    var toggles = document.querySelectorAll('[data-toggle-password]');
+    if (!toggles.length) return;
+
+    toggles.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var input = btn.parentElement.querySelector('input');
+            var icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    });
+})();
+
 // ===== Mobile sidebar toggle =====
 (function () {
     var toggle = document.querySelector('.topbar-menu-toggle');
