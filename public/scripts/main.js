@@ -10,6 +10,39 @@ navItems.forEach(function (item) {
     }
 });
 
+// ===== Mobile sidebar toggle =====
+(function () {
+    var toggle = document.querySelector('.topbar-menu-toggle');
+    var sidebar = document.querySelector('.sidebar');
+    var backdrop = document.querySelector('.sidebar-backdrop');
+    if (!toggle || !sidebar || !backdrop) return;
+
+    function open() {
+        sidebar.classList.add('open');
+        backdrop.classList.add('active');
+    }
+
+    function close() {
+        sidebar.classList.remove('open');
+        backdrop.classList.remove('active');
+    }
+
+    toggle.addEventListener('click', function () {
+        if (sidebar.classList.contains('open')) {
+            close();
+        } else {
+            open();
+        }
+    });
+
+    backdrop.addEventListener('click', close);
+
+    // Close when clicking a nav link
+    document.querySelectorAll('.sidebar-nav-item').forEach(function (link) {
+        link.addEventListener('click', close);
+    });
+})();
+
 // ===== Creator step navigation =====
 (function () {
     var prevBtn = document.getElementById('creator-prev');
