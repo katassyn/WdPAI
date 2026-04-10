@@ -115,6 +115,10 @@
     transform: scale(1.1);
 }
 
+.recipe-card-favorite.active {
+    color: #E53935;
+}
+
 .recipe-card-body {
     padding: var(--spacing-md);
 }

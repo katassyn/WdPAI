@@ -10,6 +10,115 @@ navItems.forEach(function (item) {
     }
 });
 
+// ===== Recipe filters (filter pills) =====
+(function () {
+    var pills = document.querySelectorAll('.filter-pill[data-filter]');
+    var cards = document.querySelectorAll('.recipe-card[data-tags]');
+    if (!pills.length || !cards.length) return;
+
+    pills.forEach(function (pill) {
+        pill.addEventListener('click', function () {
+            var filter = pill.getAttribute('data-filter');
+
+            pills.forEach(function (p) { p.classList.remove('active'); });
+            pill.classList.add('active');
+
+            cards.forEach(function (card) {
+                if (filter === 'all') {
+                    card.style.display = '';
+                    return;
+                }
+                var tags = card.getAttribute('data-tags').split(',');
+                if (tags.indexOf(filter) !== -1) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+})();
+
+// ===== Heart / favorite toggle =====
+(function () {
+    var hearts = document.querySelectorAll('.recipe-card-favorite');
+    if (!hearts.length) return;
+
+    hearts.forEach(function (heart) {
+        heart.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            heart.classList.toggle('active');
+            var icon = heart.querySelector('i');
+            if (heart.classList.contains('active')) {
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid');
+            } else {
+                icon.classList.remove('fa-solid');
+                icon.classList.add('fa-regular');
+            }
+        });
+    });
+})();
+
+// ===== Sort dropdown (visual sort by title) =====
+(function () {
+    var sortSelect = document.querySelector('.recipes-sort select');
+    var grid = document.querySelector('.recipes-library-grid');
+    if (!sortSelect || !grid) return;
+
+    sortSelect.addEventListener('change', function () {
+        var cards = Array.prototype.slice.call(grid.querySelectorAll('.recipe-card'));
+        var mode = sortSelect.value.toLowerCase();
+
+        cards.sort(function (a, b) {
+            if (mode.indexOf('calories') !== -1) {
+                var ca = parseInt(a.querySelector('.recipe-card-calories').textContent) || 0;
+                var cb = parseInt(b.querySelector('.recipe-card-calories').textContent) || 0;
+                return ca - cb;
+            }
+            if (mode.indexOf('prep') !== -1 || mode.indexOf('time') !== -1) {
+                var ta = parseInt(a.querySelector('.recipe-card-time').textContent) || 0;
+                var tb = parseInt(b.querySelector('.recipe-card-time').textContent) || 0;
+                return ta - tb;
+            }
+            // Newest / Popularity -> alphabetical fallback
+            var na = a.querySelector('.recipe-card-title').textContent;
+            var nb = b.querySelector('.recipe-card-title').textContent;
+            return na.localeCompare(nb);
+        });
+
+        cards.forEach(function (card) {
+            grid.appendChild(card);
+        });
+    });
+})();
+
+// ===== Load More (toast: no more recipes) =====
+(function () {
+    var btn = document.querySelector('.load-more-btn');
+    if (!btn) return;
+
+    btn.addEventListener('click', function () {
+        btn.textContent = 'No more recipes to load';
+        btn.disabled = true;
+        btn.style.opacity = '0.6';
+        btn.style.cursor = 'not-allowed';
+    });
+})();
+
+// ===== Notification bell (toggle dropdown placeholder) =====
+(function () {
+    var bell = document.querySelector('.topbar-notification');
+    if (!bell) return;
+
+    bell.addEventListener('click', function () {
+        bell.classList.toggle('active');
+        var badge = bell.querySelector('.topbar-notification-badge');
+        if (badge) badge.style.display = bell.classList.contains('active') ? 'none' : '';
+    });
+})();
+
 // ===== Mobile sidebar toggle =====
 (function () {
     var toggle = document.querySelector('.topbar-menu-toggle');
