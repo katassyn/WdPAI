@@ -181,6 +181,7 @@
 
 /* User menu dropdown */
 .user-menu-dropdown {
+    display: none;
     position: absolute;
     bottom: calc(100% - var(--spacing-sm));
     left: var(--spacing-md);
@@ -190,17 +191,12 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     border: 1px solid var(--color-border-light);
     padding: var(--spacing-xs);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(8px);
-    transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
     z-index: 600;
 }
 
 .user-menu-dropdown.open {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+    display: block;
+    animation: dropdownFadeIn 0.18s ease-out;
 }
 
 .user-menu-item {

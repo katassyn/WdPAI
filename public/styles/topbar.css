@@ -187,6 +187,7 @@
 }
 
 .notification-dropdown {
+    display: none;
     position: absolute;
     top: calc(100% + 10px);
     right: 0;
@@ -196,18 +197,18 @@
     border-radius: var(--radius-lg);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     border: 1px solid var(--color-border-light);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-8px);
-    transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
     z-index: 500;
     overflow: hidden;
 }
 
 .notification-dropdown.open {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+    display: block;
+    animation: dropdownFadeIn 0.18s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 .notification-dropdown-header {
