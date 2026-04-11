@@ -12,4 +12,8 @@ class securityController extends appController{
     public function logout(){
         return $this->render('logout');
     }
+
+    public function forgotPassword(){
+        return $this->render('forgot-password');
+    }
 }

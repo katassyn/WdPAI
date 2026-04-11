@@ -44,7 +44,7 @@
             <!-- Recipe Grid -->
             <div class="recipes-library-grid">
                 <!-- Card 1 -->
-                <a href="/cooking" class="recipe-card" data-tags="high-protein,under-30">
+                <a href="/recipe" class="recipe-card" data-tags="high-protein,under-30" data-category="dinner">
                     <div class="recipe-card-image">
                         <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=300&fit=crop" alt="Grilled Salmon with Asparagus">
                         <div class="recipe-card-time"><i class="fa-regular fa-clock"></i> 25 min</div>
@@ -64,7 +64,7 @@
                 </a>
 
                 <!-- Card 2 -->
-                <a href="/cooking" class="recipe-card" data-tags="vegetarian,under-30,low-carb">
+                <a href="/recipe" class="recipe-card" data-tags="vegetarian,under-30,low-carb" data-category="lunch">
                     <div class="recipe-card-image">
                         <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop" alt="Quinoa Superfood Salad">
                         <div class="recipe-card-time"><i class="fa-regular fa-clock"></i> 15 min</div>
@@ -84,7 +84,7 @@
                 </a>
 
                 <!-- Card 3 -->
-                <a href="/cooking" class="recipe-card" data-tags="vegetarian,under-30">
+                <a href="/recipe" class="recipe-card" data-tags="vegetarian,under-30" data-category="breakfast">
                     <div class="recipe-card-image">
                         <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400&h=300&fit=crop" alt="Avocado Toast with Egg">
                         <div class="recipe-card-time"><i class="fa-regular fa-clock"></i> 10 min</div>
@@ -103,7 +103,7 @@
                 </a>
 
                 <!-- Card 4 -->
-                <a href="/cooking" class="recipe-card" data-tags="high-protein">
+                <a href="/recipe" class="recipe-card" data-tags="high-protein" data-category="dinner">
                     <div class="recipe-card-image">
                         <img src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&h=300&fit=crop" alt="Spicy Chicken Stir Fry">
                         <div class="recipe-card-time"><i class="fa-regular fa-clock"></i> 35 min</div>
@@ -123,7 +123,7 @@
                 </a>
 
                 <!-- Card 5 -->
-                <a href="/cooking" class="recipe-card" data-tags="vegetarian,under-30">
+                <a href="/recipe" class="recipe-card" data-tags="vegetarian,under-30" data-category="breakfast">
                     <div class="recipe-card-image">
                         <img src="https://images.unsplash.com/photo-1502741224143-90386d7f8c82?w=400&h=300&fit=crop" alt="Berry Bliss Smoothie Bowl">
                         <div class="recipe-card-time"><i class="fa-regular fa-clock"></i> 5 min</div>
@@ -142,7 +142,7 @@
                 </a>
 
                 <!-- Card 6 -->
-                <a href="/cooking" class="recipe-card" data-tags="high-protein,low-carb,under-30">
+                <a href="/recipe" class="recipe-card" data-tags="high-protein,low-carb,under-30" data-category="dinner">
                     <div class="recipe-card-image">
                         <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=300&fit=crop" alt="Beef Steak & Broccoli">
                         <div class="recipe-card-time"><i class="fa-regular fa-clock"></i> 20 min</div>
@@ -162,7 +162,7 @@
                 </a>
 
                 <!-- Card 7 -->
-                <a href="/cooking" class="recipe-card" data-tags="vegetarian,high-protein,under-30,low-carb">
+                <a href="/recipe" class="recipe-card" data-tags="vegetarian,high-protein,under-30,low-carb" data-category="breakfast">
                     <div class="recipe-card-image">
                         <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&h=300&fit=crop" alt="Greek Yogurt Parfait">
                         <div class="recipe-card-time"><i class="fa-regular fa-clock"></i> 5 min</div>
@@ -181,7 +181,7 @@
                 </a>
 
                 <!-- Card 8 -->
-                <a href="/cooking" class="recipe-card" data-tags="vegetarian,high-protein">
+                <a href="/recipe" class="recipe-card" data-tags="vegetarian,high-protein" data-category="lunch">
                     <div class="recipe-card-image">
                         <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=300&fit=crop" alt="Hearty Lentil Soup">
                         <div class="recipe-card-time"><i class="fa-regular fa-clock"></i> 45 min</div>
@@ -199,6 +199,14 @@
                         </div>
                     </div>
                 </a>
+            </div>
+
+            <!-- Empty state -->
+            <div class="recipes-empty-state" id="recipes-empty" style="display:none">
+                <div class="recipes-empty-icon"><i class="fa-solid fa-utensils"></i></div>
+                <h3>No recipes found</h3>
+                <p>Try adjusting your filters or browse all recipes.</p>
+                <button class="btn btn-outline" id="clear-filters"><i class="fa-solid fa-rotate-left"></i> Clear filters</button>
             </div>
 
             <!-- Load More -->

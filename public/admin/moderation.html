@@ -95,9 +95,9 @@
                         <p class="moderation-item-desc">Traditional Italian pizza with fresh tomatoes, mozzarella and basil on a thin crispy crust.</p>
                     </div>
                     <div class="moderation-item-actions">
-                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button class="btn btn-primary btn-sm"><i class="fa-solid fa-check"></i> Approve</button>
-                        <button class="btn btn-danger btn-sm"><i class="fa-solid fa-xmark"></i> Reject</button>
+                        <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
+                        <button class="btn btn-primary btn-sm" data-mod-action="approve"><i class="fa-solid fa-check"></i> Approve</button>
+                        <button class="btn btn-danger btn-sm" data-mod-action="reject"><i class="fa-solid fa-xmark"></i> Reject</button>
                     </div>
                 </div>
 
@@ -113,9 +113,9 @@
                         <p class="moderation-item-desc">Protein-packed quinoa bowl with chickpeas, cucumber, olives and tahini dressing.</p>
                     </div>
                     <div class="moderation-item-actions">
-                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button class="btn btn-primary btn-sm"><i class="fa-solid fa-check"></i> Approve</button>
-                        <button class="btn btn-danger btn-sm"><i class="fa-solid fa-xmark"></i> Reject</button>
+                        <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
+                        <button class="btn btn-primary btn-sm" data-mod-action="approve"><i class="fa-solid fa-check"></i> Approve</button>
+                        <button class="btn btn-danger btn-sm" data-mod-action="reject"><i class="fa-solid fa-xmark"></i> Reject</button>
                     </div>
                 </div>
 
@@ -131,9 +131,9 @@
                         <p class="moderation-item-desc">Authentic Thai green curry with chicken, bamboo shoots and fresh basil leaves.</p>
                     </div>
                     <div class="moderation-item-actions">
-                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button class="btn btn-primary btn-sm"><i class="fa-solid fa-check"></i> Approve</button>
-                        <button class="btn btn-danger btn-sm"><i class="fa-solid fa-xmark"></i> Reject</button>
+                        <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
+                        <button class="btn btn-primary btn-sm" data-mod-action="approve"><i class="fa-solid fa-check"></i> Approve</button>
+                        <button class="btn btn-danger btn-sm" data-mod-action="reject"><i class="fa-solid fa-xmark"></i> Reject</button>
                     </div>
                 </div>
 
@@ -149,9 +149,9 @@
                         <p class="moderation-item-desc">Decadent chocolate cake with a molten center, served warm with vanilla ice cream.</p>
                     </div>
                     <div class="moderation-item-actions">
-                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button class="btn btn-primary btn-sm"><i class="fa-solid fa-check"></i> Approve</button>
-                        <button class="btn btn-danger btn-sm"><i class="fa-solid fa-xmark"></i> Reject</button>
+                        <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
+                        <button class="btn btn-primary btn-sm" data-mod-action="approve"><i class="fa-solid fa-check"></i> Approve</button>
+                        <button class="btn btn-danger btn-sm" data-mod-action="reject"><i class="fa-solid fa-xmark"></i> Reject</button>
                     </div>
                 </div>
             </div>
@@ -170,8 +170,8 @@
                         <p class="moderation-item-desc">Light, fluffy pancakes served with maple syrup and fresh berries.</p>
                     </div>
                     <div class="moderation-item-actions">
-                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-rotate-left"></i> Revoke</button>
+                        <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
+                        <button class="btn btn-outline btn-sm" data-mod-action="revoke"><i class="fa-solid fa-rotate-left"></i> Revoke</button>
                     </div>
                 </div>
 
@@ -187,8 +187,8 @@
                         <p class="moderation-item-desc">Crisp mixed greens with cherry tomatoes, cucumber and homemade vinaigrette.</p>
                     </div>
                     <div class="moderation-item-actions">
-                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-rotate-left"></i> Revoke</button>
+                        <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
+                        <button class="btn btn-outline btn-sm" data-mod-action="revoke"><i class="fa-solid fa-rotate-left"></i> Revoke</button>
                     </div>
                 </div>
             </div>
@@ -207,8 +207,8 @@
                         <p class="moderation-item-desc">Rejected: incomplete ingredients list and missing cooking instructions.</p>
                     </div>
                     <div class="moderation-item-actions">
-                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button class="btn btn-primary btn-sm"><i class="fa-solid fa-rotate-left"></i> Restore</button>
+                        <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
+                        <button class="btn btn-primary btn-sm" data-mod-action="restore"><i class="fa-solid fa-rotate-left"></i> Restore</button>
                     </div>
                 </div>
             </div>
@@ -227,9 +227,9 @@
                         <p class="moderation-item-desc">Flagged by users for misleading nutritional claims and unsafe ingredient combinations.</p>
                     </div>
                     <div class="moderation-item-actions">
-                        <button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button class="btn btn-primary btn-sm"><i class="fa-solid fa-check"></i> Clear Flag</button>
-                        <button class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i> Remove</button>
+                        <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
+                        <button class="btn btn-primary btn-sm" data-mod-action="clear-flag"><i class="fa-solid fa-check"></i> Clear Flag</button>
+                        <button class="btn btn-danger btn-sm" data-mod-action="remove"><i class="fa-solid fa-trash"></i> Remove</button>
                     </div>
                 </div>
             </div>

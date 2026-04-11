@@ -17,4 +17,9 @@ class RecipeController extends appController
     {
         return $this->render('creator');
     }
+
+    public function detail()
+    {
+        return $this->render('recipe');
+    }
 }

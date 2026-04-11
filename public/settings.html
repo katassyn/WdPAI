@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <?php include 'partials/head.html' ?>
+    <title>Settings - MacroCook</title>
+</head>
+<body>
+<div class="app-layout">
+    <?php include 'partials/nav.html' ?>
+    <div class="main-content">
+        <?php include 'partials/topbar.html' ?>
+        <div class="page-content">
+
+            <!-- Header -->
+            <div class="settings-header">
+                <div>
+                    <h1>Settings</h1>
+                    <p>Manage your account preferences and personal information.</p>
+                </div>
+            </div>
+
+            <!-- Layout -->
+            <div class="settings-layout">
+
+                <!-- Left vertical tabs -->
+                <aside class="settings-tabs">
+                    <button class="settings-tab active" data-settings-tab="profile">
+                        <i class="fa-solid fa-user"></i> Profile
+                    </button>
+                    <button class="settings-tab" data-settings-tab="preferences">
+                        <i class="fa-solid fa-sliders"></i> Preferences
+                    </button>
+                    <button class="settings-tab" data-settings-tab="goals">
+                        <i class="fa-solid fa-bullseye"></i> Nutrition Goals
+                    </button>
+                    <button class="settings-tab" data-settings-tab="notifications">
+                        <i class="fa-solid fa-bell"></i> Notifications
+                    </button>
+                    <button class="settings-tab" data-settings-tab="account">
+                        <i class="fa-solid fa-shield-halved"></i> Account
+                    </button>
+                </aside>
+
+                <!-- Right content panels -->
+                <div class="settings-content">
+
+                    <!-- Profile -->
+                    <div class="settings-panel active" data-settings-content="profile">
+                        <h2>Profile Information</h2>
+                        <p class="settings-panel-desc">Update your personal details and profile picture.</p>
+
+                        <div class="settings-avatar-row">
+                            <div class="settings-avatar">A</div>
+                            <div>
+                                <button class="btn btn-outline btn-sm"><i class="fa-solid fa-camera"></i> Change avatar</button>
+                                <p class="settings-help">JPG, PNG. Max size 2MB.</p>
+                            </div>
+                        </div>
+
+                        <div class="settings-form-row">
+                            <div class="settings-field">
+                                <label>Full name</label>
+                                <input type="text" value="Alex Johnson">
+                            </div>
+                            <div class="settings-field">
+                                <label>Email</label>
+                                <input type="email" value="alex@example.com">
+                            </div>
+                        </div>
+                        <div class="settings-field">
+                            <label>Bio</label>
+                            <textarea rows="3" placeholder="Tell us a little about yourself...">Home cook passionate about healthy meals and macro tracking.</textarea>
+                        </div>
+                        <div class="settings-actions">
+                            <button class="btn btn-primary" data-settings-save>Save changes</button>
+                        </div>
+                    </div>
+
+                    <!-- Preferences -->
+                    <div class="settings-panel" data-settings-content="preferences" style="display:none">
+                        <h2>Preferences</h2>
+                        <p class="settings-panel-desc">Customize how MacroCook looks and behaves.</p>
+
+                        <div class="settings-row">
+                            <div>
+                                <h3>Dark Mode</h3>
+                                <p class="settings-help">Switch between light and dark themes.</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="settings-row">
+                            <div>
+                                <h3>Language</h3>
+                                <p class="settings-help">Choose your preferred display language.</p>
+                            </div>
+                            <select class="settings-select">
+                                <option>English</option>
+                                <option>Polski</option>
+                                <option>Deutsch</option>
+                                <option>Español</option>
+                            </select>
+                        </div>
+
+                        <div class="settings-row">
+                            <div>
+                                <h3>Units</h3>
+                                <p class="settings-help">Measurement system for ingredients and weight.</p>
+                            </div>
+                            <div class="settings-radio-group">
+                                <label><input type="radio" name="units" checked> Metric (g, kg)</label>
+                                <label><input type="radio" name="units"> Imperial (oz, lb)</label>
+                            </div>
+                        </div>
+
+                        <div class="settings-actions">
+                            <button class="btn btn-primary" data-settings-save>Save preferences</button>
+                        </div>
+                    </div>
+
+                    <!-- Nutrition Goals -->
+                    <div class="settings-panel" data-settings-content="goals" style="display:none">
+                        <h2>Nutrition Goals</h2>
+                        <p class="settings-panel-desc">Set your daily macro targets to track progress.</p>
+
+                        <div class="settings-field">
+                            <label>Daily Calories</label>
+                            <input type="number" value="2400"> <span class="settings-unit">kcal</span>
+                        </div>
+                        <div class="settings-form-row">
+                            <div class="settings-field">
+                                <label>Protein</label>
+                                <input type="number" value="160"> <span class="settings-unit">g</span>
+                            </div>
+                            <div class="settings-field">
+                                <label>Carbs</label>
+                                <input type="number" value="250"> <span class="settings-unit">g</span>
+                            </div>
+                            <div class="settings-field">
+                                <label>Fats</label>
+                                <input type="number" value="70"> <span class="settings-unit">g</span>
+                            </div>
+                        </div>
+                        <div class="settings-actions">
+                            <button class="btn btn-primary" data-settings-save>Save goals</button>
+                        </div>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="settings-panel" data-settings-content="notifications" style="display:none">
+                        <h2>Notification Settings</h2>
+                        <p class="settings-panel-desc">Choose what you want to be notified about.</p>
+
+                        <div class="settings-row">
+                            <div>
+                                <h3>Email reminders</h3>
+                                <p class="settings-help">Daily reminders to log your meals.</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-row">
+                            <div>
+                                <h3>New recipes</h3>
+                                <p class="settings-help">Get notified when new recipes are added.</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-row">
+                            <div>
+                                <h3>Achievements</h3>
+                                <p class="settings-help">Notify when you reach a milestone.</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-actions">
+                            <button class="btn btn-primary" data-settings-save>Save notifications</button>
+                        </div>
+                    </div>
+
+                    <!-- Account -->
+                    <div class="settings-panel" data-settings-content="account" style="display:none">
+                        <h2>Account & Security</h2>
+                        <p class="settings-panel-desc">Manage password, data export and account deletion.</p>
+
+                        <div class="settings-row">
+                            <div>
+                                <h3>Change password</h3>
+                                <p class="settings-help">Update your account password.</p>
+                            </div>
+                            <button class="btn btn-outline btn-sm"><i class="fa-solid fa-key"></i> Change</button>
+                        </div>
+                        <div class="settings-row">
+                            <div>
+                                <h3>Export data</h3>
+                                <p class="settings-help">Download your recipes and activity in JSON.</p>
+                            </div>
+                            <button class="btn btn-outline btn-sm" data-settings-export><i class="fa-solid fa-download"></i> Export</button>
+                        </div>
+                        <div class="settings-row danger-row">
+                            <div>
+                                <h3>Delete account</h3>
+                                <p class="settings-help">Permanently delete your account and all your data.</p>
+                            </div>
+                            <button class="btn btn-danger btn-sm" data-settings-delete><i class="fa-solid fa-trash"></i> Delete</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

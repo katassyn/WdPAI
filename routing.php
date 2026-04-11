@@ -3,6 +3,7 @@ require_once 'src/controllers/SecurityController.php';
 require_once 'src/controllers/DashboardController.php';
 require_once 'src/controllers/RecipeController.php';
 require_once 'src/controllers/AdminController.php';
+require_once 'src/controllers/SettingsController.php';
 
 class Routing {
 
@@ -10,6 +11,10 @@ class Routing {
         "login" => [
             "controller" => "securityController",
             "action" => "login"
+        ],
+        "forgot-password" => [
+            "controller" => "securityController",
+            "action" => "forgotPassword"
         ],
         "dashboard" => [
             "controller" => "dashboardController",
@@ -26,6 +31,14 @@ class Routing {
         "cooking" => [
             "controller" => "RecipeController",
             "action" => "cooking"
+        ],
+        "recipe" => [
+            "controller" => "RecipeController",
+            "action" => "detail"
+        ],
+        "settings" => [
+            "controller" => "SettingsController",
+            "action" => "index"
         ],
         "admin/users" => [
             "controller" => "AdminController",

@@ -461,3 +461,147 @@
 .btn-danger:hover {
     background-color: #FFCDD2;
 }
+
+/* ===== Moderation Preview Modal ===== */
+.mod-preview-image {
+    width: 100%;
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.mod-preview-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 var(--spacing-sm) 0;
+}
+
+.mod-preview-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-md);
+}
+
+.mod-preview-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mod-preview-meta i {
+    color: var(--color-primary);
+}
+
+.mod-preview-description {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-lg);
+}
+
+.mod-preview-subtitle {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: var(--spacing-md) 0 var(--spacing-sm) 0;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.mod-preview-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--spacing-md) 0;
+}
+
+.mod-preview-list li {
+    padding: 8px 0;
+    font-size: 0.9375rem;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border-light);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.mod-preview-list li:last-child {
+    border-bottom: none;
+}
+
+.mod-preview-list li i {
+    color: var(--color-primary);
+    font-size: 0.75rem;
+}
+
+.mod-preview-list.ordered {
+    counter-reset: step;
+}
+
+.mod-preview-list.ordered li {
+    counter-increment: step;
+    padding-left: 36px;
+    position: relative;
+}
+
+.mod-preview-list.ordered li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.mod-preview-nutrition {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-md);
+    background-color: var(--color-bg);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-top: var(--spacing-md);
+}
+
+.mod-preview-nutrition-item {
+    text-align: center;
+}
+
+.mod-preview-nutrition-value {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    line-height: 1;
+}
+
+.mod-preview-nutrition-label {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-text-light);
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+@media screen and (max-width: 600px) {
+    .mod-preview-nutrition {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .mod-preview-image {
+        height: 160px;
+    }
+}

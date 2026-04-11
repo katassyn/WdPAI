@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <?php include 'partials/head.html' ?>
+    <link rel="stylesheet" type="text/css" href="/public/styles/recipe.css">
+    <title>Grilled Salmon with Asparagus - MacroCook</title>
+</head>
+<body>
+<div class="app-layout">
+    <?php include 'partials/nav.html' ?>
+    <div class="main-content">
+        <?php include 'partials/topbar.html' ?>
+        <div class="page-content recipe-page">
+
+            <!-- Back link -->
+            <a href="/recipes" class="recipe-back"><i class="fa-solid fa-arrow-left"></i> Back to library</a>
+
+            <!-- Hero -->
+            <div class="recipe-hero">
+                <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=1200&h=600&fit=crop" alt="Grilled Salmon">
+                <div class="recipe-hero-overlay"></div>
+                <button class="recipe-hero-favorite" id="recipe-fav"><i class="fa-regular fa-heart"></i></button>
+                <div class="recipe-hero-content">
+                    <div class="recipe-hero-tags">
+                        <span class="tag tag-blue">High Protein</span>
+                        <span class="tag tag-gray">Gluten Free</span>
+                    </div>
+                    <h1>Grilled Salmon with Asparagus</h1>
+                    <div class="recipe-hero-author">
+                        <div class="recipe-hero-avatar">SJ</div>
+                        <span>By <strong>Sarah Johnson</strong> · 4.8 <i class="fa-solid fa-star"></i> (243 reviews)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Meta chips -->
+            <div class="recipe-meta">
+                <div class="recipe-meta-item">
+                    <i class="fa-regular fa-clock"></i>
+                    <div>
+                        <div class="recipe-meta-label">Prep time</div>
+                        <div class="recipe-meta-value">10 min</div>
+                    </div>
+                </div>
+                <div class="recipe-meta-item">
+                    <i class="fa-solid fa-fire"></i>
+                    <div>
+                        <div class="recipe-meta-label">Cook time</div>
+                        <div class="recipe-meta-value">15 min</div>
+                    </div>
+                </div>
+                <div class="recipe-meta-item">
+                    <i class="fa-solid fa-users"></i>
+                    <div>
+                        <div class="recipe-meta-label">Servings</div>
+                        <div class="recipe-meta-value">2</div>
+                    </div>
+                </div>
+                <div class="recipe-meta-item">
+                    <i class="fa-solid fa-gauge-high"></i>
+                    <div>
+                        <div class="recipe-meta-label">Difficulty</div>
+                        <div class="recipe-meta-value">Easy</div>
+                    </div>
+                </div>
+                <div class="recipe-meta-item">
+                    <i class="fa-solid fa-bolt"></i>
+                    <div>
+                        <div class="recipe-meta-label">Calories</div>
+                        <div class="recipe-meta-value">450 kcal</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2-col content -->
+            <div class="recipe-content">
+
+                <div class="recipe-main">
+                    <!-- Description -->
+                    <section class="recipe-section">
+                        <h2>Description</h2>
+                        <p>A healthy and flavorful dinner featuring perfectly grilled salmon fillets with crisp asparagus. Rich in omega-3 fatty acids, lean protein and packed with essential nutrients. Ready in under 30 minutes — perfect for a weeknight meal.</p>
+                    </section>
+
+                    <!-- Ingredients -->
+                    <section class="recipe-section">
+                        <h2>Ingredients <span class="recipe-section-meta">for 2 servings</span></h2>
+                        <ul class="ingredients-list">
+                            <li><label><input type="checkbox"><span class="ingredient-amount">2</span><span class="ingredient-name">Salmon fillets (200g each)</span></label></li>
+                            <li><label><input type="checkbox"><span class="ingredient-amount">300g</span><span class="ingredient-name">Fresh asparagus</span></label></li>
+                            <li><label><input type="checkbox"><span class="ingredient-amount">2 tbsp</span><span class="ingredient-name">Olive oil</span></label></li>
+                            <li><label><input type="checkbox"><span class="ingredient-amount">1</span><span class="ingredient-name">Lemon (juiced)</span></label></li>
+                            <li><label><input type="checkbox"><span class="ingredient-amount">3</span><span class="ingredient-name">Garlic cloves (minced)</span></label></li>
+                            <li><label><input type="checkbox"><span class="ingredient-amount">1 tsp</span><span class="ingredient-name">Sea salt</span></label></li>
+                            <li><label><input type="checkbox"><span class="ingredient-amount">1/2 tsp</span><span class="ingredient-name">Black pepper</span></label></li>
+                            <li><label><input type="checkbox"><span class="ingredient-amount">2 sprigs</span><span class="ingredient-name">Fresh dill</span></label></li>
+                        </ul>
+                    </section>
+
+                    <!-- Chef's tips -->
+                    <section class="recipe-section">
+                        <h2>Chef's Tips</h2>
+                        <div class="chef-tip">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <p>For the crispiest salmon skin, pat the fillets dry with a paper towel before seasoning. Cook skin-side down first and resist the urge to move them!</p>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right: Nutrition Facts -->
+                <aside class="recipe-aside">
+                    <div class="nutrition-card">
+                        <h3>Nutrition Facts</h3>
+                        <p class="nutrition-serving">Per serving</p>
+
+                        <div class="nutrition-calories">
+                            <div class="nutrition-calories-value">450</div>
+                            <div class="nutrition-calories-label">kcal</div>
+                        </div>
+
+                        <div class="nutrition-bars">
+                            <div class="nutrition-bar">
+                                <div class="nutrition-bar-row">
+                                    <span>Protein</span>
+                                    <strong>42g</strong>
+                                </div>
+                                <div class="nutrition-bar-track"><div class="nutrition-bar-fill protein" style="width:75%"></div></div>
+                            </div>
+                            <div class="nutrition-bar">
+                                <div class="nutrition-bar-row">
+                                    <span>Carbs</span>
+                                    <strong>10g</strong>
+                                </div>
+                                <div class="nutrition-bar-track"><div class="nutrition-bar-fill carbs" style="width:18%"></div></div>
+                            </div>
+                            <div class="nutrition-bar">
+                                <div class="nutrition-bar-row">
+                                    <span>Fats</span>
+                                    <strong>22g</strong>
+                                </div>
+                                <div class="nutrition-bar-track"><div class="nutrition-bar-fill fats" style="width:45%"></div></div>
+                            </div>
+                            <div class="nutrition-bar">
+                                <div class="nutrition-bar-row">
+                                    <span>Fiber</span>
+                                    <strong>4g</strong>
+                                </div>
+                                <div class="nutrition-bar-track"><div class="nutrition-bar-fill fiber" style="width:20%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+            </div>
+
+            <!-- Sticky CTA -->
+            <div class="recipe-cta">
+                <div class="recipe-cta-info">
+                    <i class="fa-solid fa-utensils"></i>
+                    <span>Ready to start cooking?</span>
+                </div>
+                <a href="/cooking" class="btn btn-primary btn-lg">
+                    <i class="fa-solid fa-play"></i> Start Cooking
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

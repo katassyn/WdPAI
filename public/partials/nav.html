@@ -1,4 +1,6 @@
 <div class="sidebar-backdrop"></div>
+<div id="modal-root"></div>
+<div id="toast-root"></div>
 <aside class="sidebar">
     <!-- Logo -->
     <a href="/dashboard" class="sidebar-logo">
@@ -35,15 +37,15 @@
         <span class="sidebar-section-title">Categories</span>
     </div>
     <nav class="sidebar-nav">
-        <a href="/recipes?category=breakfast" class="sidebar-category-item">
+        <a href="/recipes?category=breakfast" class="sidebar-category-item" data-category="breakfast">
             <i class="fa-solid fa-egg"></i>
             <span>Breakfast</span>
         </a>
-        <a href="/recipes?category=lunch" class="sidebar-category-item">
+        <a href="/recipes?category=lunch" class="sidebar-category-item" data-category="lunch">
             <i class="fa-solid fa-utensils"></i>
             <span>Lunch</span>
         </a>
-        <a href="/recipes?category=dinner" class="sidebar-category-item">
+        <a href="/recipes?category=dinner" class="sidebar-category-item" data-category="dinner">
             <i class="fa-solid fa-bowl-food"></i>
             <span>Dinner</span>
         </a>
@@ -73,8 +75,23 @@
             <div class="sidebar-user-name">Alex Johnson</div>
             <div class="sidebar-user-role">Pro Member</div>
         </div>
-        <button class="sidebar-user-menu">
+        <button class="sidebar-user-menu" id="sidebar-user-menu-trigger">
             <i class="fa-solid fa-ellipsis-vertical"></i>
         </button>
+        <div class="user-menu-dropdown" id="sidebar-user-menu-dropdown">
+            <a href="/settings" class="user-menu-item">
+                <i class="fa-solid fa-user"></i> My Profile
+            </a>
+            <a href="/settings" class="user-menu-item">
+                <i class="fa-solid fa-gear"></i> Settings
+            </a>
+            <a href="#" class="user-menu-item">
+                <i class="fa-solid fa-circle-question"></i> Help & Support
+            </a>
+            <div class="user-menu-divider"></div>
+            <a href="/" class="user-menu-item danger" data-action="logout">
+                <i class="fa-solid fa-right-from-bracket"></i> Sign out
+            </a>
+        </div>
     </div>
 </aside>

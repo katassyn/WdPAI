@@ -3,16 +3,73 @@
         <i class="fa-solid fa-bars"></i>
     </button>
 
-    <div class="topbar-search">
+    <div class="topbar-search" id="topbar-search-wrap">
         <i class="fa-solid fa-magnifying-glass topbar-search-icon"></i>
-        <input type="text" class="topbar-search-input" placeholder="Search recipes, ingredients, or tags...">
+        <input type="text" class="topbar-search-input" id="topbar-search-input" placeholder="Search recipes, ingredients, or tags..." autocomplete="off">
+        <div class="search-suggestions" id="topbar-search-suggestions"></div>
     </div>
 
     <div class="topbar-actions">
-        <button class="topbar-notification">
-            <i class="fa-regular fa-bell"></i>
-            <span class="topbar-notification-badge"></span>
-        </button>
+        <div class="topbar-notification-wrap">
+            <button class="topbar-notification" id="topbar-notification-trigger">
+                <i class="fa-regular fa-bell"></i>
+                <span class="topbar-notification-badge"></span>
+            </button>
+            <div class="notification-dropdown" id="topbar-notification-dropdown">
+                <div class="notification-dropdown-header">
+                    <h4>Notifications</h4>
+                    <button class="notification-mark-read" id="notification-mark-read">Mark all read</button>
+                </div>
+                <div class="notification-dropdown-body">
+                    <a href="#" class="notification-item unread">
+                        <div class="notification-item-icon" style="background-color:#E8F5E9;color:#2E7D32"><i class="fa-solid fa-check"></i></div>
+                        <div class="notification-item-info">
+                            <div class="notification-item-title">Recipe approved</div>
+                            <div class="notification-item-text">Your "Berry Smoothie" recipe is now live.</div>
+                            <div class="notification-item-time">2 min ago</div>
+                        </div>
+                        <span class="notification-unread-dot"></span>
+                    </a>
+                    <a href="#" class="notification-item unread">
+                        <div class="notification-item-icon" style="background-color:#FFF3E0;color:#E65100"><i class="fa-solid fa-fire"></i></div>
+                        <div class="notification-item-info">
+                            <div class="notification-item-title">Streak milestone</div>
+                            <div class="notification-item-text">You hit a 7-day cooking streak! Keep it up.</div>
+                            <div class="notification-item-time">1 hour ago</div>
+                        </div>
+                        <span class="notification-unread-dot"></span>
+                    </a>
+                    <a href="#" class="notification-item unread">
+                        <div class="notification-item-icon" style="background-color:#E3F2FD;color:#1565C0"><i class="fa-solid fa-utensils"></i></div>
+                        <div class="notification-item-info">
+                            <div class="notification-item-title">New recipe added</div>
+                            <div class="notification-item-text">Try the new Mediterranean Bowl by Emma R.</div>
+                            <div class="notification-item-time">3 hours ago</div>
+                        </div>
+                        <span class="notification-unread-dot"></span>
+                    </a>
+                    <a href="#" class="notification-item">
+                        <div class="notification-item-icon" style="background-color:#F3E5F5;color:#6A1B9A"><i class="fa-solid fa-heart"></i></div>
+                        <div class="notification-item-info">
+                            <div class="notification-item-title">Someone liked your recipe</div>
+                            <div class="notification-item-text">3 people favorited "Quinoa Power Bowl".</div>
+                            <div class="notification-item-time">Yesterday</div>
+                        </div>
+                    </a>
+                    <a href="#" class="notification-item">
+                        <div class="notification-item-icon" style="background-color:#FFEBEE;color:#C62828"><i class="fa-solid fa-bell"></i></div>
+                        <div class="notification-item-info">
+                            <div class="notification-item-title">Reminder</div>
+                            <div class="notification-item-text">Don't forget to log your dinner today.</div>
+                            <div class="notification-item-time">2 days ago</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="notification-dropdown-footer">
+                    <a href="#">View all notifications</a>
+                </div>
+            </div>
+        </div>
         <a href="/creator" class="btn btn-primary">
             <i class="fa-solid fa-plus"></i>
             <span>New Recipe</span>

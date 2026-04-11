@@ -2,10 +2,27 @@
 <html lang="en">
 <head>
 <?php include 'partials/head.html' ?>
-    <title>404</title>
+    <title>Page not found - MacroCook</title>
 </head>
-<body>
-<?php include 'partials/nav.html' ?>
-  <h1>404</h1>
+<body class="error-page-body">
+<div class="error-page">
+    <a href="/dashboard" class="error-logo">
+        <div class="error-logo-icon"><i class="fa-solid fa-xmark"></i></div>
+        <span>MacroCook</span>
+    </a>
+    <div class="error-illustration">
+        <i class="fa-solid fa-bowl-food"></i>
+    </div>
+    <div class="error-code">404</div>
+    <h1 class="error-title">Page not found</h1>
+    <p class="error-text">
+        Looks like this recipe is missing from our cookbook.<br>
+        The page you're looking for doesn't exist or has been moved.
+    </p>
+    <div class="error-actions">
+        <a href="/dashboard" class="btn btn-primary"><i class="fa-solid fa-house"></i> Back to Dashboard</a>
+        <a href="/recipes" class="btn btn-outline"><i class="fa-solid fa-book-open"></i> Browse Recipes</a>
+    </div>
+</div>
 </body>
 </html>
