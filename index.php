@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require_once 'routing.php';
 
 $path = trim($_SERVER['REQUEST_URI'], '/');

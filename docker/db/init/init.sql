@@ -115,7 +115,7 @@ INSERT INTO users (username, email, password, role, status, bio)
 VALUES (
     'admin',
     'admin@macrocook.com',
-    '$2y$10$YBGxQjKceMGCkV3YEzCJIORCLxa0t4I7XnG1sKVHy.VCaE8XTXWWK',
+    '$2y$10$9bhxVj3rFRwAsHP0FtTqb.YB.C2YA12Buk4Evhn91.nbgE1rabiMW',
     'admin',
     'active',
     'MacroCook administrator'
@@ -126,7 +126,7 @@ INSERT INTO users (username, email, password, role, status, bio, daily_calories,
 VALUES (
     'alex',
     'alex@example.com',
-    '$2y$10$8VLnBxHmOJy0BQXqMqVp2OFLft2k6D3TGKyN.yR4x6FYRxQH0dJ1.',
+    '$2y$10$Uw9bdqolubZ7mjXVO1D7ZeJk/FPSBW3i7FxiBP5zvNR5HwCxw9Bea',
     'creator',
     'active',
     'Home cook passionate about healthy meals and macro tracking.',
@@ -138,7 +138,7 @@ INSERT INTO users (username, email, password, role, status, bio)
 VALUES (
     'emma',
     'emma@example.com',
-    '$2y$10$ZRrX0L5Wm0kR0Fo8FqL5quJ3T3TcG4VjJzSb7l6nKh9YT3PXCdEqy',
+    '$2y$10$qpRWan0G2cN4FcVsaONOw.2HlwUTNkNFT1/jv.tnOv1S3ZMwK0DRy',
     'creator',
     'active',
     'Professional chef sharing Mediterranean recipes.'
@@ -149,7 +149,7 @@ INSERT INTO users (username, email, password, role, status)
 VALUES (
     'newbie',
     'newbie@example.com',
-    '$2y$10$YBGxQjKceMGCkV3YEzCJIORCLxa0t4I7XnG1sKVHy.VCaE8XTXWWK',
+    '$2y$10$fQWyl01T.PU8GybjAeNs8.65QgFSQTZiYulAslCQIAZqUpE1e4Sbe',
     'user',
     'pending'
 );
@@ -159,7 +159,7 @@ INSERT INTO users (username, email, password, role, status)
 VALUES (
     'banned_user',
     'banned@example.com',
-    '$2y$10$YBGxQjKceMGCkV3YEzCJIORCLxa0t4I7XnG1sKVHy.VCaE8XTXWWK',
+    '$2y$10$Ewp8zqddMnS0Cmr/ajhbIe04cocg87A3XWCNyw9Bh46B.tCa32dd6',
     'user',
     'suspended'
 );

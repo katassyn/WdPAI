@@ -12,6 +12,14 @@ class Routing {
             "controller" => "securityController",
             "action" => "login"
         ],
+        "register" => [
+            "controller" => "securityController",
+            "action" => "register"
+        ],
+        "logout" => [
+            "controller" => "securityController",
+            "action" => "logout"
+        ],
         "forgot-password" => [
             "controller" => "securityController",
             "action" => "forgotPassword"
