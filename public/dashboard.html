@@ -3,9 +3,62 @@
 <head>
     <?php include 'partials/head.html' ?>
     <link rel="stylesheet" type="text/css" href="/public/styles/dashboard.css">
-    <title><?=$title?></title>
+    <title><?= htmlspecialchars($title) ?></title>
 </head>
 <body>
+<?php
+// Calculate ring offsets (circumference = 2*PI*42 = 263.9)
+$circ = 263.9;
+
+function ringOffset(float $eaten, float $goal, float $circ): float {
+    if ($goal <= 0) return $circ;
+    $pct = min(1, $eaten / $goal);
+    return $circ - ($circ * $pct);
+}
+
+$calOffset = ringOffset($eaten['calories'], $goals['calories'], $circ);
+$proOffset = ringOffset($eaten['protein'], $goals['protein'], $circ);
+$carbOffset = ringOffset($eaten['carbs'], $goals['carbs'], $circ);
+$fatOffset = ringOffset($eaten['fats'], $goals['fats'], $circ);
+
+$calRemaining = max(0, $goals['calories'] - $eaten['calories']);
+$proRemaining = max(0, $goals['protein'] - (int)$eaten['protein']);
+$carbRemaining = max(0, $goals['carbs'] - (int)$eaten['carbs']);
+$fatRemaining = max(0, $goals['fats'] - (int)$eaten['fats']);
+
+// Activity icons
+$activityIcons = [
+    'cooked' => 'fa-utensils',
+    'saved' => 'fa-heart',
+    'created' => 'fa-plus',
+    'logged' => 'fa-clipboard-check',
+];
+
+// Time ago helper
+function timeAgo(string $datetime): string {
+    $now = new DateTime();
+    $then = new DateTime($datetime);
+    $diff = $now->diff($then);
+
+    if ($diff->days > 1) return $diff->days . ' days ago';
+    if ($diff->days === 1) return 'Yesterday';
+    if ($diff->h > 0) return $diff->h . ' hours ago';
+    if ($diff->i > 0) return $diff->i . ' minutes ago';
+    return 'Just now';
+}
+
+$tagColors = [
+    'high-protein' => 'tag-blue',
+    'vegetarian' => 'tag-green',
+    'vegan' => 'tag-green',
+    'low-carb' => 'tag-orange',
+    'under-30' => 'tag-gray',
+    'gluten-free' => 'tag-gray',
+    'spicy' => 'tag-red',
+    'keto' => 'tag-purple',
+    'fiber-rich' => 'tag-green',
+];
+?>
 <div class="app-layout">
     <?php include 'partials/nav.html' ?>
     <div class="main-content">
@@ -15,12 +68,12 @@
             <!-- Greeting -->
             <div class="dashboard-greeting">
                 <div>
-                    <h1>Hello, Alex! 👋</h1>
+                    <h1>Hello, <?= htmlspecialchars($user->getUsername()) ?>!</h1>
                     <p>Here's your daily nutrition breakdown for today</p>
                 </div>
                 <div class="dashboard-date">
-                    <div class="dashboard-date-day">Wednesday, Oct 24</div>
-                    <div class="dashboard-date-week">Week 43</div>
+                    <div class="dashboard-date-day"><?= date('l, M j') ?></div>
+                    <div class="dashboard-date-week">Week <?= date('W') ?></div>
                 </div>
             </div>
 
@@ -33,15 +86,15 @@
                         <svg viewBox="0 0 100 100">
                             <circle class="macro-card-ring-track" cx="50" cy="50" r="42"></circle>
                             <circle class="macro-card-ring-fill calories" cx="50" cy="50" r="42"
-                                    stroke-dasharray="263.9"
-                                    stroke-dashoffset="66"></circle>
+                                    stroke-dasharray="<?= $circ ?>"
+                                    stroke-dashoffset="<?= round($calOffset) ?>"></circle>
                         </svg>
                         <div class="macro-card-value">
-                            <div class="macro-card-value-number">1,850</div>
-                            <div class="macro-card-value-goal">/ 2,400</div>
+                            <div class="macro-card-value-number"><?= number_format($eaten['calories']) ?></div>
+                            <div class="macro-card-value-goal">/ <?= number_format($goals['calories']) ?></div>
                         </div>
                     </div>
-                    <span class="macro-card-remaining">550 kcal remaining</span>
+                    <span class="macro-card-remaining"><?= number_format($calRemaining) ?> kcal remaining</span>
                 </div>
 
                 <!-- Protein -->
@@ -51,15 +104,15 @@
                         <svg viewBox="0 0 100 100">
                             <circle class="macro-card-ring-track" cx="50" cy="50" r="42"></circle>
                             <circle class="macro-card-ring-fill protein" cx="50" cy="50" r="42"
-                                    stroke-dasharray="263.9"
-                                    stroke-dashoffset="53"></circle>
+                                    stroke-dasharray="<?= $circ ?>"
+                                    stroke-dashoffset="<?= round($proOffset) ?>"></circle>
                         </svg>
                         <div class="macro-card-value">
-                            <div class="macro-card-value-number">142g</div>
-                            <div class="macro-card-value-goal">/ 160g</div>
+                            <div class="macro-card-value-number"><?= round($eaten['protein']) ?>g</div>
+                            <div class="macro-card-value-goal">/ <?= $goals['protein'] ?>g</div>
                         </div>
                     </div>
-                    <span class="macro-card-remaining">18g left</span>
+                    <span class="macro-card-remaining"><?= $proRemaining ?>g left</span>
                 </div>
 
                 <!-- Carbs -->
@@ -69,15 +122,15 @@
                         <svg viewBox="0 0 100 100">
                             <circle class="macro-card-ring-track" cx="50" cy="50" r="42"></circle>
                             <circle class="macro-card-ring-fill carbs" cx="50" cy="50" r="42"
-                                    stroke-dasharray="263.9"
-                                    stroke-dashoffset="132"></circle>
+                                    stroke-dasharray="<?= $circ ?>"
+                                    stroke-dashoffset="<?= round($carbOffset) ?>"></circle>
                         </svg>
                         <div class="macro-card-value">
-                            <div class="macro-card-value-number">120g</div>
-                            <div class="macro-card-value-goal">/ 250g</div>
+                            <div class="macro-card-value-number"><?= round($eaten['carbs']) ?>g</div>
+                            <div class="macro-card-value-goal">/ <?= $goals['carbs'] ?>g</div>
                         </div>
                     </div>
-                    <span class="macro-card-remaining">130g left</span>
+                    <span class="macro-card-remaining"><?= $carbRemaining ?>g left</span>
                 </div>
 
                 <!-- Fats -->
@@ -87,15 +140,15 @@
                         <svg viewBox="0 0 100 100">
                             <circle class="macro-card-ring-track" cx="50" cy="50" r="42"></circle>
                             <circle class="macro-card-ring-fill fats" cx="50" cy="50" r="42"
-                                    stroke-dasharray="263.9"
-                                    stroke-dashoffset="97"></circle>
+                                    stroke-dasharray="<?= $circ ?>"
+                                    stroke-dashoffset="<?= round($fatOffset) ?>"></circle>
                         </svg>
                         <div class="macro-card-value">
-                            <div class="macro-card-value-number">45g</div>
-                            <div class="macro-card-value-goal">/ 70g</div>
+                            <div class="macro-card-value-number"><?= round($eaten['fats']) ?>g</div>
+                            <div class="macro-card-value-goal">/ <?= $goals['fats'] ?>g</div>
                         </div>
                     </div>
-                    <span class="macro-card-remaining">25g left</span>
+                    <span class="macro-card-remaining"><?= $fatRemaining ?>g left</span>
                 </div>
             </div>
 
@@ -109,120 +162,67 @@
             </div>
 
             <div class="recipes-grid">
-                <!-- Card 1: Quinoa Superfood Salad -->
-                <a href="/recipe" class="recipe-card">
-                    <div class="recipe-card-image">
-                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop" alt="Quinoa Superfood Salad">
-                        <div class="recipe-card-time">
-                            <i class="fa-regular fa-clock"></i> 15 min
-                        </div>
-                        <div class="recipe-card-favorite">
-                            <i class="fa-solid fa-heart"></i>
-                        </div>
+                <?php if (empty($favorites)): ?>
+                    <div class="dashboard-empty">
+                        <p>No favorite recipes yet. <a href="/recipes">Browse recipes</a> to add some!</p>
                     </div>
-                    <div class="recipe-card-body">
-                        <div class="recipe-card-title">Quinoa Superfood Salad</div>
-                        <div class="recipe-card-tags">
-                            <span class="tag tag-green">Vegan</span>
-                            <span class="tag tag-orange">Low Fat</span>
+                <?php else: ?>
+                    <?php foreach ($favorites as $r): ?>
+                    <a href="/recipe?id=<?= $r->getId() ?>" class="recipe-card">
+                        <div class="recipe-card-image">
+                            <?php
+                            $img = $r->getImage() ?: 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=400&h=300&fit=crop';
+                            ?>
+                            <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($r->getTitle()) ?>">
+                            <div class="recipe-card-time">
+                                <i class="fa-regular fa-clock"></i> <?= $r->getTotalTime() ?> min
+                            </div>
+                            <div class="recipe-card-favorite active">
+                                <i class="fa-solid fa-heart"></i>
+                            </div>
                         </div>
-                        <div class="recipe-card-calories">320 kcal</div>
-                        <div class="recipe-card-macros">
-                            <span>13P</span>
-                            <span>8F</span>
-                            <span>40C</span>
+                        <div class="recipe-card-body">
+                            <div class="recipe-card-title"><?= htmlspecialchars($r->getTitle()) ?></div>
+                            <div class="recipe-card-tags">
+                                <?php foreach (array_slice($r->getTags(), 0, 2) as $tag):
+                                    $color = $tagColors[$tag] ?? 'tag-gray';
+                                    $label = ucwords(str_replace('-', ' ', $tag));
+                                ?>
+                                <span class="tag <?= $color ?>"><?= htmlspecialchars($label) ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="recipe-card-calories"><?= $r->getCalories() ?> kcal</div>
+                            <div class="recipe-card-macros">
+                                <span><?= round($r->getProtein()) ?>gP</span>
+                                <span><?= round($r->getFats()) ?>gF</span>
+                                <span><?= round($r->getCarbs()) ?>gC</span>
+                            </div>
                         </div>
-                        <div class="recipe-card-rating">
-                            <i class="fa-solid fa-star"></i> 4.8
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Card 2: Grilled Salmon -->
-                <a href="/recipe" class="recipe-card">
-                    <div class="recipe-card-image">
-                        <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=300&fit=crop" alt="Grilled Salmon">
-                        <div class="recipe-card-time">
-                            <i class="fa-regular fa-clock"></i> 25 min
-                        </div>
-                        <div class="recipe-card-favorite">
-                            <i class="fa-solid fa-heart"></i>
-                        </div>
-                    </div>
-                    <div class="recipe-card-body">
-                        <div class="recipe-card-title">Grilled Salmon</div>
-                        <div class="recipe-card-tags">
-                            <span class="tag tag-blue">High Protein</span>
-                            <span class="tag tag-gray">GF</span>
-                        </div>
-                        <div class="recipe-card-calories">450 kcal</div>
-                        <div class="recipe-card-macros">
-                            <span>53P</span>
-                            <span>18F</span>
-                            <span>10C</span>
-                        </div>
-                        <div class="recipe-card-rating">
-                            <i class="fa-solid fa-star"></i> 4.9
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Card 3: Avocado Toast -->
-                <a href="/recipe" class="recipe-card">
-                    <div class="recipe-card-image">
-                        <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400&h=300&fit=crop" alt="Avocado Toast">
-                        <div class="recipe-card-time">
-                            <i class="fa-regular fa-clock"></i> 10 min
-                        </div>
-                        <div class="recipe-card-favorite">
-                            <i class="fa-solid fa-heart"></i>
-                        </div>
-                    </div>
-                    <div class="recipe-card-body">
-                        <div class="recipe-card-title">Avocado Toast</div>
-                        <div class="recipe-card-tags">
-                            <span class="tag tag-orange">Breakfast</span>
-                        </div>
-                        <div class="recipe-card-calories">380 kcal</div>
-                        <div class="recipe-card-macros">
-                            <span>14P</span>
-                            <span>23F</span>
-                            <span>30C</span>
-                        </div>
-                    </div>
-                </a>
+                    </a>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
 
             <!-- Recent Activity -->
             <div class="recent-activity">
                 <h2>Recent Activity</h2>
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fa-solid fa-utensils"></i>
+                <?php if (empty($activities)): ?>
+                    <div class="dashboard-empty">
+                        <p>No activity yet. Start by cooking a recipe!</p>
                     </div>
-                    <div class="activity-info">
-                        <div class="activity-text">You cooked Grilled Salmon with Asparagus</div>
-                        <div class="activity-time">2 hours ago</div>
+                <?php else: ?>
+                    <?php foreach ($activities as $act): ?>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fa-solid <?= $activityIcons[$act['type']] ?? 'fa-circle-info' ?>"></i>
+                        </div>
+                        <div class="activity-info">
+                            <div class="activity-text"><?= htmlspecialchars($act['description']) ?></div>
+                            <div class="activity-time"><?= timeAgo($act['created_at']) ?></div>
+                        </div>
                     </div>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                    <div class="activity-info">
-                        <div class="activity-text">You saved Berry Bliss Smoothie Bowl to favorites</div>
-                        <div class="activity-time">5 hours ago</div>
-                    </div>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fa-solid fa-plus"></i>
-                    </div>
-                    <div class="activity-info">
-                        <div class="activity-text">You created a new recipe: Quinoa Power Bowl</div>
-                        <div class="activity-time">Yesterday</div>
-                    </div>
-                </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
 
         </div>
