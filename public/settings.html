@@ -5,6 +5,10 @@
     <title>Settings - MacroCook</title>
 </head>
 <body>
+<?php
+$activeTab = $tab ?? 'profile';
+$initials = strtoupper(substr($user->getUsername(), 0, 1));
+?>
 <div class="app-layout">
     <?php include 'partials/nav.html' ?>
     <div class="main-content">
@@ -19,24 +23,36 @@
                 </div>
             </div>
 
+            <?php if (!empty($success)): ?>
+            <div class="settings-success">
+                <i class="fa-solid fa-circle-check"></i> Settings saved successfully!
+            </div>
+            <?php endif; ?>
+
+            <?php if (!empty($error)): ?>
+            <div class="login-error">
+                <i class="fa-solid fa-circle-exclamation"></i> <?= htmlspecialchars($error) ?>
+            </div>
+            <?php endif; ?>
+
             <!-- Layout -->
             <div class="settings-layout">
 
                 <!-- Left vertical tabs -->
                 <aside class="settings-tabs">
-                    <button class="settings-tab active" data-settings-tab="profile">
+                    <button class="settings-tab <?= $activeTab === 'profile' ? 'active' : '' ?>" data-settings-tab="profile">
                         <i class="fa-solid fa-user"></i> Profile
                     </button>
-                    <button class="settings-tab" data-settings-tab="preferences">
+                    <button class="settings-tab <?= $activeTab === 'preferences' ? 'active' : '' ?>" data-settings-tab="preferences">
                         <i class="fa-solid fa-sliders"></i> Preferences
                     </button>
-                    <button class="settings-tab" data-settings-tab="goals">
+                    <button class="settings-tab <?= $activeTab === 'goals' ? 'active' : '' ?>" data-settings-tab="goals">
                         <i class="fa-solid fa-bullseye"></i> Nutrition Goals
                     </button>
-                    <button class="settings-tab" data-settings-tab="notifications">
+                    <button class="settings-tab <?= $activeTab === 'notifications' ? 'active' : '' ?>" data-settings-tab="notifications">
                         <i class="fa-solid fa-bell"></i> Notifications
                     </button>
-                    <button class="settings-tab" data-settings-tab="account">
+                    <button class="settings-tab <?= $activeTab === 'account' ? 'active' : '' ?>" data-settings-tab="account">
                         <i class="fa-solid fa-shield-halved"></i> Account
                     </button>
                 </aside>
@@ -45,39 +61,41 @@
                 <div class="settings-content">
 
                     <!-- Profile -->
-                    <div class="settings-panel active" data-settings-content="profile">
+                    <div class="settings-panel <?= $activeTab === 'profile' ? 'active' : '' ?>" data-settings-content="profile" <?= $activeTab !== 'profile' ? 'style="display:none"' : '' ?>>
                         <h2>Profile Information</h2>
                         <p class="settings-panel-desc">Update your personal details and profile picture.</p>
 
-                        <div class="settings-avatar-row">
-                            <div class="settings-avatar">A</div>
-                            <div>
-                                <button class="btn btn-outline btn-sm"><i class="fa-solid fa-camera"></i> Change avatar</button>
-                                <p class="settings-help">JPG, PNG. Max size 2MB.</p>
+                        <form action="/settings/profile" method="POST">
+                            <div class="settings-avatar-row">
+                                <div class="settings-avatar"><?= $initials ?></div>
+                                <div>
+                                    <button type="button" class="btn btn-outline btn-sm"><i class="fa-solid fa-camera"></i> Change avatar</button>
+                                    <p class="settings-help">JPG, PNG. Max size 2MB.</p>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="settings-form-row">
-                            <div class="settings-field">
-                                <label>Full name</label>
-                                <input type="text" value="Alex Johnson">
+                            <div class="settings-form-row">
+                                <div class="settings-field">
+                                    <label>Username</label>
+                                    <input type="text" name="username" value="<?= htmlspecialchars($user->getUsername()) ?>" required>
+                                </div>
+                                <div class="settings-field">
+                                    <label>Email</label>
+                                    <input type="email" name="email" value="<?= htmlspecialchars($user->getEmail()) ?>" required>
+                                </div>
                             </div>
                             <div class="settings-field">
-                                <label>Email</label>
-                                <input type="email" value="alex@example.com">
+                                <label>Bio</label>
+                                <textarea name="bio" rows="3" placeholder="Tell us a little about yourself..."><?= htmlspecialchars($user->getBio()) ?></textarea>
                             </div>
-                        </div>
-                        <div class="settings-field">
-                            <label>Bio</label>
-                            <textarea rows="3" placeholder="Tell us a little about yourself...">Home cook passionate about healthy meals and macro tracking.</textarea>
-                        </div>
-                        <div class="settings-actions">
-                            <button class="btn btn-primary" data-settings-save>Save changes</button>
-                        </div>
+                            <div class="settings-actions">
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
                     </div>
 
                     <!-- Preferences -->
-                    <div class="settings-panel" data-settings-content="preferences" style="display:none">
+                    <div class="settings-panel <?= $activeTab === 'preferences' ? 'active' : '' ?>" data-settings-content="preferences" <?= $activeTab !== 'preferences' ? 'style="display:none"' : '' ?>>
                         <h2>Preferences</h2>
                         <p class="settings-panel-desc">Customize how MacroCook looks and behaves.</p>
 
@@ -101,7 +119,6 @@
                                 <option>English</option>
                                 <option>Polski</option>
                                 <option>Deutsch</option>
-                                <option>Español</option>
                             </select>
                         </div>
 
@@ -122,35 +139,37 @@
                     </div>
 
                     <!-- Nutrition Goals -->
-                    <div class="settings-panel" data-settings-content="goals" style="display:none">
+                    <div class="settings-panel <?= $activeTab === 'goals' ? 'active' : '' ?>" data-settings-content="goals" <?= $activeTab !== 'goals' ? 'style="display:none"' : '' ?>>
                         <h2>Nutrition Goals</h2>
                         <p class="settings-panel-desc">Set your daily macro targets to track progress.</p>
 
-                        <div class="settings-field">
-                            <label>Daily Calories</label>
-                            <input type="number" value="2400"> <span class="settings-unit">kcal</span>
-                        </div>
-                        <div class="settings-form-row">
+                        <form action="/settings/goals" method="POST">
                             <div class="settings-field">
-                                <label>Protein</label>
-                                <input type="number" value="160"> <span class="settings-unit">g</span>
+                                <label>Daily Calories</label>
+                                <input type="number" name="daily_calories" value="<?= $user->getDailyCalories() ?>" min="0"> <span class="settings-unit">kcal</span>
                             </div>
-                            <div class="settings-field">
-                                <label>Carbs</label>
-                                <input type="number" value="250"> <span class="settings-unit">g</span>
+                            <div class="settings-form-row">
+                                <div class="settings-field">
+                                    <label>Protein</label>
+                                    <input type="number" name="daily_protein" value="<?= $user->getDailyProtein() ?>" min="0"> <span class="settings-unit">g</span>
+                                </div>
+                                <div class="settings-field">
+                                    <label>Carbs</label>
+                                    <input type="number" name="daily_carbs" value="<?= $user->getDailyCarbs() ?>" min="0"> <span class="settings-unit">g</span>
+                                </div>
+                                <div class="settings-field">
+                                    <label>Fats</label>
+                                    <input type="number" name="daily_fats" value="<?= $user->getDailyFats() ?>" min="0"> <span class="settings-unit">g</span>
+                                </div>
                             </div>
-                            <div class="settings-field">
-                                <label>Fats</label>
-                                <input type="number" value="70"> <span class="settings-unit">g</span>
+                            <div class="settings-actions">
+                                <button type="submit" class="btn btn-primary">Save goals</button>
                             </div>
-                        </div>
-                        <div class="settings-actions">
-                            <button class="btn btn-primary" data-settings-save>Save goals</button>
-                        </div>
+                        </form>
                     </div>
 
                     <!-- Notifications -->
-                    <div class="settings-panel" data-settings-content="notifications" style="display:none">
+                    <div class="settings-panel <?= $activeTab === 'notifications' ? 'active' : '' ?>" data-settings-content="notifications" <?= $activeTab !== 'notifications' ? 'style="display:none"' : '' ?>>
                         <h2>Notification Settings</h2>
                         <p class="settings-panel-desc">Choose what you want to be notified about.</p>
 
@@ -190,17 +209,33 @@
                     </div>
 
                     <!-- Account -->
-                    <div class="settings-panel" data-settings-content="account" style="display:none">
+                    <div class="settings-panel <?= $activeTab === 'account' ? 'active' : '' ?>" data-settings-content="account" <?= $activeTab !== 'account' ? 'style="display:none"' : '' ?>>
                         <h2>Account & Security</h2>
                         <p class="settings-panel-desc">Manage password, data export and account deletion.</p>
 
-                        <div class="settings-row">
-                            <div>
-                                <h3>Change password</h3>
-                                <p class="settings-help">Update your account password.</p>
+                        <form action="/settings/password" method="POST" class="settings-password-form">
+                            <h3>Change password</h3>
+                            <div class="settings-field">
+                                <label>Current password</label>
+                                <input type="password" name="current_password" required>
                             </div>
-                            <button class="btn btn-outline btn-sm"><i class="fa-solid fa-key"></i> Change</button>
-                        </div>
+                            <div class="settings-form-row">
+                                <div class="settings-field">
+                                    <label>New password</label>
+                                    <input type="password" name="new_password" minlength="8" required>
+                                </div>
+                                <div class="settings-field">
+                                    <label>Confirm new password</label>
+                                    <input type="password" name="confirm_password" minlength="8" required>
+                                </div>
+                            </div>
+                            <div class="settings-actions">
+                                <button type="submit" class="btn btn-primary">Change password</button>
+                            </div>
+                        </form>
+
+                        <div class="settings-divider"></div>
+
                         <div class="settings-row">
                             <div>
                                 <h3>Export data</h3>

@@ -49,6 +49,18 @@ class Routing {
             "controller" => "SettingsController",
             "action" => "index"
         ],
+        "settings/profile" => [
+            "controller" => "SettingsController",
+            "action" => "saveProfile"
+        ],
+        "settings/goals" => [
+            "controller" => "SettingsController",
+            "action" => "saveGoals"
+        ],
+        "settings/password" => [
+            "controller" => "SettingsController",
+            "action" => "savePassword"
+        ],
         "admin/users" => [
             "controller" => "AdminController",
             "action" => "users"

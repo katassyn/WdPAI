@@ -79,4 +79,39 @@ class UserRepository
 
         return $users;
     }
+
+    public function updateProfile(int $id, string $username, string $email, string $bio): void
+    {
+        $stmt = $this->db->prepare('
+            UPDATE users SET username = :username, email = :email, bio = :bio
+            WHERE id = :id
+        ');
+        $stmt->execute([
+            ':username' => $username,
+            ':email' => $email,
+            ':bio' => $bio,
+            ':id' => $id,
+        ]);
+    }
+
+    public function updateGoals(int $id, int $calories, int $protein, int $carbs, int $fats): void
+    {
+        $stmt = $this->db->prepare('
+            UPDATE users SET daily_calories = :cal, daily_protein = :pro, daily_carbs = :carbs, daily_fats = :fats
+            WHERE id = :id
+        ');
+        $stmt->execute([
+            ':cal' => $calories,
+            ':pro' => $protein,
+            ':carbs' => $carbs,
+            ':fats' => $fats,
+            ':id' => $id,
+        ]);
+    }
+
+    public function updatePassword(int $id, string $hashedPassword): void
+    {
+        $stmt = $this->db->prepare('UPDATE users SET password = :pw WHERE id = :id');
+        $stmt->execute([':pw' => $hashedPassword, ':id' => $id]);
+    }
 }
