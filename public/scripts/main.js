@@ -223,17 +223,34 @@ navItems.forEach(function (item) {
     var heroFav = document.getElementById('recipe-fav');
     if (heroFav) {
         heroFav.addEventListener('click', function () {
-            heroFav.classList.toggle('active');
-            var icon = heroFav.querySelector('i');
-            if (heroFav.classList.contains('active')) {
-                icon.classList.remove('fa-regular');
-                icon.classList.add('fa-solid');
-                if (window.showToast) window.showToast('Added to favorites', 'success');
-            } else {
-                icon.classList.remove('fa-solid');
-                icon.classList.add('fa-regular');
-                if (window.showToast) window.showToast('Removed from favorites', 'info');
-            }
+            var recipeId = heroFav.getAttribute('data-recipe-id');
+            if (!recipeId) return;
+
+            fetch('/api/favorite', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ recipe_id: parseInt(recipeId) })
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.success) {
+                    var icon = heroFav.querySelector('i');
+                    if (data.favorited) {
+                        heroFav.classList.add('active');
+                        icon.classList.remove('fa-regular');
+                        icon.classList.add('fa-solid');
+                        if (window.showToast) window.showToast('Added to favorites', 'success');
+                    } else {
+                        heroFav.classList.remove('active');
+                        icon.classList.remove('fa-solid');
+                        icon.classList.add('fa-regular');
+                        if (window.showToast) window.showToast('Removed from favorites', 'info');
+                    }
+                }
+            })
+            .catch(function() {
+                if (window.showToast) window.showToast('Error updating favorite', 'error');
+            });
         });
     }
 })();
@@ -247,15 +264,35 @@ navItems.forEach(function (item) {
         heart.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
-            heart.classList.toggle('active');
-            var icon = heart.querySelector('i');
-            if (heart.classList.contains('active')) {
-                icon.classList.remove('fa-regular');
-                icon.classList.add('fa-solid');
-            } else {
-                icon.classList.remove('fa-solid');
-                icon.classList.add('fa-regular');
-            }
+
+            // Get recipe ID from parent card link
+            var card = heart.closest('.recipe-card');
+            if (!card) return;
+            var href = card.getAttribute('href') || '';
+            var match = href.match(/id=(\d+)/);
+            if (!match) return;
+            var recipeId = parseInt(match[1]);
+
+            fetch('/api/favorite', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ recipe_id: recipeId })
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.success) {
+                    var icon = heart.querySelector('i');
+                    if (data.favorited) {
+                        heart.classList.add('active');
+                        icon.classList.remove('fa-regular');
+                        icon.classList.add('fa-solid');
+                    } else {
+                        heart.classList.remove('active');
+                        icon.classList.remove('fa-solid');
+                        icon.classList.add('fa-regular');
+                    }
+                }
+            });
         });
     });
 })();
@@ -345,29 +382,13 @@ navItems.forEach(function (item) {
     }
 })();
 
-// ===== Topbar search suggestions =====
+// ===== Topbar search suggestions (API-backed) =====
 (function () {
     var input = document.getElementById('topbar-search-input');
     var suggestionsBox = document.getElementById('topbar-search-suggestions');
     if (!input || !suggestionsBox) return;
 
-    var data = [
-        { name: 'Grilled Salmon with Asparagus', type: 'recipe', icon: 'fa-utensils' },
-        { name: 'Quinoa Superfood Salad', type: 'recipe', icon: 'fa-utensils' },
-        { name: 'Avocado Toast with Egg', type: 'recipe', icon: 'fa-utensils' },
-        { name: 'Spicy Chicken Stir Fry', type: 'recipe', icon: 'fa-utensils' },
-        { name: 'Berry Bliss Smoothie Bowl', type: 'recipe', icon: 'fa-utensils' },
-        { name: 'Greek Yogurt Parfait', type: 'recipe', icon: 'fa-utensils' },
-        { name: 'Hearty Lentil Soup', type: 'recipe', icon: 'fa-utensils' },
-        { name: 'Chicken breast', type: 'ingredient', icon: 'fa-drumstick-bite' },
-        { name: 'Avocado', type: 'ingredient', icon: 'fa-leaf' },
-        { name: 'Quinoa', type: 'ingredient', icon: 'fa-seedling' },
-        { name: 'Salmon fillet', type: 'ingredient', icon: 'fa-fish' },
-        { name: 'High Protein', type: 'tag', icon: 'fa-tag' },
-        { name: 'Vegetarian', type: 'tag', icon: 'fa-tag' },
-        { name: 'Low Carb', type: 'tag', icon: 'fa-tag' },
-        { name: 'Under 30 mins', type: 'tag', icon: 'fa-tag' }
-    ];
+    var searchTimer = null;
 
     function render(items, isRecent) {
         if (!items.length) {
@@ -376,48 +397,58 @@ navItems.forEach(function (item) {
         }
         var html = '';
         if (isRecent) {
-            html += '<div class="search-suggestion-header">Recent searches</div>';
+            html += '<div class="search-suggestion-header">Search recipes, ingredients...</div>';
         }
         items.forEach(function (item) {
-            html += '<div class="search-suggestion-item" data-name="' + item.name + '">' +
-                '<div class="search-suggestion-icon"><i class="fa-solid ' + item.icon + '"></i></div>' +
-                '<div class="search-suggestion-name">' + item.name + '</div>' +
-                '<div class="search-suggestion-type">' + item.type + '</div>' +
-                '</div>';
+            html += '<a href="/recipe?id=' + item.id + '" class="search-suggestion-item" data-name="' + item.title + '">' +
+                '<div class="search-suggestion-icon"><i class="fa-solid fa-utensils"></i></div>' +
+                '<div class="search-suggestion-name">' + item.title + '</div>' +
+                '<div class="search-suggestion-type">' + item.category + ' · ' + item.calories + ' kcal</div>' +
+                '</a>';
         });
         suggestionsBox.innerHTML = html;
-
-        suggestionsBox.querySelectorAll('.search-suggestion-item').forEach(function (el) {
-            el.addEventListener('mousedown', function (e) {
-                e.preventDefault();
-                input.value = el.getAttribute('data-name');
-                suggestionsBox.classList.remove('open');
-                input.blur();
-                if (window.showToast) window.showToast('Searching for "' + el.getAttribute('data-name') + '"', 'info');
-            });
-        });
     }
 
     input.addEventListener('focus', function () {
-        render(data.slice(0, 5), true);
-        suggestionsBox.classList.add('open');
+        var q = input.value.trim();
+        if (q.length >= 2) {
+            doSearch(q);
+        } else {
+            suggestionsBox.innerHTML = '<div class="search-suggestion-header">Type at least 2 characters...</div>';
+            suggestionsBox.classList.add('open');
+        }
     });
 
     input.addEventListener('input', function () {
-        var q = input.value.trim().toLowerCase();
-        if (!q) {
-            render(data.slice(0, 5), true);
-        } else {
-            var filtered = data.filter(function (it) {
-                return it.name.toLowerCase().includes(q);
-            });
-            render(filtered, false);
+        var q = input.value.trim();
+        if (searchTimer) clearTimeout(searchTimer);
+
+        if (q.length < 2) {
+            suggestionsBox.innerHTML = '<div class="search-suggestion-header">Type at least 2 characters...</div>';
+            suggestionsBox.classList.add('open');
+            return;
         }
-        suggestionsBox.classList.add('open');
+
+        searchTimer = setTimeout(function () {
+            doSearch(q);
+        }, 300);
     });
 
+    function doSearch(q) {
+        fetch('/api/search?q=' + encodeURIComponent(q))
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+                render(data.results || [], false);
+                suggestionsBox.classList.add('open');
+            })
+            .catch(function () {
+                suggestionsBox.innerHTML = '<div class="search-suggestion-empty">Search error</div>';
+                suggestionsBox.classList.add('open');
+            });
+    }
+
     input.addEventListener('blur', function () {
-        setTimeout(function () { suggestionsBox.classList.remove('open'); }, 180);
+        setTimeout(function () { suggestionsBox.classList.remove('open'); }, 200);
     });
 })();
 
@@ -589,10 +620,15 @@ navItems.forEach(function (item) {
             prevBtn.style.display = '';
         }
 
+        // Show/hide submit button on last step
+        var submitBtn = document.getElementById('creator-submit');
         if (step === totalSteps) {
-            nextBtn.innerHTML = '<i class="fa-solid fa-check"></i> Save Recipe';
+            nextBtn.style.display = 'none';
+            if (submitBtn) submitBtn.style.display = '';
         } else {
+            nextBtn.style.display = '';
             nextBtn.innerHTML = 'Next <i class="fa-solid fa-chevron-right"></i>';
+            if (submitBtn) submitBtn.style.display = 'none';
         }
 
         currentStep = step;

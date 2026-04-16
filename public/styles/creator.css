@@ -169,6 +169,49 @@
     font-size: 0.875rem;
 }
 
+.ingredient-item-form {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) 0;
+}
+
+.ingredient-item-form .form-input {
+    flex: 1;
+}
+
+.ingredient-item-form .form-input-sm {
+    flex: 0 0 90px;
+    max-width: 90px;
+}
+
+.creator-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.creator-tag-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background-color: var(--color-bg);
+    border-radius: var(--radius-md);
+    font-size: 0.8125rem;
+    cursor: pointer;
+    border: 1px solid var(--color-border);
+    transition: all 0.2s ease;
+}
+
+.creator-tag-checkbox:hover {
+    border-color: var(--color-primary);
+}
+
+.creator-tag-checkbox input[type="checkbox"] {
+    accent-color: var(--color-primary);
+}
+
 .ingredient-item-icon {
     width: 8px;
     height: 8px;

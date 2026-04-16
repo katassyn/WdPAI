@@ -4,6 +4,7 @@ require_once 'src/controllers/DashboardController.php';
 require_once 'src/controllers/RecipeController.php';
 require_once 'src/controllers/AdminController.php';
 require_once 'src/controllers/SettingsController.php';
+require_once 'src/controllers/ApiController.php';
 
 class Routing {
 
@@ -59,6 +60,26 @@ class Routing {
         "test" => [
             "controller" => "dashboardController",
             "action" => "test"
+        ],
+        "api/favorite" => [
+            "controller" => "ApiController",
+            "action" => "favorite"
+        ],
+        "api/search" => [
+            "controller" => "ApiController",
+            "action" => "search"
+        ],
+        "api/tracking" => [
+            "controller" => "ApiController",
+            "action" => "tracking"
+        ],
+        "api/tracking/today" => [
+            "controller" => "ApiController",
+            "action" => "getTracking"
+        ],
+        "api/log-meal" => [
+            "controller" => "ApiController",
+            "action" => "logMeal"
         ],
         "" => [
             "controller" => "securityController",

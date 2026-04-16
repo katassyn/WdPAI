@@ -18,6 +18,12 @@
                 <p>Design your meal, calculate macros, and share with the community.</p>
             </div>
 
+            <?php if (!empty($error)): ?>
+            <div class="login-error">
+                <i class="fa-solid fa-circle-exclamation"></i> <?= htmlspecialchars($error) ?>
+            </div>
+            <?php endif; ?>
+
             <!-- Step indicator -->
             <div class="creator-steps">
                 <div class="creator-step active" data-step="1">
@@ -32,14 +38,17 @@
                 <div class="creator-step-line"></div>
                 <div class="creator-step" data-step="3">
                     <div class="creator-step-number">3</div>
-                    <span>Equipment</span>
+                    <span>Steps</span>
                 </div>
                 <div class="creator-step-line"></div>
                 <div class="creator-step" data-step="4">
                     <div class="creator-step-number">4</div>
-                    <span>Steps</span>
+                    <span>Nutrition</span>
                 </div>
             </div>
+
+            <!-- Form wrapping everything -->
+            <form action="/creator" method="POST" enctype="multipart/form-data" id="creator-form">
 
             <!-- Two-column layout -->
             <div class="creator-layout">
@@ -53,21 +62,26 @@
 
                         <div class="form-group">
                             <label class="form-label">Recipe Title</label>
-                            <input type="text" class="form-input" placeholder="e.g. Spicy Chicken Quinoa Bowl">
+                            <input type="text" name="title" class="form-input" placeholder="e.g. Spicy Chicken Quinoa Bowl" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Recipe Image</label>
+                            <input type="file" name="image" class="form-input" accept="image/*">
                         </div>
 
                         <div class="creator-time-row">
                             <div class="form-group">
                                 <label class="form-label">Prep Time (min)</label>
                                 <div class="input-with-suffix">
-                                    <input type="number" class="form-input" placeholder="15">
+                                    <input type="number" name="prep_time" class="form-input" placeholder="15" min="0">
                                     <span class="input-suffix">m</span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Cook Time (min)</label>
                                 <div class="input-with-suffix">
-                                    <input type="number" class="form-input" placeholder="25">
+                                    <input type="number" name="cook_time" class="form-input" placeholder="25" min="0">
                                     <span class="input-suffix">m</span>
                                 </div>
                             </div>
@@ -76,24 +90,44 @@
                         <div class="creator-meta-row">
                             <div class="form-group">
                                 <label class="form-label">Servings</label>
-                                <input type="number" class="form-input" placeholder="4">
+                                <input type="number" name="servings" class="form-input" placeholder="4" min="1" value="1">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Category</label>
-                                <select class="form-select">
-                                    <option value="">Select...</option>
+                                <select name="category" class="form-select">
                                     <option value="breakfast">Breakfast</option>
                                     <option value="lunch">Lunch</option>
-                                    <option value="dinner">Dinner</option>
+                                    <option value="dinner" selected>Dinner</option>
                                     <option value="snack">Snack</option>
                                     <option value="dessert">Dessert</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Difficulty</label>
+                                <select name="difficulty" class="form-select">
+                                    <option value="easy">Easy</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="hard">Hard</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Description</label>
-                            <textarea class="form-textarea" placeholder="Briefly describe your recipe..."></textarea>
+                            <textarea name="description" class="form-textarea" placeholder="Briefly describe your recipe..."></textarea>
+                        </div>
+
+                        <!-- Tags -->
+                        <div class="form-group">
+                            <label class="form-label">Tags</label>
+                            <div class="creator-tags">
+                                <?php foreach ($tags ?? [] as $t): ?>
+                                <label class="creator-tag-checkbox">
+                                    <input type="checkbox" name="tags[]" value="<?= $t['id'] ?>">
+                                    <?= htmlspecialchars(ucwords(str_replace('-', ' ', $t['name']))) ?>
+                                </label>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
                     </div>
 
@@ -101,161 +135,111 @@
                     <div class="creator-section creator-step-panel" data-creator-step="2" id="step-ingredients" style="display:none">
                         <div class="creator-section-title">Ingredients</div>
 
-                        <div class="ingredient-list">
-                            <div class="ingredient-item">
-                                <div class="ingredient-item-icon"></div>
-                                <span class="ingredient-item-name">Chicken Breast, Boneless</span>
-                                <span class="ingredient-item-amount">300g</span>
-                                <button class="ingredient-item-remove"><i class="fa-solid fa-xmark"></i></button>
-                            </div>
-                            <div class="ingredient-item">
-                                <div class="ingredient-item-icon"></div>
-                                <span class="ingredient-item-name">Quinoa, Cooked</span>
-                                <span class="ingredient-item-amount">150g</span>
-                                <button class="ingredient-item-remove"><i class="fa-solid fa-xmark"></i></button>
-                            </div>
-                            <div class="ingredient-item">
-                                <div class="ingredient-item-icon"></div>
-                                <span class="ingredient-item-name">Sea Salt</span>
-                                <span class="ingredient-item-amount">1 tsp</span>
-                                <button class="ingredient-item-remove"><i class="fa-solid fa-xmark"></i></button>
-                            </div>
-                            <div class="ingredient-item">
-                                <div class="ingredient-item-icon"></div>
-                                <span class="ingredient-item-name">Black Pepper</span>
-                                <span class="ingredient-item-amount">1/2 tsp</span>
-                                <button class="ingredient-item-remove"><i class="fa-solid fa-xmark"></i></button>
+                        <div class="ingredient-list" id="ingredient-list">
+                            <div class="ingredient-item-form">
+                                <input type="text" name="ingredient_name[]" class="form-input" placeholder="Ingredient name">
+                                <input type="text" name="ingredient_amount[]" class="form-input form-input-sm" placeholder="Amount">
+                                <input type="text" name="ingredient_unit[]" class="form-input form-input-sm" placeholder="Unit (g, ml, tsp)">
+                                <button type="button" class="ingredient-item-remove" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>
                             </div>
                         </div>
 
-                        <button class="add-ingredient-btn">
+                        <button type="button" class="add-ingredient-btn" id="add-ingredient-btn">
                             <i class="fa-solid fa-plus"></i> Add Ingredient
                         </button>
                     </div>
 
-                    <!-- Step 3: Equipment -->
-                    <div class="creator-section creator-step-panel" data-creator-step="3" id="step-equipment" style="display:none">
-                        <div class="creator-section-title">Equipment Needed</div>
-
-                        <div class="equipment-list">
-                            <div class="equipment-item">
-                                <i class="fa-solid fa-fire-burner equipment-item-icon"></i>
-                                <span class="equipment-item-name">Non-stick Pan</span>
-                                <button class="equipment-item-remove"><i class="fa-solid fa-xmark"></i></button>
-                            </div>
-                            <div class="equipment-item">
-                                <i class="fa-solid fa-scale-balanced equipment-item-icon"></i>
-                                <span class="equipment-item-name">Kitchen Scale</span>
-                                <button class="equipment-item-remove"><i class="fa-solid fa-xmark"></i></button>
-                            </div>
-                            <div class="equipment-item">
-                                <i class="fa-solid fa-scroll equipment-item-icon"></i>
-                                <span class="equipment-item-name">Paper Towels</span>
-                                <button class="equipment-item-remove"><i class="fa-solid fa-xmark"></i></button>
-                            </div>
-                        </div>
-
-                        <button class="add-equipment-btn">
-                            <i class="fa-solid fa-plus"></i> Add Equipment
-                        </button>
-                    </div>
-
-                    <!-- Step 4: Cooking Steps -->
-                    <div class="creator-section creator-step-panel" data-creator-step="4" id="step-cooking-steps" style="display:none">
+                    <!-- Step 3: Cooking Steps -->
+                    <div class="creator-section creator-step-panel" data-creator-step="3" id="step-cooking-steps" style="display:none">
                         <div class="creator-section-title">Cooking Steps</div>
 
-                        <!-- Step 1 -->
-                        <div class="cooking-step-card">
-                            <div class="cooking-step-header">
-                                <div class="cooking-step-badge">Step 1</div>
-                                <button class="cooking-step-remove"><i class="fa-solid fa-trash"></i></button>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Step Title</label>
-                                <input type="text" class="form-input" placeholder="e.g. Prepare the Salmon Fillets" value="Prepare the Salmon Fillets">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Instructions</label>
-                                <textarea class="form-textarea" placeholder="Describe what to do in this step...">Pat the salmon fillets dry with paper towels. This ensures a crispy skin when searing. Season generously with salt, black pepper, and a squeeze of fresh lemon juice on both sides.</textarea>
-                            </div>
-                            <div class="cooking-step-meta">
+                        <div id="steps-list">
+                            <div class="cooking-step-card">
+                                <div class="cooking-step-header">
+                                    <div class="cooking-step-badge">Step 1</div>
+                                    <button type="button" class="cooking-step-remove" onclick="this.closest('.cooking-step-card').remove()"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Step Title</label>
+                                    <input type="text" name="step_title[]" class="form-input" placeholder="e.g. Prepare the ingredients">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Instructions</label>
+                                    <textarea name="step_instructions[]" class="form-textarea" placeholder="Describe what to do in this step..."></textarea>
+                                </div>
                                 <div class="form-group">
                                     <label class="form-label">Duration (min)</label>
                                     <div class="input-with-suffix">
-                                        <input type="number" class="form-input" placeholder="5" value="5">
+                                        <input type="number" name="step_duration[]" class="form-input" placeholder="5" min="0">
                                         <span class="input-suffix">m</span>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Ingredients used</label>
-                                    <select class="form-select" multiple>
-                                        <option selected>Chicken Breast</option>
-                                        <option selected>Sea Salt</option>
-                                        <option selected>Black Pepper</option>
-                                        <option>Quinoa, Cooked</option>
-                                    </select>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Step 2 -->
-                        <div class="cooking-step-card">
-                            <div class="cooking-step-header">
-                                <div class="cooking-step-badge">Step 2</div>
-                                <button class="cooking-step-remove"><i class="fa-solid fa-trash"></i></button>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Step Title</label>
-                                <input type="text" class="form-input" placeholder="e.g. Cook the Quinoa">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Instructions</label>
-                                <textarea class="form-textarea" placeholder="Describe what to do in this step..."></textarea>
-                            </div>
-                            <div class="cooking-step-meta">
-                                <div class="form-group">
-                                    <label class="form-label">Duration (min)</label>
-                                    <div class="input-with-suffix">
-                                        <input type="number" class="form-input" placeholder="10">
-                                        <span class="input-suffix">m</span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Ingredients used</label>
-                                    <select class="form-select" multiple>
-                                        <option>Chicken Breast</option>
-                                        <option>Sea Salt</option>
-                                        <option>Black Pepper</option>
-                                        <option>Quinoa, Cooked</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button class="add-step-btn">
+                        <button type="button" class="add-step-btn" id="add-step-btn">
                             <i class="fa-solid fa-plus"></i> Add Step
                         </button>
                     </div>
 
+                    <!-- Step 4: Nutrition -->
+                    <div class="creator-section creator-step-panel" data-creator-step="4" id="step-nutrition" style="display:none">
+                        <div class="creator-section-title">Nutrition Facts (per serving)</div>
+
+                        <div class="creator-meta-row">
+                            <div class="form-group">
+                                <label class="form-label">Calories</label>
+                                <input type="number" name="calories" class="form-input" placeholder="0" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Protein (g)</label>
+                                <input type="number" name="protein" class="form-input" placeholder="0" min="0" step="0.1">
+                            </div>
+                        </div>
+                        <div class="creator-meta-row">
+                            <div class="form-group">
+                                <label class="form-label">Carbs (g)</label>
+                                <input type="number" name="carbs" class="form-input" placeholder="0" min="0" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Fats (g)</label>
+                                <input type="number" name="fats" class="form-input" placeholder="0" min="0" step="0.1">
+                            </div>
+                        </div>
+                        <div class="creator-meta-row">
+                            <div class="form-group">
+                                <label class="form-label">Fiber (g)</label>
+                                <input type="number" name="fiber" class="form-input" placeholder="0" min="0" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Sugar (g)</label>
+                                <input type="number" name="sugar" class="form-input" placeholder="0" min="0" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Navigation buttons -->
                     <div class="creator-nav">
-                        <button class="btn btn-outline btn-lg" id="creator-prev" style="display:none">
+                        <button type="button" class="btn btn-outline btn-lg" id="creator-prev" style="display:none">
                             <i class="fa-solid fa-chevron-left"></i> Previous
                         </button>
-                        <button class="btn btn-primary btn-lg" id="creator-next">
+                        <button type="button" class="btn btn-primary btn-lg" id="creator-next">
                             Next <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-lg" id="creator-submit" style="display:none">
+                            <i class="fa-solid fa-check"></i> Publish Recipe
                         </button>
                     </div>
 
                 </div>
 
-                <!-- Right: Nutrition panel -->
+                <!-- Right: Nutrition panel (live preview) -->
                 <div class="creator-sidebar">
                     <div class="nutrition-panel">
                         <div class="nutrition-panel-title">Nutrition Facts</div>
 
                         <div class="nutrition-calories">
-                            <div class="nutrition-calories-number">550</div>
+                            <div class="nutrition-calories-number" id="preview-calories">0</div>
                             <div class="nutrition-calories-label">calories per serving</div>
                         </div>
 
@@ -263,39 +247,39 @@
                             <div class="nutrition-macro-item">
                                 <div class="nutrition-macro-header">
                                     <span class="nutrition-macro-name">Protein</span>
-                                    <span class="nutrition-macro-value">45g</span>
+                                    <span class="nutrition-macro-value" id="preview-protein">0g</span>
                                 </div>
                                 <div class="nutrition-macro-bar">
-                                    <div class="nutrition-macro-bar-fill protein" style="width: 75%"></div>
+                                    <div class="nutrition-macro-bar-fill protein" id="preview-protein-bar" style="width: 0%"></div>
                                 </div>
                             </div>
                             <div class="nutrition-macro-item">
                                 <div class="nutrition-macro-header">
                                     <span class="nutrition-macro-name">Carbs</span>
-                                    <span class="nutrition-macro-value">62g</span>
+                                    <span class="nutrition-macro-value" id="preview-carbs">0g</span>
                                 </div>
                                 <div class="nutrition-macro-bar">
-                                    <div class="nutrition-macro-bar-fill carbs" style="width: 55%"></div>
+                                    <div class="nutrition-macro-bar-fill carbs" id="preview-carbs-bar" style="width: 0%"></div>
                                 </div>
                             </div>
                             <div class="nutrition-macro-item">
                                 <div class="nutrition-macro-header">
                                     <span class="nutrition-macro-name">Fats</span>
-                                    <span class="nutrition-macro-value">14g</span>
+                                    <span class="nutrition-macro-value" id="preview-fats">0g</span>
                                 </div>
                                 <div class="nutrition-macro-bar">
-                                    <div class="nutrition-macro-bar-fill fats" style="width: 25%"></div>
+                                    <div class="nutrition-macro-bar-fill fats" id="preview-fats-bar" style="width: 0%"></div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="nutrition-micros">
                             <div class="nutrition-micro">
-                                <div class="nutrition-micro-value">8g</div>
+                                <div class="nutrition-micro-value" id="preview-fiber">0g</div>
                                 <div class="nutrition-micro-label">Fiber</div>
                             </div>
                             <div class="nutrition-micro">
-                                <div class="nutrition-micro-value">4g</div>
+                                <div class="nutrition-micro-value" id="preview-sugar">0g</div>
                                 <div class="nutrition-micro-label">Sugar</div>
                             </div>
                         </div>
@@ -304,8 +288,80 @@
 
             </div>
 
+            </form>
+
         </div>
     </div>
 </div>
+<script>
+// Add ingredient row
+document.getElementById('add-ingredient-btn').addEventListener('click', function() {
+    const list = document.getElementById('ingredient-list');
+    const row = document.createElement('div');
+    row.className = 'ingredient-item-form';
+    row.innerHTML = `
+        <input type="text" name="ingredient_name[]" class="form-input" placeholder="Ingredient name">
+        <input type="text" name="ingredient_amount[]" class="form-input form-input-sm" placeholder="Amount">
+        <input type="text" name="ingredient_unit[]" class="form-input form-input-sm" placeholder="Unit (g, ml, tsp)">
+        <button type="button" class="ingredient-item-remove" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>
+    `;
+    list.appendChild(row);
+});
+
+// Add cooking step
+document.getElementById('add-step-btn').addEventListener('click', function() {
+    const list = document.getElementById('steps-list');
+    const num = list.querySelectorAll('.cooking-step-card').length + 1;
+    const card = document.createElement('div');
+    card.className = 'cooking-step-card';
+    card.innerHTML = `
+        <div class="cooking-step-header">
+            <div class="cooking-step-badge">Step ${num}</div>
+            <button type="button" class="cooking-step-remove" onclick="this.closest('.cooking-step-card').remove()"><i class="fa-solid fa-trash"></i></button>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Step Title</label>
+            <input type="text" name="step_title[]" class="form-input" placeholder="e.g. Cook the main dish">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Instructions</label>
+            <textarea name="step_instructions[]" class="form-textarea" placeholder="Describe what to do in this step..."></textarea>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Duration (min)</label>
+            <div class="input-with-suffix">
+                <input type="number" name="step_duration[]" class="form-input" placeholder="5" min="0">
+                <span class="input-suffix">m</span>
+            </div>
+        </div>
+    `;
+    list.appendChild(card);
+});
+
+// Nutrition live preview
+document.querySelectorAll('input[name="calories"], input[name="protein"], input[name="carbs"], input[name="fats"], input[name="fiber"], input[name="sugar"]').forEach(function(input) {
+    input.addEventListener('input', updateNutritionPreview);
+});
+
+function updateNutritionPreview() {
+    const cal = parseInt(document.querySelector('input[name="calories"]').value) || 0;
+    const pro = parseFloat(document.querySelector('input[name="protein"]').value) || 0;
+    const carb = parseFloat(document.querySelector('input[name="carbs"]').value) || 0;
+    const fat = parseFloat(document.querySelector('input[name="fats"]').value) || 0;
+    const fib = parseFloat(document.querySelector('input[name="fiber"]').value) || 0;
+    const sug = parseFloat(document.querySelector('input[name="sugar"]').value) || 0;
+
+    document.getElementById('preview-calories').textContent = cal;
+    document.getElementById('preview-protein').textContent = pro + 'g';
+    document.getElementById('preview-carbs').textContent = carb + 'g';
+    document.getElementById('preview-fats').textContent = fat + 'g';
+    document.getElementById('preview-fiber').textContent = fib + 'g';
+    document.getElementById('preview-sugar').textContent = sug + 'g';
+
+    document.getElementById('preview-protein-bar').style.width = Math.min(100, (pro / 50) * 100) + '%';
+    document.getElementById('preview-carbs-bar').style.width = Math.min(100, (carb / 100) * 100) + '%';
+    document.getElementById('preview-fats-bar').style.width = Math.min(100, (fat / 50) * 100) + '%';
+}
+</script>
 </body>
 </html>

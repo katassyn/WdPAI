@@ -3,7 +3,7 @@
 <head>
     <?php include 'partials/head.html' ?>
     <link rel="stylesheet" type="text/css" href="/public/styles/recipe.css">
-    <title>Grilled Salmon with Asparagus - MacroCook</title>
+    <title><?= htmlspecialchars($recipe->getTitle()) ?> - MacroCook</title>
 </head>
 <body>
 <div class="app-layout">
@@ -16,19 +16,43 @@
             <a href="/recipes" class="recipe-back"><i class="fa-solid fa-arrow-left"></i> Back to library</a>
 
             <!-- Hero -->
+            <?php
+            $heroImg = $recipe->getImage() ?: 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=1200&h=600&fit=crop';
+            $tagColors = [
+                'high-protein' => 'tag-blue',
+                'vegetarian' => 'tag-green',
+                'vegan' => 'tag-green',
+                'low-carb' => 'tag-orange',
+                'under-30' => 'tag-gray',
+                'gluten-free' => 'tag-gray',
+                'spicy' => 'tag-red',
+                'keto' => 'tag-purple',
+                'fiber-rich' => 'tag-green',
+            ];
+            ?>
             <div class="recipe-hero">
-                <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=1200&h=600&fit=crop" alt="Grilled Salmon">
+                <img src="<?= htmlspecialchars($heroImg) ?>" alt="<?= htmlspecialchars($recipe->getTitle()) ?>">
                 <div class="recipe-hero-overlay"></div>
-                <button class="recipe-hero-favorite" id="recipe-fav"><i class="fa-regular fa-heart"></i></button>
+                <button class="recipe-hero-favorite" id="recipe-fav" data-recipe-id="<?= $recipe->getId() ?>">
+                    <i class="<?= $recipe->isFavorite() ? 'fa-solid' : 'fa-regular' ?> fa-heart"></i>
+                </button>
                 <div class="recipe-hero-content">
                     <div class="recipe-hero-tags">
-                        <span class="tag tag-blue">High Protein</span>
-                        <span class="tag tag-gray">Gluten Free</span>
+                        <?php foreach ($recipe->getTags() as $tag):
+                            $color = $tagColors[$tag] ?? 'tag-gray';
+                            $label = ucwords(str_replace('-', ' ', $tag));
+                        ?>
+                        <span class="tag <?= $color ?>"><?= htmlspecialchars($label) ?></span>
+                        <?php endforeach; ?>
                     </div>
-                    <h1>Grilled Salmon with Asparagus</h1>
+                    <h1><?= htmlspecialchars($recipe->getTitle()) ?></h1>
                     <div class="recipe-hero-author">
-                        <div class="recipe-hero-avatar">SJ</div>
-                        <span>By <strong>Sarah Johnson</strong> · 4.8 <i class="fa-solid fa-star"></i> (243 reviews)</span>
+                        <?php
+                        $author = $recipe->getCreatorName() ?? 'Unknown';
+                        $initials = strtoupper(substr($author, 0, 2));
+                        ?>
+                        <div class="recipe-hero-avatar"><?= $initials ?></div>
+                        <span>By <strong><?= htmlspecialchars($author) ?></strong></span>
                     </div>
                 </div>
             </div>
@@ -39,35 +63,35 @@
                     <i class="fa-regular fa-clock"></i>
                     <div>
                         <div class="recipe-meta-label">Prep time</div>
-                        <div class="recipe-meta-value">10 min</div>
+                        <div class="recipe-meta-value"><?= $recipe->getPrepTime() ?> min</div>
                     </div>
                 </div>
                 <div class="recipe-meta-item">
                     <i class="fa-solid fa-fire"></i>
                     <div>
                         <div class="recipe-meta-label">Cook time</div>
-                        <div class="recipe-meta-value">15 min</div>
+                        <div class="recipe-meta-value"><?= $recipe->getCookTime() ?> min</div>
                     </div>
                 </div>
                 <div class="recipe-meta-item">
                     <i class="fa-solid fa-users"></i>
                     <div>
                         <div class="recipe-meta-label">Servings</div>
-                        <div class="recipe-meta-value">2</div>
+                        <div class="recipe-meta-value"><?= $recipe->getServings() ?></div>
                     </div>
                 </div>
                 <div class="recipe-meta-item">
                     <i class="fa-solid fa-gauge-high"></i>
                     <div>
                         <div class="recipe-meta-label">Difficulty</div>
-                        <div class="recipe-meta-value">Easy</div>
+                        <div class="recipe-meta-value"><?= ucfirst($recipe->getDifficulty()) ?></div>
                     </div>
                 </div>
                 <div class="recipe-meta-item">
                     <i class="fa-solid fa-bolt"></i>
                     <div>
                         <div class="recipe-meta-label">Calories</div>
-                        <div class="recipe-meta-value">450 kcal</div>
+                        <div class="recipe-meta-value"><?= $recipe->getCalories() ?> kcal</div>
                     </div>
                 </div>
             </div>
@@ -79,21 +103,22 @@
                     <!-- Description -->
                     <section class="recipe-section">
                         <h2>Description</h2>
-                        <p>A healthy and flavorful dinner featuring perfectly grilled salmon fillets with crisp asparagus. Rich in omega-3 fatty acids, lean protein and packed with essential nutrients. Ready in under 30 minutes — perfect for a weeknight meal.</p>
+                        <p><?= htmlspecialchars($recipe->getDescription()) ?></p>
                     </section>
 
                     <!-- Ingredients -->
                     <section class="recipe-section">
-                        <h2>Ingredients <span class="recipe-section-meta">for 2 servings</span></h2>
+                        <h2>Ingredients <span class="recipe-section-meta">for <?= $recipe->getServings() ?> servings</span></h2>
                         <ul class="ingredients-list">
-                            <li><label><input type="checkbox"><span class="ingredient-amount">2</span><span class="ingredient-name">Salmon fillets (200g each)</span></label></li>
-                            <li><label><input type="checkbox"><span class="ingredient-amount">300g</span><span class="ingredient-name">Fresh asparagus</span></label></li>
-                            <li><label><input type="checkbox"><span class="ingredient-amount">2 tbsp</span><span class="ingredient-name">Olive oil</span></label></li>
-                            <li><label><input type="checkbox"><span class="ingredient-amount">1</span><span class="ingredient-name">Lemon (juiced)</span></label></li>
-                            <li><label><input type="checkbox"><span class="ingredient-amount">3</span><span class="ingredient-name">Garlic cloves (minced)</span></label></li>
-                            <li><label><input type="checkbox"><span class="ingredient-amount">1 tsp</span><span class="ingredient-name">Sea salt</span></label></li>
-                            <li><label><input type="checkbox"><span class="ingredient-amount">1/2 tsp</span><span class="ingredient-name">Black pepper</span></label></li>
-                            <li><label><input type="checkbox"><span class="ingredient-amount">2 sprigs</span><span class="ingredient-name">Fresh dill</span></label></li>
+                            <?php foreach ($recipe->getIngredients() as $ing): ?>
+                            <li>
+                                <label>
+                                    <input type="checkbox">
+                                    <span class="ingredient-amount"><?= htmlspecialchars($ing['amount'] . ' ' . $ing['unit']) ?></span>
+                                    <span class="ingredient-name"><?= htmlspecialchars($ing['name']) ?></span>
+                                </label>
+                            </li>
+                            <?php endforeach; ?>
                         </ul>
                     </section>
 
@@ -102,19 +127,20 @@
                         <h2>Chef's Tips</h2>
                         <div class="chef-tip">
                             <i class="fa-solid fa-lightbulb"></i>
-                            <p>For the crispiest salmon skin, pat the fillets dry with a paper towel before seasoning. Cook skin-side down first and resist the urge to move them!</p>
+                            <p>Always read through all the steps before you start cooking. Preparation is key to a great dish!</p>
                         </div>
                     </section>
                 </div>
 
                 <!-- Right: Nutrition Facts -->
                 <aside class="recipe-aside">
+                    <?php if ($recipe->getNutritionFacts()): ?>
                     <div class="nutrition-card">
                         <h3>Nutrition Facts</h3>
                         <p class="nutrition-serving">Per serving</p>
 
                         <div class="nutrition-calories">
-                            <div class="nutrition-calories-value">450</div>
+                            <div class="nutrition-calories-value"><?= $recipe->getCalories() ?></div>
                             <div class="nutrition-calories-label">kcal</div>
                         </div>
 
@@ -122,33 +148,34 @@
                             <div class="nutrition-bar">
                                 <div class="nutrition-bar-row">
                                     <span>Protein</span>
-                                    <strong>42g</strong>
+                                    <strong><?= round($recipe->getProtein()) ?>g</strong>
                                 </div>
-                                <div class="nutrition-bar-track"><div class="nutrition-bar-fill protein" style="width:75%"></div></div>
+                                <div class="nutrition-bar-track"><div class="nutrition-bar-fill protein" style="width:<?= min(100, round($recipe->getProtein() / 50 * 100)) ?>%"></div></div>
                             </div>
                             <div class="nutrition-bar">
                                 <div class="nutrition-bar-row">
                                     <span>Carbs</span>
-                                    <strong>10g</strong>
+                                    <strong><?= round($recipe->getCarbs()) ?>g</strong>
                                 </div>
-                                <div class="nutrition-bar-track"><div class="nutrition-bar-fill carbs" style="width:18%"></div></div>
+                                <div class="nutrition-bar-track"><div class="nutrition-bar-fill carbs" style="width:<?= min(100, round($recipe->getCarbs() / 100 * 100)) ?>%"></div></div>
                             </div>
                             <div class="nutrition-bar">
                                 <div class="nutrition-bar-row">
                                     <span>Fats</span>
-                                    <strong>22g</strong>
+                                    <strong><?= round($recipe->getFats()) ?>g</strong>
                                 </div>
-                                <div class="nutrition-bar-track"><div class="nutrition-bar-fill fats" style="width:45%"></div></div>
+                                <div class="nutrition-bar-track"><div class="nutrition-bar-fill fats" style="width:<?= min(100, round($recipe->getFats() / 50 * 100)) ?>%"></div></div>
                             </div>
                             <div class="nutrition-bar">
                                 <div class="nutrition-bar-row">
                                     <span>Fiber</span>
-                                    <strong>4g</strong>
+                                    <strong><?= round($recipe->getFiber()) ?>g</strong>
                                 </div>
-                                <div class="nutrition-bar-track"><div class="nutrition-bar-fill fiber" style="width:20%"></div></div>
+                                <div class="nutrition-bar-track"><div class="nutrition-bar-fill fiber" style="width:<?= min(100, round($recipe->getFiber() / 25 * 100)) ?>%"></div></div>
                             </div>
                         </div>
                     </div>
+                    <?php endif; ?>
                 </aside>
 
             </div>
@@ -159,7 +186,7 @@
                     <i class="fa-solid fa-utensils"></i>
                     <span>Ready to start cooking?</span>
                 </div>
-                <a href="/cooking" class="btn btn-primary btn-lg">
+                <a href="/cooking?id=<?= $recipe->getId() ?>" class="btn btn-primary btn-lg">
                     <i class="fa-solid fa-play"></i> Start Cooking
                 </a>
             </div>
