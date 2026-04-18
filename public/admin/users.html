@@ -5,6 +5,29 @@
     <title>User Management - MacroCook Admin</title>
 </head>
 <body>
+<?php
+// Helpers
+if (!function_exists('userInitials')) {
+    function userInitials(string $username): string {
+        $parts = preg_split('/[\s_\-\.]+/', $username);
+        if (count($parts) >= 2) {
+            return strtoupper(substr($parts[0], 0, 1) . substr($parts[1], 0, 1));
+        }
+        return strtoupper(substr($username, 0, 2));
+    }
+}
+
+$roleLabels = [
+    'admin' => 'Admin',
+    'creator' => 'Content Creator',
+    'user' => 'User',
+];
+$statusLabels = [
+    'active' => 'Active',
+    'pending' => 'Pending',
+    'suspended' => 'Suspended',
+];
+?>
 <div class="app-layout">
     <?php include __DIR__ . '/../partials/nav.html' ?>
     <div class="main-content">
@@ -28,13 +51,13 @@
             <!-- Tabs -->
             <div class="admin-tabs">
                 <button class="admin-tab active" data-tab="active">
-                    Active Users <span class="admin-tab-count">124</span>
+                    Active Users <span class="admin-tab-count"><?= $activeCount ?></span>
                 </button>
                 <button class="admin-tab" data-tab="pending">
-                    Pending Invites <span class="admin-tab-count">8</span>
+                    Pending Invites <span class="admin-tab-count"><?= $pendingCount ?></span>
                 </button>
                 <button class="admin-tab" data-tab="suspended">
-                    Suspended <span class="admin-tab-count">3</span>
+                    Suspended <span class="admin-tab-count"><?= $suspendedCount ?></span>
                 </button>
             </div>
 
@@ -50,233 +73,101 @@
                         <th style="text-align:right">Actions</th>
                     </tr>
                     </thead>
+
+                    <!-- ACTIVE -->
                     <tbody data-tab-content="active">
-                    <tr>
-                        <td>
-                            <div class="admin-user-cell">
-                                <div class="admin-user-avatar">SJ</div>
-                                <div>
-                                    <div class="admin-user-name">Sarah Johnson</div>
-                                    <div class="admin-user-email">sarah.johnson@macrocook.com</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td><span class="role-badge admin">Admin</span></td>
-                        <td><span class="status-badge active">Active</span></td>
-                        <td>2 hours ago</td>
-                        <td>
-                            <div class="admin-actions" style="justify-content:flex-end">
-                                <button class="admin-action-btn" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                                <button class="admin-action-btn" title="Ban"><i class="fa-solid fa-ban"></i></button>
-                                <button class="admin-action-btn danger" title="Delete"><i class="fa-solid fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="admin-user-cell">
-                                <div class="admin-user-avatar">MC</div>
-                                <div>
-                                    <div class="admin-user-name">Michael Chen</div>
-                                    <div class="admin-user-email">m.chen@macrocook.com</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td><span class="role-badge creator">Content Creator</span></td>
-                        <td><span class="status-badge active">Active</span></td>
-                        <td>5 hours ago</td>
-                        <td>
-                            <div class="admin-actions" style="justify-content:flex-end">
-                                <button class="admin-action-btn" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                                <button class="admin-action-btn" title="Ban"><i class="fa-solid fa-ban"></i></button>
-                                <button class="admin-action-btn danger" title="Delete"><i class="fa-solid fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="admin-user-cell">
-                                <div class="admin-user-avatar">ER</div>
-                                <div>
-                                    <div class="admin-user-name">Emma Rodriguez</div>
-                                    <div class="admin-user-email">emma.r@macrocook.com</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td><span class="role-badge user">User</span></td>
-                        <td><span class="status-badge active">Active</span></td>
-                        <td>Yesterday</td>
-                        <td>
-                            <div class="admin-actions" style="justify-content:flex-end">
-                                <button class="admin-action-btn" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                                <button class="admin-action-btn" title="Ban"><i class="fa-solid fa-ban"></i></button>
-                                <button class="admin-action-btn danger" title="Delete"><i class="fa-solid fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="admin-user-cell">
-                                <div class="admin-user-avatar">LW</div>
-                                <div>
-                                    <div class="admin-user-name">Lisa Wang</div>
-                                    <div class="admin-user-email">lisa.wang@macrocook.com</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td><span class="role-badge user">User</span></td>
-                        <td><span class="status-badge active">Active</span></td>
-                        <td>3 days ago</td>
-                        <td>
-                            <div class="admin-actions" style="justify-content:flex-end">
-                                <button class="admin-action-btn" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                                <button class="admin-action-btn" title="Ban"><i class="fa-solid fa-ban"></i></button>
-                                <button class="admin-action-btn danger" title="Delete"><i class="fa-solid fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
+                    <?php if (empty($activeUsers)): ?>
+                        <tr><td colspan="5" class="admin-empty">No active users.</td></tr>
+                    <?php else: ?>
+                        <?php foreach ($activeUsers as $u): ?>
+                            <tr data-user-id="<?= $u->getId() ?>">
+                                <td>
+                                    <div class="admin-user-cell">
+                                        <div class="admin-user-avatar"><?= userInitials($u->getUsername()) ?></div>
+                                        <div>
+                                            <div class="admin-user-name"><?= htmlspecialchars($u->getUsername()) ?></div>
+                                            <div class="admin-user-email"><?= htmlspecialchars($u->getEmail()) ?></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge <?= htmlspecialchars($u->getRole()) ?>"><?= $roleLabels[$u->getRole()] ?? ucfirst($u->getRole()) ?></span></td>
+                                <td><span class="status-badge active"><?= $statusLabels['active'] ?></span></td>
+                                <td>—</td>
+                                <td>
+                                    <div class="admin-actions" style="justify-content:flex-end">
+                                        <?php if ($u->getId() === $currentUserId): ?>
+                                            <span class="admin-self-label">You</span>
+                                        <?php else: ?>
+                                            <button class="admin-action-btn" title="Suspend" data-admin-action="ban"><i class="fa-solid fa-ban"></i></button>
+                                            <button class="admin-action-btn danger" title="Delete" data-admin-action="delete"><i class="fa-solid fa-trash"></i></button>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                     </tbody>
 
+                    <!-- PENDING -->
                     <tbody data-tab-content="pending" style="display:none">
-                    <tr>
-                        <td>
-                            <div class="admin-user-cell">
-                                <div class="admin-user-avatar">DK</div>
-                                <div>
-                                    <div class="admin-user-name">David Kim</div>
-                                    <div class="admin-user-email">d.kim@macrocook.com</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td><span class="role-badge creator">Content Creator</span></td>
-                        <td><span class="status-badge pending">Pending</span></td>
-                        <td>Invited 2 days ago</td>
-                        <td>
-                            <div class="admin-actions" style="justify-content:flex-end">
-                                <button class="admin-action-btn" title="Resend"><i class="fa-solid fa-paper-plane"></i></button>
-                                <button class="admin-action-btn danger" title="Cancel"><i class="fa-solid fa-xmark"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="admin-user-cell">
-                                <div class="admin-user-avatar">OP</div>
-                                <div>
-                                    <div class="admin-user-name">Olivia Parker</div>
-                                    <div class="admin-user-email">o.parker@macrocook.com</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td><span class="role-badge user">User</span></td>
-                        <td><span class="status-badge pending">Pending</span></td>
-                        <td>Invited 4 days ago</td>
-                        <td>
-                            <div class="admin-actions" style="justify-content:flex-end">
-                                <button class="admin-action-btn" title="Resend"><i class="fa-solid fa-paper-plane"></i></button>
-                                <button class="admin-action-btn danger" title="Cancel"><i class="fa-solid fa-xmark"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="admin-user-cell">
-                                <div class="admin-user-avatar">NB</div>
-                                <div>
-                                    <div class="admin-user-name">Nathan Brooks</div>
-                                    <div class="admin-user-email">n.brooks@macrocook.com</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td><span class="role-badge creator">Content Creator</span></td>
-                        <td><span class="status-badge pending">Pending</span></td>
-                        <td>Invited 1 week ago</td>
-                        <td>
-                            <div class="admin-actions" style="justify-content:flex-end">
-                                <button class="admin-action-btn" title="Resend"><i class="fa-solid fa-paper-plane"></i></button>
-                                <button class="admin-action-btn danger" title="Cancel"><i class="fa-solid fa-xmark"></i></button>
-                            </div>
-                        </td>
-                    </tr>
+                    <?php if (empty($pendingUsers)): ?>
+                        <tr><td colspan="5" class="admin-empty">No pending invites.</td></tr>
+                    <?php else: ?>
+                        <?php foreach ($pendingUsers as $u): ?>
+                            <tr data-user-id="<?= $u->getId() ?>">
+                                <td>
+                                    <div class="admin-user-cell">
+                                        <div class="admin-user-avatar"><?= userInitials($u->getUsername()) ?></div>
+                                        <div>
+                                            <div class="admin-user-name"><?= htmlspecialchars($u->getUsername()) ?></div>
+                                            <div class="admin-user-email"><?= htmlspecialchars($u->getEmail()) ?></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge <?= htmlspecialchars($u->getRole()) ?>"><?= $roleLabels[$u->getRole()] ?? ucfirst($u->getRole()) ?></span></td>
+                                <td><span class="status-badge pending"><?= $statusLabels['pending'] ?></span></td>
+                                <td>—</td>
+                                <td>
+                                    <div class="admin-actions" style="justify-content:flex-end">
+                                        <button class="admin-action-btn" title="Approve" data-admin-action="approve-invite"><i class="fa-solid fa-check"></i></button>
+                                        <button class="admin-action-btn danger" title="Cancel" data-admin-action="cancel-invite"><i class="fa-solid fa-xmark"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                     </tbody>
 
+                    <!-- SUSPENDED -->
                     <tbody data-tab-content="suspended" style="display:none">
-                    <tr>
-                        <td>
-                            <div class="admin-user-cell">
-                                <div class="admin-user-avatar">JM</div>
-                                <div>
-                                    <div class="admin-user-name">James Miller</div>
-                                    <div class="admin-user-email">j.miller@macrocook.com</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td><span class="role-badge user">User</span></td>
-                        <td><span class="status-badge suspended">Suspended</span></td>
-                        <td>Suspended 1 week ago</td>
-                        <td>
-                            <div class="admin-actions" style="justify-content:flex-end">
-                                <button class="admin-action-btn" title="Unban"><i class="fa-solid fa-rotate-left"></i></button>
-                                <button class="admin-action-btn danger" title="Delete"><i class="fa-solid fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="admin-user-cell">
-                                <div class="admin-user-avatar">RT</div>
-                                <div>
-                                    <div class="admin-user-name">Rachel Thompson</div>
-                                    <div class="admin-user-email">r.thompson@macrocook.com</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td><span class="role-badge user">User</span></td>
-                        <td><span class="status-badge suspended">Suspended</span></td>
-                        <td>Suspended 2 weeks ago</td>
-                        <td>
-                            <div class="admin-actions" style="justify-content:flex-end">
-                                <button class="admin-action-btn" title="Unban"><i class="fa-solid fa-rotate-left"></i></button>
-                                <button class="admin-action-btn danger" title="Delete"><i class="fa-solid fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="admin-user-cell">
-                                <div class="admin-user-avatar">TH</div>
-                                <div>
-                                    <div class="admin-user-name">Tom Harris</div>
-                                    <div class="admin-user-email">t.harris@macrocook.com</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td><span class="role-badge user">User</span></td>
-                        <td><span class="status-badge suspended">Suspended</span></td>
-                        <td>Suspended 1 month ago</td>
-                        <td>
-                            <div class="admin-actions" style="justify-content:flex-end">
-                                <button class="admin-action-btn" title="Unban"><i class="fa-solid fa-rotate-left"></i></button>
-                                <button class="admin-action-btn danger" title="Delete"><i class="fa-solid fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
+                    <?php if (empty($suspendedUsers)): ?>
+                        <tr><td colspan="5" class="admin-empty">No suspended users.</td></tr>
+                    <?php else: ?>
+                        <?php foreach ($suspendedUsers as $u): ?>
+                            <tr data-user-id="<?= $u->getId() ?>">
+                                <td>
+                                    <div class="admin-user-cell">
+                                        <div class="admin-user-avatar"><?= userInitials($u->getUsername()) ?></div>
+                                        <div>
+                                            <div class="admin-user-name"><?= htmlspecialchars($u->getUsername()) ?></div>
+                                            <div class="admin-user-email"><?= htmlspecialchars($u->getEmail()) ?></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge <?= htmlspecialchars($u->getRole()) ?>"><?= $roleLabels[$u->getRole()] ?? ucfirst($u->getRole()) ?></span></td>
+                                <td><span class="status-badge suspended"><?= $statusLabels['suspended'] ?></span></td>
+                                <td>—</td>
+                                <td>
+                                    <div class="admin-actions" style="justify-content:flex-end">
+                                        <button class="admin-action-btn" title="Unban" data-admin-action="unban"><i class="fa-solid fa-rotate-left"></i></button>
+                                        <button class="admin-action-btn danger" title="Delete" data-admin-action="delete"><i class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                     </tbody>
                 </table>
-
-                <!-- Pagination -->
-                <div class="admin-pagination">
-                    <span class="admin-pagination-info">Showing 1-6 of 124 users</span>
-                    <div class="admin-pagination-pages">
-                        <button class="admin-page-btn"><i class="fa-solid fa-chevron-left"></i></button>
-                        <button class="admin-page-btn active">1</button>
-                        <button class="admin-page-btn">2</button>
-                        <button class="admin-page-btn">3</button>
-                        <button class="admin-page-btn">...</button>
-                        <button class="admin-page-btn">21</button>
-                        <button class="admin-page-btn"><i class="fa-solid fa-chevron-right"></i></button>
-                    </div>
-                </div>
             </div>
 
         </div>

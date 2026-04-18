@@ -114,4 +114,43 @@ class UserRepository
         $stmt = $this->db->prepare('UPDATE users SET password = :pw WHERE id = :id');
         $stmt->execute([':pw' => $hashedPassword, ':id' => $id]);
     }
+
+    public function findByStatus(string $status): array
+    {
+        $stmt = $this->db->prepare('SELECT * FROM users WHERE status = :s ORDER BY created_at DESC');
+        $stmt->execute([':s' => $status]);
+
+        $users = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $users[] = User::fromRow($row);
+        }
+
+        return $users;
+    }
+
+    public function countByStatus(string $status): int
+    {
+        $stmt = $this->db->prepare('SELECT COUNT(*) FROM users WHERE status = :s');
+        $stmt->execute([':s' => $status]);
+
+        return (int)$stmt->fetchColumn();
+    }
+
+    public function updateStatus(int $id, string $status): void
+    {
+        $stmt = $this->db->prepare('UPDATE users SET status = :s WHERE id = :id');
+        $stmt->execute([':s' => $status, ':id' => $id]);
+    }
+
+    public function updateRole(int $id, string $role): void
+    {
+        $stmt = $this->db->prepare('UPDATE users SET role = :r WHERE id = :id');
+        $stmt->execute([':r' => $role, ':id' => $id]);
+    }
+
+    public function delete(int $id): void
+    {
+        $stmt = $this->db->prepare('DELETE FROM users WHERE id = :id');
+        $stmt->execute([':id' => $id]);
+    }
 }

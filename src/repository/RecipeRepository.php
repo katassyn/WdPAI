@@ -205,6 +205,50 @@ class RecipeRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Get recipes with a specific moderation status (admin panel).
+     */
+    public function findByModerationStatus(string $status): array
+    {
+        $stmt = $this->db->prepare('
+            SELECT r.*, u.username AS creator_name
+            FROM recipes r
+            JOIN users u ON r.creator_id = u.id
+            WHERE r.moderation_status = :s
+            ORDER BY r.created_at DESC
+        ');
+        $stmt->execute([':s' => $status]);
+
+        $recipes = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $recipe = Recipe::fromRow($row);
+            $recipe->setTags($this->getTagsForRecipe($recipe->getId()));
+            $recipes[] = $recipe;
+        }
+
+        return $recipes;
+    }
+
+    public function countByModerationStatus(string $status): int
+    {
+        $stmt = $this->db->prepare('SELECT COUNT(*) FROM recipes WHERE moderation_status = :s');
+        $stmt->execute([':s' => $status]);
+
+        return (int)$stmt->fetchColumn();
+    }
+
+    public function updateModerationStatus(int $id, string $status): void
+    {
+        $stmt = $this->db->prepare('UPDATE recipes SET moderation_status = :s WHERE id = :id');
+        $stmt->execute([':s' => $status, ':id' => $id]);
+    }
+
+    public function deleteRecipe(int $id): void
+    {
+        $stmt = $this->db->prepare('DELETE FROM recipes WHERE id = :id');
+        $stmt->execute([':id' => $id]);
+    }
+
     // ============ Private helpers ============
 
     private function getTagsForRecipe(int $recipeId): array

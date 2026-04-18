@@ -781,16 +781,46 @@ navItems.forEach(function (item) {
             'clear-flag': { text: 'Flag cleared', type: 'success' },
             remove: { text: 'Recipe removed permanently', type: 'error' }
         };
+        // Map UI action -> backend status
+        var statusMap = {
+            approve: 'approved',
+            reject: 'rejected',
+            revoke: 'pending',
+            restore: 'pending',
+            'clear-flag': 'approved',
+            remove: 'delete'
+        };
         var msg = messages[action] || { text: 'Action completed', type: 'info' };
+        var recipeId = parseInt(item.getAttribute('data-recipe-id'), 10);
+        var status = statusMap[action];
 
-        item.style.transition = 'opacity 0.25s, transform 0.25s';
-        item.style.opacity = '0';
-        item.style.transform = 'translateX(-20px)';
-        setTimeout(function () {
-            if (item.parentNode) item.parentNode.removeChild(item);
-        }, 250);
+        if (!recipeId || !status) {
+            if (window.showToast) window.showToast('Unknown action', 'error');
+            return;
+        }
 
-        if (window.showToast) window.showToast(msg.text, msg.type);
+        fetch('/api/admin/recipe/moderate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ recipe_id: recipeId, status: status })
+        })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                if (!data.success) {
+                    if (window.showToast) window.showToast(data.error || 'Action failed', 'error');
+                    return;
+                }
+                item.style.transition = 'opacity 0.25s, transform 0.25s';
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                setTimeout(function () {
+                    if (item.parentNode) item.parentNode.removeChild(item);
+                }, 250);
+                if (window.showToast) window.showToast(msg.text, msg.type);
+            })
+            .catch(function () {
+                if (window.showToast) window.showToast('Network error', 'error');
+            });
     }
 
     // Direct action button handlers (Approve/Reject/Revoke/Restore/Clear/Remove)
@@ -975,4 +1005,96 @@ navItems.forEach(function (item) {
             }
         });
     }
+})();
+
+// ===== Admin Users — actions via API (Krok 7) =====
+(function () {
+    var rows = document.querySelectorAll('[data-admin-action]');
+    if (!rows.length) return;
+
+    // action -> { endpoint, payload builder (userId), msg, confirm }
+    var actionMap = {
+        'ban': {
+            endpoint: '/api/admin/user/status',
+            payload: function (id) { return { user_id: id, status: 'suspended' }; },
+            msg: { text: 'User suspended', type: 'success' },
+            confirm: { title: 'Suspend user?', body: 'The user will lose access until you unban them.', danger: true, confirmText: 'Suspend' }
+        },
+        'unban': {
+            endpoint: '/api/admin/user/status',
+            payload: function (id) { return { user_id: id, status: 'active' }; },
+            msg: { text: 'User reactivated', type: 'success' }
+        },
+        'approve-invite': {
+            endpoint: '/api/admin/user/status',
+            payload: function (id) { return { user_id: id, status: 'active' }; },
+            msg: { text: 'Invite approved', type: 'success' }
+        },
+        'cancel-invite': {
+            endpoint: '/api/admin/user/delete',
+            payload: function (id) { return { user_id: id }; },
+            msg: { text: 'Invite cancelled', type: 'info' },
+            confirm: { title: 'Cancel invite?', body: 'The user record will be removed.', danger: true, confirmText: 'Cancel invite' }
+        },
+        'delete': {
+            endpoint: '/api/admin/user/delete',
+            payload: function (id) { return { user_id: id }; },
+            msg: { text: 'User deleted', type: 'error' },
+            confirm: { title: 'Delete user?', body: 'This permanently removes the user and all their data.', danger: true, confirmText: 'Delete' }
+        }
+    };
+
+    function runAdminAction(row, cfg) {
+        var userId = parseInt(row.getAttribute('data-user-id'), 10);
+        if (!userId) return;
+
+        fetch(cfg.endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(cfg.payload(userId))
+        })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                if (!data.success) {
+                    if (window.showToast) window.showToast(data.error || 'Action failed', 'error');
+                    return;
+                }
+                row.style.transition = 'opacity 0.25s';
+                row.style.opacity = '0';
+                setTimeout(function () {
+                    if (row.parentNode) row.parentNode.removeChild(row);
+                    // Decrement tab counter of active tab
+                    var activeTab = document.querySelector('.admin-tab[data-tab].active .admin-tab-count');
+                    if (activeTab) {
+                        var n = parseInt(activeTab.textContent, 10);
+                        if (!isNaN(n) && n > 0) activeTab.textContent = String(n - 1);
+                    }
+                }, 250);
+                if (window.showToast) window.showToast(cfg.msg.text, cfg.msg.type);
+            })
+            .catch(function () {
+                if (window.showToast) window.showToast('Network error', 'error');
+            });
+    }
+
+    rows.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var action = btn.getAttribute('data-admin-action');
+            var cfg = actionMap[action];
+            if (!cfg) return;
+            var row = btn.closest('tr[data-user-id]');
+            if (!row) return;
+
+            if (cfg.confirm && window.confirmModal) {
+                window.confirmModal(
+                    cfg.confirm.title,
+                    cfg.confirm.body,
+                    function () { runAdminAction(row, cfg); },
+                    { danger: cfg.confirm.danger, confirmText: cfg.confirm.confirmText }
+                );
+            } else {
+                runAdminAction(row, cfg);
+            }
+        });
+    });
 })();

@@ -243,6 +243,92 @@ class ApiController extends appController
         ]);
     }
 
+    // =========== Admin API ===========
+
+    /**
+     * POST /api/admin/user/status — change user status
+     * Body: { user_id, status: 'active'|'pending'|'suspended' }
+     */
+    public function adminUserStatus()
+    {
+        $this->requireAdmin();
+        $this->requirePost();
+
+        $data = $this->getJsonInput();
+        $userId = (int)($data['user_id'] ?? 0);
+        $status = $data['status'] ?? '';
+
+        if ($userId <= 0 || !in_array($status, ['active', 'pending', 'suspended'], true)) {
+            return $this->json(['success' => false, 'error' => 'Invalid input'], 400);
+        }
+
+        if ($userId === (int)$_SESSION['user_id']) {
+            return $this->json(['success' => false, 'error' => 'Cannot change own status'], 400);
+        }
+
+        $userRepo = new UserRepository();
+        $userRepo->updateStatus($userId, $status);
+
+        return $this->json(['success' => true]);
+    }
+
+    /**
+     * POST /api/admin/user/delete — delete a user
+     * Body: { user_id }
+     */
+    public function adminUserDelete()
+    {
+        $this->requireAdmin();
+        $this->requirePost();
+
+        $data = $this->getJsonInput();
+        $userId = (int)($data['user_id'] ?? 0);
+
+        if ($userId <= 0) {
+            return $this->json(['success' => false, 'error' => 'Invalid user ID'], 400);
+        }
+
+        if ($userId === (int)$_SESSION['user_id']) {
+            return $this->json(['success' => false, 'error' => 'Cannot delete yourself'], 400);
+        }
+
+        $userRepo = new UserRepository();
+        $userRepo->delete($userId);
+
+        return $this->json(['success' => true]);
+    }
+
+    /**
+     * POST /api/admin/recipe/moderate — change recipe moderation status (or delete)
+     * Body: { recipe_id, status: 'pending'|'approved'|'rejected'|'flagged'|'delete' }
+     */
+    public function adminRecipeModerate()
+    {
+        $this->requireAdmin();
+        $this->requirePost();
+
+        $data = $this->getJsonInput();
+        $recipeId = (int)($data['recipe_id'] ?? 0);
+        $status = $data['status'] ?? '';
+
+        if ($recipeId <= 0) {
+            return $this->json(['success' => false, 'error' => 'Invalid recipe ID'], 400);
+        }
+
+        if ($status === 'delete') {
+            $this->recipeRepository->deleteRecipe($recipeId);
+            return $this->json(['success' => true, 'deleted' => true]);
+        }
+
+        if (!in_array($status, ['pending', 'approved', 'rejected', 'flagged'], true)) {
+            return $this->json(['success' => false, 'error' => 'Invalid status'], 400);
+        }
+
+        $this->recipeRepository->updateModerationStatus($recipeId, $status);
+
+        return $this->json(['success' => true]);
+    }
+
     // =========== Helper methods ===========
 
     private function requirePost(): void

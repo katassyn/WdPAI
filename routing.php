@@ -93,6 +93,18 @@ class Routing {
             "controller" => "ApiController",
             "action" => "logMeal"
         ],
+        "api/admin/user/status" => [
+            "controller" => "ApiController",
+            "action" => "adminUserStatus"
+        ],
+        "api/admin/user/delete" => [
+            "controller" => "ApiController",
+            "action" => "adminUserDelete"
+        ],
+        "api/admin/recipe/moderate" => [
+            "controller" => "ApiController",
+            "action" => "adminRecipeModerate"
+        ],
         "" => [
             "controller" => "securityController",
             "action" => "login"

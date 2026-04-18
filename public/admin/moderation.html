@@ -5,6 +5,54 @@
     <title>Database Moderation - MacroCook Admin</title>
 </head>
 <body>
+<?php
+$categoryImages = [
+    'breakfast' => 'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=200&h=200&fit=crop',
+    'lunch'     => 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200&h=200&fit=crop',
+    'dinner'    => 'https://images.unsplash.com/photo-1559847844-5315695dadae?w=200&h=200&fit=crop',
+    'snack'     => 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=200&h=200&fit=crop',
+    'dessert'   => 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=200&h=200&fit=crop',
+];
+$fallbackImage = 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=200&h=200&fit=crop';
+
+function recipeImageFor($r, array $categoryImages, string $fallback): string {
+    $img = $r->getImage();
+    if ($img) return $img;
+    return $categoryImages[$r->getCategory()] ?? $fallback;
+}
+
+/**
+ * Render a moderation item.
+ * @param $recipe Recipe
+ * @param string $statusLabel — text under "user / clock" meta
+ * @param string $statusIcon  — fa icon for that meta span
+ */
+function renderModItem($recipe, string $statusLabel, string $statusIcon, array $categoryImages, string $fallbackImage, array $actions) {
+    $img = recipeImageFor($recipe, $categoryImages, $fallbackImage);
+    ?>
+    <div class="moderation-item" data-recipe-id="<?= $recipe->getId() ?>">
+        <div class="moderation-item-image" style="background-image:url('<?= htmlspecialchars($img) ?>');"></div>
+        <div class="moderation-item-info">
+            <h3><?= htmlspecialchars($recipe->getTitle()) ?></h3>
+            <div class="moderation-item-meta">
+                <span><i class="fa-solid fa-user"></i> <?= htmlspecialchars($recipe->getCreatorName() ?? 'Unknown') ?></span>
+                <span><i class="<?= $statusIcon ?>"></i> <?= htmlspecialchars($statusLabel) ?></span>
+                <span><i class="fa-solid fa-tag"></i> <?= htmlspecialchars(ucfirst($recipe->getCategory())) ?></span>
+            </div>
+            <p class="moderation-item-desc"><?= htmlspecialchars($recipe->getDescription() ?? '') ?></p>
+        </div>
+        <div class="moderation-item-actions">
+            <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
+            <?php foreach ($actions as $a): ?>
+                <button class="btn <?= $a['class'] ?> btn-sm" data-mod-action="<?= $a['action'] ?>">
+                    <i class="<?= $a['icon'] ?>"></i> <?= $a['label'] ?>
+                </button>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <?php
+}
+?>
 <div class="app-layout">
     <?php include __DIR__ . '/../partials/nav.html' ?>
     <div class="main-content">
@@ -28,38 +76,30 @@
             <!-- Stats cards -->
             <div class="moderation-stats">
                 <div class="moderation-stat-card">
-                    <div class="moderation-stat-icon pending">
-                        <i class="fa-solid fa-clock"></i>
-                    </div>
+                    <div class="moderation-stat-icon pending"><i class="fa-solid fa-clock"></i></div>
                     <div>
-                        <div class="moderation-stat-value">24</div>
+                        <div class="moderation-stat-value"><?= $pendingCount ?></div>
                         <div class="moderation-stat-label">Pending Review</div>
                     </div>
                 </div>
                 <div class="moderation-stat-card">
-                    <div class="moderation-stat-icon approved">
-                        <i class="fa-solid fa-check"></i>
-                    </div>
+                    <div class="moderation-stat-icon approved"><i class="fa-solid fa-check"></i></div>
                     <div>
-                        <div class="moderation-stat-value">1,842</div>
+                        <div class="moderation-stat-value"><?= $approvedCount ?></div>
                         <div class="moderation-stat-label">Approved</div>
                     </div>
                 </div>
                 <div class="moderation-stat-card">
-                    <div class="moderation-stat-icon rejected">
-                        <i class="fa-solid fa-xmark"></i>
-                    </div>
+                    <div class="moderation-stat-icon rejected"><i class="fa-solid fa-xmark"></i></div>
                     <div>
-                        <div class="moderation-stat-value">47</div>
+                        <div class="moderation-stat-value"><?= $rejectedCount ?></div>
                         <div class="moderation-stat-label">Rejected</div>
                     </div>
                 </div>
                 <div class="moderation-stat-card">
-                    <div class="moderation-stat-icon flagged">
-                        <i class="fa-solid fa-flag"></i>
-                    </div>
+                    <div class="moderation-stat-icon flagged"><i class="fa-solid fa-flag"></i></div>
                     <div>
-                        <div class="moderation-stat-value">6</div>
+                        <div class="moderation-stat-value"><?= $flaggedCount ?></div>
                         <div class="moderation-stat-label">Flagged</div>
                     </div>
                 </div>
@@ -68,170 +108,71 @@
             <!-- Tabs -->
             <div class="admin-tabs">
                 <button class="admin-tab active" data-mod-tab="pending">
-                    Pending Review <span class="admin-tab-count">24</span>
+                    Pending Review <span class="admin-tab-count"><?= $pendingCount ?></span>
                 </button>
                 <button class="admin-tab" data-mod-tab="approved">
-                    Approved <span class="admin-tab-count">1842</span>
+                    Approved <span class="admin-tab-count"><?= $approvedCount ?></span>
                 </button>
                 <button class="admin-tab" data-mod-tab="rejected">
-                    Rejected <span class="admin-tab-count">47</span>
+                    Rejected <span class="admin-tab-count"><?= $rejectedCount ?></span>
                 </button>
                 <button class="admin-tab" data-mod-tab="flagged">
-                    Flagged <span class="admin-tab-count">6</span>
+                    Flagged <span class="admin-tab-count"><?= $flaggedCount ?></span>
                 </button>
             </div>
 
-            <!-- Pending Review list -->
+            <!-- PENDING -->
             <div class="moderation-list" data-mod-content="pending">
-                <div class="moderation-item">
-                    <div class="moderation-item-image" style="background-image:url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=200&h=200&fit=crop');"></div>
-                    <div class="moderation-item-info">
-                        <h3>Classic Margherita Pizza</h3>
-                        <div class="moderation-item-meta">
-                            <span><i class="fa-solid fa-user"></i> Michael Chen</span>
-                            <span><i class="fa-solid fa-clock"></i> Submitted 3 hours ago</span>
-                            <span><i class="fa-solid fa-tag"></i> Italian</span>
-                        </div>
-                        <p class="moderation-item-desc">Traditional Italian pizza with fresh tomatoes, mozzarella and basil on a thin crispy crust.</p>
-                    </div>
-                    <div class="moderation-item-actions">
-                        <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button class="btn btn-primary btn-sm" data-mod-action="approve"><i class="fa-solid fa-check"></i> Approve</button>
-                        <button class="btn btn-danger btn-sm" data-mod-action="reject"><i class="fa-solid fa-xmark"></i> Reject</button>
-                    </div>
-                </div>
-
-                <div class="moderation-item">
-                    <div class="moderation-item-image" style="background-image:url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200&h=200&fit=crop');"></div>
-                    <div class="moderation-item-info">
-                        <h3>Mediterranean Quinoa Bowl</h3>
-                        <div class="moderation-item-meta">
-                            <span><i class="fa-solid fa-user"></i> Emma Rodriguez</span>
-                            <span><i class="fa-solid fa-clock"></i> Submitted 6 hours ago</span>
-                            <span><i class="fa-solid fa-tag"></i> Healthy</span>
-                        </div>
-                        <p class="moderation-item-desc">Protein-packed quinoa bowl with chickpeas, cucumber, olives and tahini dressing.</p>
-                    </div>
-                    <div class="moderation-item-actions">
-                        <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button class="btn btn-primary btn-sm" data-mod-action="approve"><i class="fa-solid fa-check"></i> Approve</button>
-                        <button class="btn btn-danger btn-sm" data-mod-action="reject"><i class="fa-solid fa-xmark"></i> Reject</button>
-                    </div>
-                </div>
-
-                <div class="moderation-item">
-                    <div class="moderation-item-image" style="background-image:url('https://images.unsplash.com/photo-1559847844-5315695dadae?w=200&h=200&fit=crop');"></div>
-                    <div class="moderation-item-info">
-                        <h3>Spicy Thai Green Curry</h3>
-                        <div class="moderation-item-meta">
-                            <span><i class="fa-solid fa-user"></i> Lisa Wang</span>
-                            <span><i class="fa-solid fa-clock"></i> Submitted yesterday</span>
-                            <span><i class="fa-solid fa-tag"></i> Asian</span>
-                        </div>
-                        <p class="moderation-item-desc">Authentic Thai green curry with chicken, bamboo shoots and fresh basil leaves.</p>
-                    </div>
-                    <div class="moderation-item-actions">
-                        <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button class="btn btn-primary btn-sm" data-mod-action="approve"><i class="fa-solid fa-check"></i> Approve</button>
-                        <button class="btn btn-danger btn-sm" data-mod-action="reject"><i class="fa-solid fa-xmark"></i> Reject</button>
-                    </div>
-                </div>
-
-                <div class="moderation-item">
-                    <div class="moderation-item-image" style="background-image:url('https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=200&h=200&fit=crop');"></div>
-                    <div class="moderation-item-info">
-                        <h3>Chocolate Lava Cake</h3>
-                        <div class="moderation-item-meta">
-                            <span><i class="fa-solid fa-user"></i> Sarah Johnson</span>
-                            <span><i class="fa-solid fa-clock"></i> Submitted 2 days ago</span>
-                            <span><i class="fa-solid fa-tag"></i> Dessert</span>
-                        </div>
-                        <p class="moderation-item-desc">Decadent chocolate cake with a molten center, served warm with vanilla ice cream.</p>
-                    </div>
-                    <div class="moderation-item-actions">
-                        <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button class="btn btn-primary btn-sm" data-mod-action="approve"><i class="fa-solid fa-check"></i> Approve</button>
-                        <button class="btn btn-danger btn-sm" data-mod-action="reject"><i class="fa-solid fa-xmark"></i> Reject</button>
-                    </div>
-                </div>
+                <?php if (empty($pendingRecipes)): ?>
+                    <div class="moderation-empty">No recipes awaiting review.</div>
+                <?php else: ?>
+                    <?php foreach ($pendingRecipes as $r):
+                        renderModItem($r, 'Pending review', 'fa-solid fa-clock', $categoryImages, $fallbackImage, [
+                            ['action' => 'approve', 'class' => 'btn-primary', 'icon' => 'fa-solid fa-check', 'label' => 'Approve'],
+                            ['action' => 'reject',  'class' => 'btn-danger',  'icon' => 'fa-solid fa-xmark', 'label' => 'Reject'],
+                        ]);
+                    endforeach; ?>
+                <?php endif; ?>
             </div>
 
-            <!-- Approved list -->
+            <!-- APPROVED -->
             <div class="moderation-list" data-mod-content="approved" style="display:none">
-                <div class="moderation-item">
-                    <div class="moderation-item-image" style="background-image:url('https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=200&h=200&fit=crop');"></div>
-                    <div class="moderation-item-info">
-                        <h3>Fluffy Buttermilk Pancakes</h3>
-                        <div class="moderation-item-meta">
-                            <span><i class="fa-solid fa-user"></i> David Kim</span>
-                            <span><i class="fa-solid fa-circle-check"></i> Approved 1 hour ago</span>
-                            <span><i class="fa-solid fa-tag"></i> Breakfast</span>
-                        </div>
-                        <p class="moderation-item-desc">Light, fluffy pancakes served with maple syrup and fresh berries.</p>
-                    </div>
-                    <div class="moderation-item-actions">
-                        <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button class="btn btn-outline btn-sm" data-mod-action="revoke"><i class="fa-solid fa-rotate-left"></i> Revoke</button>
-                    </div>
-                </div>
-
-                <div class="moderation-item">
-                    <div class="moderation-item-image" style="background-image:url('https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=200&h=200&fit=crop');"></div>
-                    <div class="moderation-item-info">
-                        <h3>Garden Fresh Salad</h3>
-                        <div class="moderation-item-meta">
-                            <span><i class="fa-solid fa-user"></i> Olivia Parker</span>
-                            <span><i class="fa-solid fa-circle-check"></i> Approved 5 hours ago</span>
-                            <span><i class="fa-solid fa-tag"></i> Salad</span>
-                        </div>
-                        <p class="moderation-item-desc">Crisp mixed greens with cherry tomatoes, cucumber and homemade vinaigrette.</p>
-                    </div>
-                    <div class="moderation-item-actions">
-                        <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button class="btn btn-outline btn-sm" data-mod-action="revoke"><i class="fa-solid fa-rotate-left"></i> Revoke</button>
-                    </div>
-                </div>
+                <?php if (empty($approvedRecipes)): ?>
+                    <div class="moderation-empty">No approved recipes yet.</div>
+                <?php else: ?>
+                    <?php foreach ($approvedRecipes as $r):
+                        renderModItem($r, 'Approved', 'fa-solid fa-circle-check', $categoryImages, $fallbackImage, [
+                            ['action' => 'revoke', 'class' => 'btn-outline', 'icon' => 'fa-solid fa-rotate-left', 'label' => 'Revoke'],
+                        ]);
+                    endforeach; ?>
+                <?php endif; ?>
             </div>
 
-            <!-- Rejected list -->
+            <!-- REJECTED -->
             <div class="moderation-list" data-mod-content="rejected" style="display:none">
-                <div class="moderation-item">
-                    <div class="moderation-item-image" style="background-image:url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=200&h=200&fit=crop');"></div>
-                    <div class="moderation-item-info">
-                        <h3>Mystery Meat Burger</h3>
-                        <div class="moderation-item-meta">
-                            <span><i class="fa-solid fa-user"></i> Nathan Brooks</span>
-                            <span><i class="fa-solid fa-circle-xmark"></i> Rejected 2 days ago</span>
-                            <span><i class="fa-solid fa-tag"></i> Fast Food</span>
-                        </div>
-                        <p class="moderation-item-desc">Rejected: incomplete ingredients list and missing cooking instructions.</p>
-                    </div>
-                    <div class="moderation-item-actions">
-                        <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button class="btn btn-primary btn-sm" data-mod-action="restore"><i class="fa-solid fa-rotate-left"></i> Restore</button>
-                    </div>
-                </div>
+                <?php if (empty($rejectedRecipes)): ?>
+                    <div class="moderation-empty">No rejected recipes.</div>
+                <?php else: ?>
+                    <?php foreach ($rejectedRecipes as $r):
+                        renderModItem($r, 'Rejected', 'fa-solid fa-circle-xmark', $categoryImages, $fallbackImage, [
+                            ['action' => 'restore', 'class' => 'btn-primary', 'icon' => 'fa-solid fa-rotate-left', 'label' => 'Restore'],
+                        ]);
+                    endforeach; ?>
+                <?php endif; ?>
             </div>
 
-            <!-- Flagged list -->
+            <!-- FLAGGED -->
             <div class="moderation-list" data-mod-content="flagged" style="display:none">
-                <div class="moderation-item">
-                    <div class="moderation-item-image" style="background-image:url('https://images.unsplash.com/photo-1551024601-bec78aea704b?w=200&h=200&fit=crop');"></div>
-                    <div class="moderation-item-info">
-                        <h3>Suspicious Diet Smoothie</h3>
-                        <div class="moderation-item-meta">
-                            <span><i class="fa-solid fa-user"></i> Tom Harris</span>
-                            <span><i class="fa-solid fa-flag"></i> Flagged 3 times</span>
-                            <span><i class="fa-solid fa-tag"></i> Drinks</span>
-                        </div>
-                        <p class="moderation-item-desc">Flagged by users for misleading nutritional claims and unsafe ingredient combinations.</p>
-                    </div>
-                    <div class="moderation-item-actions">
-                        <button class="btn btn-outline btn-sm" data-preview><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button class="btn btn-primary btn-sm" data-mod-action="clear-flag"><i class="fa-solid fa-check"></i> Clear Flag</button>
-                        <button class="btn btn-danger btn-sm" data-mod-action="remove"><i class="fa-solid fa-trash"></i> Remove</button>
-                    </div>
-                </div>
+                <?php if (empty($flaggedRecipes)): ?>
+                    <div class="moderation-empty">No flagged recipes.</div>
+                <?php else: ?>
+                    <?php foreach ($flaggedRecipes as $r):
+                        renderModItem($r, 'Flagged', 'fa-solid fa-flag', $categoryImages, $fallbackImage, [
+                            ['action' => 'clear-flag', 'class' => 'btn-primary', 'icon' => 'fa-solid fa-check', 'label' => 'Clear Flag'],
+                            ['action' => 'remove',     'class' => 'btn-danger',  'icon' => 'fa-solid fa-trash', 'label' => 'Remove'],
+                        ]);
+                    endforeach; ?>
+                <?php endif; ?>
             </div>
 
         </div>

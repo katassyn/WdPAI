@@ -411,6 +411,14 @@ VALUES (
     NULL, 'dinner', 'easy', 10, 30, 4, 'flagged'
 );
 
+-- Rejected recipe (for moderation testing)
+INSERT INTO recipes (creator_id, title, description, image, category, difficulty, prep_time, cook_time, servings, moderation_status)
+VALUES (
+    4, 'Incomplete Burger Draft',
+    'Rejected: missing ingredients list and cooking instructions.',
+    NULL, 'lunch', 'easy', 5, 10, 1, 'rejected'
+);
+
 -- ============================================================
 -- RECIPE TAGS
 -- ============================================================
